@@ -34,7 +34,9 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "audio": "node scripts/generate-audio.mjs",
-    "render": "remotion render Offervisions out/offervisions.mp4"
+    "render": "remotion render Offervisions out/offervisions.mp4",
+    "audio:reels": "node scripts/generate-reel-audio.mjs",
+    "render:ch00-v1": "remotion render Ch00-Video1-Trailer out/ch00/video1-trailer.mp4 && remotion still Ch00-Video1-Cover out/ch00/video1-cover.png"
   },
   "allowScripts": {
     "esbuild": false

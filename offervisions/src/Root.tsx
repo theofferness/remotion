@@ -1,24 +1,39 @@
 import React from 'react';
-import {Composition} from 'remotion';
+import {Composition, Folder, Still} from 'remotion';
 import {FORMAT} from './config';
 import {Offervisions} from './Offervisions';
+import {Ch00Cover1} from './reels/ch00/Cover1';
+import {Ch00Video1, getV1Duration, V1_FPS} from './reels/ch00/Video1';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
 
 export const RemotionRoot: React.FC = () => {
 	return (
-		<Composition
-			id="Offervisions"
-			component={Offervisions}
-			schema={offervisionsSchema}
-			defaultProps={defaultProps}
-			fps={FORMAT.fps}
-			width={FORMAT.width}
-			height={FORMAT.height}
-			durationInFrames={getTotalFrames(defaultProps.script, FORMAT.fps, defaultProps.transitionFrames)}
-			calculateMetadata={({props}) => ({
-				durationInFrames: getTotalFrames(props.script, FORMAT.fps, props.transitionFrames),
-			})}
-		/>
+		<>
+			<Composition
+				id="Offervisions"
+				component={Offervisions}
+				schema={offervisionsSchema}
+				defaultProps={defaultProps}
+				fps={FORMAT.fps}
+				width={FORMAT.width}
+				height={FORMAT.height}
+				durationInFrames={getTotalFrames(defaultProps.script, FORMAT.fps, defaultProps.transitionFrames)}
+				calculateMetadata={({props}) => ({
+					durationInFrames: getTotalFrames(props.script, FORMAT.fps, props.transitionFrames),
+				})}
+			/>
+			<Folder name="Ch00-Introduction">
+				<Composition
+					id="Ch00-Video1-Trailer"
+					component={Ch00Video1}
+					fps={V1_FPS}
+					width={1080}
+					height={1920}
+					durationInFrames={getV1Duration(V1_FPS)}
+				/>
+				<Still id="Ch00-Video1-Cover" component={Ch00Cover1} width={1080} height={1920} />
+			</Folder>
+		</>
 	);
 };
