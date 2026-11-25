@@ -90,7 +90,7 @@ Scenes cross-dissolve in 10 frames and the line morphs across cuts. Text sits be
 | 17 | 58.6–61.4 | Practical shift | "Write the answer in one sentence." | A pencil draws one line under the question, ending in a glowing full stop. | *Write the answer* / **IN ONE SENTENCE.** |
 | 18 | 61.4–65.6 | Practical shift | "Keep it somewhere you'll see it. The mirror. The kettle." | The line rises into an **arched mirror**. The card flies over and sticks to it; the learner's reflection appears. Tags *the mirror* and *the kettle* arrive. | *Keep it somewhere* / **YOU'LL SEE IT.** |
 | 19 | 65.6–69.2 | CTA (lead-in) | "Let it look back at you every morning." | Blocks stack under the mirror from **Day 1 → Day 14**, and the card glows a little brighter each day. | *Let it look back at you* / **EVERY MORNING.** |
-| 20 | 69.2–74.2 | CTA | "Listen Mondays at eleven, on Big Bang Radio. Come learn with me." | The line returns to the table edge. The book **shuts softly** (book-close), the glow rises (chime), and the end card builds: logo → **OFFERVISIONS** → *Listen Mondays, 11 AM.* → MONDAYS · 11 AM · BIG BANG RADIO → *Come learn with me.* It holds to the last frame. | (end card) |
+| 20 | 69.2–74.2 | CTA | "Listen Mondays at eleven, on Big Bang Radio. Come learn with me." | The line returns to the table edge. The book **shuts softly** (book-close), the glow rises (chime), and the end card builds: the Offervisions logo (ring + wave) → **OFFERVISIONS** → *Listen Mondays, 11 AM.* → MONDAYS · 11 AM · BIG BANG RADIO → *Come learn with me.* It holds to the last frame. | (end card) |
 
 **30 s cut:** scenes 1 → 4 → 5 → 10 → 11 → 16 → 17 → 20. **15 s cut:** scenes 1 → 10 → 17 → 20.
 
@@ -115,6 +115,9 @@ Scenes cross-dissolve in 10 frames and the line morphs across cuts. Text sits be
 - **Sound effects** (original, soft): air swells on the zoom-throughs, page turns (opening and chapter pages), pencil on the list, "?", ticks, question and sentence, and a few very quiet pops (chapter items, mirror and kettle tags, Day 14).
 - **Impacts:** 3 in the 74 s master (lantern chime, book-close, end chime) and 2 in each cut.
 - **Music:** none baked in. If you want some, add a quiet instrumental from Instagram's library, about 6–10 dB under your voice.
+
+## Optional logo intro
+A 1.5 s logo sting (`out/brand/offervisions-logo-intro.mp4`) can go in front of any video. Composition `Ch00-Video2-Main-WithIntro` is ready to render. It's off by default because it would push the hook past the first 2 seconds.
 
 ## Notes for Lucie
 - The brief asks for the caption to end with *"New chapter Monday 11 AM on Big Bang Radio."* I kept that exactly. But if chapters arrive every two weeks, the Monday after this Thursday post (Jan 18) may not be a new chapter. That's why the **voiceover and end card say "Listen Mondays at eleven"** instead. If Jan 18 *is* a new chapter, both can say it.
