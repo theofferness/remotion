@@ -8,7 +8,7 @@ import {softGlow, usePalette} from './palette';
  * held at the chest), so any of them can replace the current character everywhere
  * by changing `SERIES.learner` in series.ts.
  */
-export type AvatarVariant = 'classic' | 'pebble' | 'sprout' | 'page' | 'bird' | 'ember';
+export type AvatarVariant = 'classic' | 'pebble' | 'sprout' | 'page' | 'bird' | 'ember' | 'cover' | 'bookmark' | 'dogear' | 'roof' | 'origami';
 
 export type AvatarProps = {
 	readonly x: number;
@@ -254,7 +254,122 @@ const Ember: React.FC<UpperProps> = ({blink, bookY, bookGlow, tilt, t}) => {
 	);
 };
 
-const UPPER: Record<AvatarVariant, React.FC<UpperProps>> = {classic: Classic, pebble: Pebble, sprout: Sprout, page: Page, bird: Bird, ember: Ember};
+
+/* ── Page family (variations on "the learner is a book") ── */
+
+/** Page · A – Cover: a soft rounded book-cover body with a spine and ribbon, holding the small open book. */
+const Cover: React.FC<UpperProps> = ({blink, bookY, bookGlow, tilt}) => {
+	const {ink, bg} = usePalette();
+	return (
+		<>
+			<path d="M -66 -24 C -72 -100, -60 -180, -40 -198 L 40 -198 C 60 -180, 72 -100, 66 -24 Q 0 -8 -66 -24 Z" fill={bg} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+			<path d="M -40 -198 Q 0 -186 40 -198" fill="none" stroke={ink} strokeWidth={3} opacity={0.6} />
+			<line x1={0} y1={-192} x2={0} y2={-16} stroke={ink} strokeWidth={3} opacity={0.7} />
+			<path d="M 30 -22 L 30 14 L 39 6 L 48 14 L 48 -20" fill={bg} stroke={ink} strokeWidth={3.5} strokeLinejoin="round" />
+			<g transform={`rotate(${tilt} 0 -200)`}>
+				<circle cx={0} cy={-250} r={48} fill={bg} stroke={ink} strokeWidth={SW} />
+				<Face cy={-252} blink={blink} />
+				<Headphones cy={-250} r={48} />
+			</g>
+			<Arms bookY={bookY} shoulderY={-160} spread={54} />
+			<SmallBook y={bookY} glow={bookGlow} />
+		</>
+	);
+};
+
+/** Page · B – Bookmark: the whole body is a tall ribbon bookmark with a notched hem. */
+const Bookmark: React.FC<UpperProps> = ({blink, bookY, bookGlow, tilt}) => {
+	const {ink, bg} = usePalette();
+	return (
+		<g transform={`rotate(${tilt * 0.4} 0 -160)`}>
+			<path d="M -46 -10 L -46 -270 C -46 -300, 46 -300, 46 -270 L 46 -10 L 0 -46 Z" fill={bg} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+			<line x1={-30} y1={-268} x2={-30} y2={-30} stroke={ink} strokeWidth={2.5} opacity={0.45} />
+			<line x1={30} y1={-268} x2={30} y2={-30} stroke={ink} strokeWidth={2.5} opacity={0.45} />
+			<Face cy={-236} blink={blink} gap={16} />
+			<Headphones cy={-240} r={48} />
+			<Arms bookY={bookY} shoulderY={-170} spread={46} />
+			<SmallBook y={bookY} glow={bookGlow} />
+		</g>
+	);
+};
+
+/** Page · C – Dog-ear: the body is a single written page with a folded corner. */
+const DogEar: React.FC<UpperProps> = ({blink, bookY, bookGlow, tilt}) => {
+	const {ink, bg} = usePalette();
+	return (
+		<>
+			<path d="M -62 -22 L -62 -196 L 34 -196 L 62 -168 L 62 -22 Z" fill={bg} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+			<path d="M 34 -196 L 34 -168 L 62 -168" fill="none" stroke={ink} strokeWidth={3.5} strokeLinejoin="round" />
+			<g stroke={ink} strokeWidth={2.5} strokeLinecap="round" opacity={0.5}>
+				{[-74, -56, -38].map((yy, i) => (
+					<line key={yy} x1={-44} y1={yy} x2={44 - i * 14} y2={yy} />
+				))}
+			</g>
+			<g transform={`rotate(${tilt} 0 -200)`}>
+				<circle cx={0} cy={-250} r={48} fill={bg} stroke={ink} strokeWidth={SW} />
+				<Face cy={-252} blink={blink} />
+				<Headphones cy={-250} r={48} />
+			</g>
+			<Arms bookY={bookY} shoulderY={-165} spread={58} />
+			<SmallBook y={bookY} glow={bookGlow} />
+		</>
+	);
+};
+
+/** Page · D – Book roof: the current learner wearing an open book on its head like a little roof. */
+const Roof: React.FC<UpperProps> = ({blink, bookY, bookGlow, tilt}) => {
+	const {ink, bg} = usePalette();
+	return (
+		<>
+			<path d="M -58 -32 C -68 -112, -50 -192, 0 -196 C 50 -192, 68 -112, 58 -32 Q 0 -14 -58 -32 Z" fill={bg} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+			<g transform={`rotate(${tilt} 0 -200)`}>
+				<circle cx={0} cy={-250} r={48} fill={bg} stroke={ink} strokeWidth={SW} />
+				<Face cy={-252} blink={blink} />
+				<Headphones cy={-250} r={48} />
+				<g style={{filter: softGlow(ink, 0.4)}}>
+					<path d="M 0 -336 L -76 -290 L -70 -280 L 0 -322 Z" fill={bg} stroke={ink} strokeWidth={4} strokeLinejoin="round" />
+					<path d="M 0 -336 L 76 -290 L 70 -280 L 0 -322 Z" fill={bg} stroke={ink} strokeWidth={4} strokeLinejoin="round" />
+					<path d="M -14 -324 L -54 -300 M 14 -324 L 54 -300" stroke={ink} strokeWidth={2.5} opacity={0.6} strokeLinecap="round" />
+				</g>
+			</g>
+			<Arms bookY={bookY} />
+			<SmallBook y={bookY} glow={bookGlow} />
+		</>
+	);
+};
+
+/** Page · E – Folded paper: an origami figure, faceted like a folded page. */
+const Origami: React.FC<UpperProps> = ({blink, bookY, bookGlow, tilt}) => {
+	const {ink, bg} = usePalette();
+	return (
+		<>
+			<path d="M -70 -24 L 0 -204 L 70 -24 Z" fill={bg} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+			<path d="M 0 -204 L -14 -24 M 0 -204 L 26 -24" stroke={ink} strokeWidth={2.5} opacity={0.5} />
+			<g transform={`rotate(${tilt} 0 -200)`}>
+				<path d="M 0 -306 L 52 -254 L 0 -204 L -52 -254 Z" fill={bg} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+				<path d="M -52 -254 L 52 -254" stroke={ink} strokeWidth={2} opacity={0.35} />
+				<Face cy={-262} blink={blink} gap={14} />
+				<Headphones cy={-256} r={50} />
+			</g>
+			<Arms bookY={bookY} shoulderY={-150} spread={34} />
+			<SmallBook y={bookY} glow={bookGlow} />
+		</>
+	);
+};
+
+const UPPER: Record<AvatarVariant, React.FC<UpperProps>> = {
+	classic: Classic,
+	pebble: Pebble,
+	sprout: Sprout,
+	page: Page,
+	bird: Bird,
+	ember: Ember,
+	cover: Cover,
+	bookmark: Bookmark,
+	dogear: DogEar,
+	roof: Roof,
+	origami: Origami,
+};
 
 export const AVATAR_INFO: Record<AvatarVariant, {name: string; idea: string}> = {
 	classic: {name: 'Current', idea: 'rounded body, round head, headphones'},
@@ -263,6 +378,11 @@ export const AVATAR_INFO: Record<AvatarVariant, {name: string; idea: string}> = 
 	page: {name: 'Page', idea: 'the learner is a book being written'},
 	bird: {name: 'Little bird', idea: 'wings echo the wave in the logo'},
 	ember: {name: 'Ember', idea: 'a small light carried through the year'},
+	cover: {name: 'A · Cover', idea: 'soft book-cover body, spine and ribbon'},
+	bookmark: {name: 'B · Bookmark', idea: 'the whole body is a ribbon bookmark'},
+	dogear: {name: 'C · Dog-ear', idea: 'a written page with a folded corner'},
+	roof: {name: 'D · Book roof', idea: 'an open book worn like a little roof'},
+	origami: {name: 'E · Folded paper', idea: 'faceted like an origami page'},
 };
 
 export const Avatar: React.FC<AvatarProps & {readonly variant: AvatarVariant}> = ({

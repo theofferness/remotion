@@ -50,6 +50,15 @@ export const RemotionRoot: React.FC = () => {
 					durationInFrames={INTRO_FRAMES}
 				/>
 				<Composition id="Avatar-Options" component={AvatarOptions} fps={30} width={1920} height={1080} durationInFrames={150} />
+				<Composition
+					id="Avatar-Page-Variations"
+					component={AvatarOptions}
+					defaultProps={{order: ['page', 'cover', 'bookmark', 'dogear', 'roof', 'origami'], subtitle: 'variations on Page', firstLabel: 'YOUR PICK · '}}
+					fps={30}
+					width={1920}
+					height={1080}
+					durationInFrames={150}
+				/>
 			</Folder>
 			<Folder name="Ch00-Introduction">
 				<Composition

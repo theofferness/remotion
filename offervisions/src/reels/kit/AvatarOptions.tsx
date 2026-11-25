@@ -13,7 +13,11 @@ const ROW_Y = [500, 960];
 const COL_X = [320, 960, 1600];
 
 /** Review sheet: the current learner + 5 alternatives, walking then holding up their book. */
-export const AvatarOptions: React.FC = () => {
+export const AvatarOptions: React.FC<{readonly order?: AvatarVariant[]; readonly subtitle?: string; readonly firstLabel?: string}> = ({
+	order = ORDER,
+	subtitle = 'current + five options',
+	firstLabel = 'NOW · ',
+}) => {
 	const frame = useCurrentFrame();
 	const ink = SEASONS.winter.ink;
 	const walking = frame < 60;
@@ -27,7 +31,7 @@ export const AvatarOptions: React.FC = () => {
 					{ROW_Y.map((y) => (
 						<line key={y} x1={40} x2={1880} y1={y} y2={y} stroke={ink} strokeWidth={4} strokeLinecap="round" opacity={0.85} />
 					))}
-					{ORDER.map((v, i) => (
+					{order.map((v, i) => (
 						<Avatar
 							key={v}
 							variant={v}
@@ -43,9 +47,9 @@ export const AvatarOptions: React.FC = () => {
 				</HandSvg>
 				<div style={{position: 'absolute', top: 34, left: 0, right: 0, textAlign: 'center', color: ink}}>
 					<span style={{fontFamily: BOLD, fontWeight: 900, fontSize: 40, letterSpacing: '0.14em'}}>THE LEARNER</span>
-					<span style={{fontFamily: ITALIC, fontStyle: 'italic', fontSize: 38, marginLeft: 18, opacity: 0.85}}>current + five options</span>
+					<span style={{fontFamily: ITALIC, fontStyle: 'italic', fontSize: 38, marginLeft: 18, opacity: 0.85}}>{subtitle}</span>
 				</div>
-				{ORDER.map((v, i) => (
+				{order.map((v, i) => (
 					<div
 						key={v}
 						style={{
@@ -58,7 +62,7 @@ export const AvatarOptions: React.FC = () => {
 						}}
 					>
 						<div style={{fontFamily: BOLD, fontWeight: 900, fontSize: 34, letterSpacing: '0.06em', textShadow: `0 0 16px ${alpha(ink, 0.4)}`}}>
-							{i === 0 ? 'NOW · ' : `${i} · `}
+							{i === 0 ? firstLabel : order === ORDER ? `${i} · ` : ''}
 							{AVATAR_INFO[v].name.toUpperCase()}
 						</div>
 						<div style={{fontFamily: HAND, fontWeight: 600, fontSize: 32, opacity: 0.85}}>{AVATAR_INFO[v].idea}</div>
