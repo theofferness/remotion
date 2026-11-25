@@ -200,3 +200,32 @@ export const VIDEO2 = {
 	chapterTags: ['one struggle', 'one positive', 'one small challenge'],
 	cover: {text: 'What will 2027 offer you?'},
 };
+
+/* ─────────── VIDEO 3 · Follow-up (Sun Jan 17) – "Write it on the window" ─────────── */
+/*  30 s, five beats: tension 0–3.8 · pattern break 3.8–7.8 · insight 7.8–17.4 ·
+    practical shift 17.4–25.4 · CTA 25.4–30.                                        */
+
+export const VIDEO3 = {
+	voiceover: null as string | null,
+	voiceover15: null as string | null,
+	voiceoverVolume: 1,
+	sfxVolume: 0.7,
+	scenes: [
+		{id: 'hook', sec: 3.8, vo: 'Still haven’t written your sentence? That’s *okay*.', small: 'Still haven’t written your sentence?', big: 'No homework, remember.'},
+		{id: 'breathe', sec: 4.0, vo: 'Here’s a smaller step. Breathe on a cold *window*.', small: 'Here’s a smaller step:', big: 'Breathe on a cold window.'},
+		{id: 'write', sec: 5.0, vo: 'Write the start with your finger: I want this year to *offer* me…', small: 'With one finger, write:'},
+		{id: 'clear', sec: 4.6, vo: 'Finish the sentence, and watch what starts to *clear*.', small: 'Finish the sentence,', big: 'Watch what clears.'},
+		{id: 'copy', sec: 4.4, vo: 'Copy it onto paper. Keep it where you’ll *see* it.', small: 'Copy it onto paper.', big: 'Keep it in sight.'},
+		{id: 'bridge', sec: 3.6, vo: 'One sentence. A small *bridge* into the year.', small: 'One sentence.', big: 'A small bridge.'},
+		{id: 'cta', sec: 4.6, vo: 'Listen Mondays at eleven, on Big Bang Radio. Come *learn* with me.', small: 'Listen Mondays, 11 AM.'},
+	] satisfies ReelScene[],
+	cut15: [
+		{id: 'hook', sec: 3.8, vo: 'Still haven’t written your sentence? That’s *okay*.', small: 'Still haven’t written your sentence?', big: 'No homework, remember.'},
+		{id: 'write', sec: 5.0, vo: 'Breathe on a window and write: I want this year to *offer* me…', small: 'Breathe on a window, then write:'},
+		{id: 'clear', sec: 2.0, vo: 'Watch what *clears*.', small: 'Finish the sentence,', big: 'Watch what clears.'},
+		{id: 'cta', sec: 4.2, vo: 'Mondays at eleven, on Big Bang *Radio*.', small: 'Listen Mondays, 11 AM.'},
+	] satisfies ReelScene[],
+	/** Written in the fog, then copied onto the note. */
+	glass: ['I want this year', 'to offer me…'],
+	cover: {text: 'Write it on the window'},
+};

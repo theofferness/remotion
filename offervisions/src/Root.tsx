@@ -10,6 +10,8 @@ import {PaletteProvider} from './reels/kit/palette';
 import {SEASONS} from './reels/kit/series';
 import {AvatarOptions} from './reels/kit/AvatarOptions';
 import {Ch00Video2, getV2Duration, V2_FPS} from './reels/ch00/Video2';
+import {Ch00Cover3} from './reels/ch00/Cover3';
+import {Ch00Video3, getV3Duration, V3_FPS} from './reels/ch00/Video3';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
 
@@ -17,7 +19,7 @@ import {getTotalFrames} from './timing';
  * The video currently in production. `npx remotion render src/index.ts Master out/video.mp4`
  * renders whatever this points to – update it when a new Reel goes into production.
  */
-const MASTER = {component: Ch00Video2, fps: V2_FPS, durationInFrames: getV2Duration(V2_FPS)};
+const MASTER = {component: Ch00Video3, fps: V3_FPS, durationInFrames: getV3Duration(V3_FPS)};
 
 export const RemotionRoot: React.FC = () => {
 	return (
@@ -108,6 +110,17 @@ export const RemotionRoot: React.FC = () => {
 					durationInFrames={getV2Duration(V2_FPS, 'cut15')}
 				/>
 				<Still id="Ch00-Video2-Cover" component={Ch00Cover2} width={1080} height={1920} />
+				<Composition id="Ch00-Video3-FollowUp" component={Ch00Video3} fps={V3_FPS} width={1080} height={1920} durationInFrames={getV3Duration(V3_FPS)} />
+				<Composition
+					id="Ch00-Video3-15s"
+					component={Ch00Video3}
+					defaultProps={{cut: 'cut15' as const}}
+					fps={V3_FPS}
+					width={1080}
+					height={1920}
+					durationInFrames={getV3Duration(V3_FPS, 'cut15')}
+				/>
+				<Still id="Ch00-Video3-Cover" component={Ch00Cover3} width={1080} height={1920} />
 			</Folder>
 		</>
 	);
