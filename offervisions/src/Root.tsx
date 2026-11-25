@@ -7,9 +7,16 @@ import {Ch00Video1, getV1Duration, V1_FPS} from './reels/ch00/Video1';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
 
+/**
+ * The video currently in production. `npx remotion render src/index.ts Master out/video.mp4`
+ * renders whatever this points to – update it when a new Reel goes into production.
+ */
+const MASTER = {component: Ch00Video1, fps: V1_FPS, durationInFrames: getV1Duration(V1_FPS)};
+
 export const RemotionRoot: React.FC = () => {
 	return (
 		<>
+			<Composition id="Master" component={MASTER.component} fps={MASTER.fps} width={1080} height={1920} durationInFrames={MASTER.durationInFrames} />
 			<Composition
 				id="Offervisions"
 				component={Offervisions}
