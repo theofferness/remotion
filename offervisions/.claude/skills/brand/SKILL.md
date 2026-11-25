@@ -41,5 +41,12 @@ All 1080×1920 compositions must preserve the platform safe zones.
 - Keep ≥ 80 px side margins for text.
 - Captions additionally follow the `captions` skill margins.
 
+## Logo
+- The official mark is the **ring with a wave** (an "O" with a sweeping wing).
+  - Master file: `public/brand/offervisions-logo.png`. Trimmed, white on transparent, 543×388. Originals are in `brand-assets/`.
+- In videos, always use the kit's `Logo`/`LogoMark` component. It masks the file and fills it with the season ink, so it never clashes with the palette.
+- Never redraw, distort, rotate, outline or recolour it outside the season ink. Keep clear space of at least ½ the logo's height around it.
+- Where it appears: the book's front cover, the CTA end card (top), and optionally covers. Captions never cover it.
+
 ## Fixed lines
 - Captions end with `New chapter Monday 11 AM on Big Bang Radio.` then hashtags beginning `#Offervisions`.

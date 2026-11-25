@@ -1,24 +1,23 @@
 import React from 'react';
 import {PAGE_H, PAGE_W} from './Book';
 import {BOLD, HAND, ITALIC} from './fonts';
+import {LogoMark} from './Logo';
 import {softGlow, usePalette} from './palette';
 
 const cx = PAGE_W / 2;
 
-/** Front cover of the closed book: show name + a little horizon-and-sun mark. */
+/** Front cover of the closed book: the Offervisions logo, show name and year. */
 export const CoverFront: React.FC<{readonly title: string; readonly year: string}> = ({title, year}) => {
 	const {ink} = usePalette();
 	return (
 		<g>
-			<g transform={`translate(${cx} ${PAGE_H * 0.4})`} stroke={ink} strokeWidth={4} fill="none" strokeLinecap="round">
-				<path d="M -34 0 A 34 34 0 0 1 34 0" />
-				<line x1={-80} y1={0} x2={80} y2={0} />
-				<line x1={-50} y1={18} x2={50} y2={18} opacity={0.6} />
+			<g transform={`translate(${cx} ${PAGE_H * 0.38})`}>
+				<LogoMark size={0.72} glow={0.4} />
 			</g>
-			<text x={cx} y={PAGE_H * 0.58} textAnchor="middle" fontFamily={BOLD} fontWeight={900} fontSize={34} letterSpacing="0.12em" fill={ink}>
+			<text x={cx} y={PAGE_H * 0.6} textAnchor="middle" fontFamily={BOLD} fontWeight={900} fontSize={34} letterSpacing="0.12em" fill={ink}>
 				{title}
 			</text>
-			<text x={cx} y={PAGE_H * 0.68} textAnchor="middle" fontFamily={HAND} fontWeight={700} fontSize={40} fill={ink} opacity={0.85}>
+			<text x={cx} y={PAGE_H * 0.7} textAnchor="middle" fontFamily={HAND} fontWeight={700} fontSize={40} fill={ink} opacity={0.85}>
 				{year}
 			</text>
 		</g>

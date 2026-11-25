@@ -25,7 +25,7 @@ export const Cta: React.FC<{
 	return (
 		<div style={{position: 'absolute', top, left: 80, right: 80, textAlign: 'center', color: ink}}>
 			<div style={{display: 'flex', justifyContent: 'center', ...rise(0)}}>
-				<Logo width={170} rise={step(0)} draw={step(0)} glow={0.7} />
+				<Logo width={190} rise={step(0)} draw={step(0)} glow={0.7} />
 			</div>
 			<div
 				style={{
