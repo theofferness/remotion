@@ -5,6 +5,7 @@ import '../kit/fonts';
 import {Backdrop, Particles} from '../kit/Atmosphere';
 import {buildCaptions, Captions} from '../kit/Captions';
 import {HorizonLine, type HorizonKey} from '../kit/HorizonLine';
+import {WithIntro} from '../kit/LogoIntro';
 import {PaletteProvider} from '../kit/palette';
 import {Progress} from '../kit/Progress';
 import {SEASONS} from '../kit/series';
@@ -140,7 +141,8 @@ const sfxFor = (id: string, start: number, dur: number): SfxHit[] => {
 };
 
 /** Video 1 – episode-day trailer: the year's table of contents. */
-export const Ch00Video1: React.FC<{readonly cut?: V1Cut}> = ({cut = 'master'}) => {
+/** `intro` prepends the 1.5 s logo sting (off by default so the hook lands in the first 2 s). */
+export const Ch00Video1: React.FC<{readonly cut?: V1Cut; readonly intro?: boolean}> = ({cut = 'master', intro = false}) => {
 	const {fps} = useVideoConfig();
 	const tl = getV1Timeline(fps, cut);
 	const palette = SEASONS[CHAPTER.season];
@@ -157,6 +159,7 @@ export const Ch00Video1: React.FC<{readonly cut?: V1Cut}> = ({cut = 'master'}) =
 
 	return (
 		<PaletteProvider palette={palette}>
+			<WithIntro intro={intro}>
 			<AbsoluteFill>
 				<Backdrop />
 				<Particles />
@@ -175,6 +178,7 @@ export const Ch00Video1: React.FC<{readonly cut?: V1Cut}> = ({cut = 'master'}) =
 				<SfxTrack hits={hits} volume={VIDEO1.sfxVolume} />
 				{voice ? <Audio name="Voiceover" src={staticFile(voice)} volume={VIDEO1.voiceoverVolume} /> : null}
 			</AbsoluteFill>
+			</WithIntro>
 		</PaletteProvider>
 	);
 };

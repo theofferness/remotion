@@ -1,3 +1,5 @@
+import type {AvatarVariant} from './Avatars';
+
 /**
  * ─────────────────────────────────────────────────────────────
  *  OFFERVISIONS 2027 – SERIES SETTINGS (shared by every Reel)
@@ -10,6 +12,8 @@ export const SERIES = {
 	host: 'Lucie',
 	hostRole: 'a fellow learner',
 	year: '2027',
+	/** The learner's design in every Reel – see the Avatar-Options composition. */
+	learner: 'classic' as AvatarVariant,
 };
 
 /**

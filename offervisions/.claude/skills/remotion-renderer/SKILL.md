@@ -27,7 +27,7 @@ Use `npx remotion render src/index.ts Master out/video.mp4`
 | Captions | `Captions.tsx` | ✅ `buildCaptions()` from scene VO; skips `[placeholders]`, hides blocks already on screen |
 | Logo | `Logo.tsx` | ✅ real logo (`public/brand/offervisions-logo.png`) masked in season ink |
 | CTA | `Cta.tsx` | ✅ logo → show name → line → MONDAYS · 11 AM · BIG BANG RADIO → detail |
-Also: `scene.tsx` (PAD = 5, `useScene`, `SceneText`), `Objects.tsx` (Lantern, StickyNote, Clipboard, Stone, PencilIcon, Kettle, Envelope), `Book.tsx`/`Pages.tsx` (signature), `Learner.tsx`, `Cozy.tsx`, `Tag.tsx`, `Sfx.tsx`, `palette.tsx`, `anim.ts`, `series.ts` (show facts, seasons, `SAFE`).
+Also: `LogoIntro.tsx` (1.5 s logo sting + `WithIntro`; pass `intro` to a video – off by default so the hook lands in 2 s), `Avatars.tsx` (learner designs; pick one with `SERIES.learner`), `scene.tsx` (PAD = 5, `useScene`, `SceneText`), `Objects.tsx` (Lantern, StickyNote, Clipboard, Stone, PencilIcon, Kettle, Envelope), `Book.tsx`/`Pages.tsx` (signature), `Learner.tsx`, `Cozy.tsx`, `Tag.tsx`, `Sfx.tsx`, `palette.tsx`, `anim.ts`, `series.ts` (show facts, seasons, `SAFE`).
 
 ## Shots as compositions
 - One folder per chapter, `src/reels/chNN/`: `chapter.ts` (**all copy and durations**), `VideoN.tsx` (timeline + horizon keys + SFX), `vNscenes.tsx` (one component per shot), `CoverN.tsx`.

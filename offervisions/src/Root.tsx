@@ -5,6 +5,10 @@ import {Offervisions} from './Offervisions';
 import {Ch00Cover1} from './reels/ch00/Cover1';
 import {Ch00Video1, getV1Duration, V1_FPS} from './reels/ch00/Video1';
 import {Ch00Cover2} from './reels/ch00/Cover2';
+import {INTRO_FRAMES, LogoIntro} from './reels/kit/LogoIntro';
+import {PaletteProvider} from './reels/kit/palette';
+import {SEASONS} from './reels/kit/series';
+import {AvatarOptions} from './reels/kit/AvatarOptions';
 import {Ch00Video2, getV2Duration, V2_FPS} from './reels/ch00/Video2';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
@@ -32,6 +36,21 @@ export const RemotionRoot: React.FC = () => {
 					durationInFrames: getTotalFrames(props.script, FORMAT.fps, props.transitionFrames),
 				})}
 			/>
+			<Folder name="Brand">
+				<Composition
+					id="Logo-Intro"
+					component={() => (
+						<PaletteProvider palette={SEASONS.winter}>
+							<LogoIntro fadeOut={false} />
+						</PaletteProvider>
+					)}
+					fps={30}
+					width={1080}
+					height={1920}
+					durationInFrames={INTRO_FRAMES}
+				/>
+				<Composition id="Avatar-Options" component={AvatarOptions} fps={30} width={1920} height={1080} durationInFrames={150} />
+			</Folder>
 			<Folder name="Ch00-Introduction">
 				<Composition
 					id="Ch00-Video1-Trailer"
@@ -52,6 +71,15 @@ export const RemotionRoot: React.FC = () => {
 				/>
 				<Still id="Ch00-Video1-Cover" component={Ch00Cover1} width={1080} height={1920} />
 				<Composition id="Ch00-Video2-Main" component={Ch00Video2} fps={V2_FPS} width={1080} height={1920} durationInFrames={getV2Duration(V2_FPS)} />
+				<Composition
+					id="Ch00-Video2-Main-WithIntro"
+					component={Ch00Video2}
+					defaultProps={{intro: true}}
+					fps={V2_FPS}
+					width={1080}
+					height={1920}
+					durationInFrames={getV2Duration(V2_FPS) + INTRO_FRAMES}
+				/>
 				<Composition
 					id="Ch00-Video2-30s"
 					component={Ch00Video2}

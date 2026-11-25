@@ -5,6 +5,7 @@ import '../kit/fonts';
 import {Backdrop, Particles} from '../kit/Atmosphere';
 import {buildCaptions, Captions} from '../kit/Captions';
 import {HorizonLine, type HorizonKey} from '../kit/HorizonLine';
+import {WithIntro} from '../kit/LogoIntro';
 import {PaletteProvider} from '../kit/palette';
 import {Progress} from '../kit/Progress';
 import {SEASONS} from '../kit/series';
@@ -182,7 +183,8 @@ const sfxFor = (id: string, start: number, dur: number, short: boolean): SfxHit[
 };
 
 /** Video 2 – the main Reel: "The question becomes a lantern". */
-export const Ch00Video2: React.FC<{readonly cut?: V2Cut}> = ({cut = 'master'}) => {
+/** `intro` prepends the 1.5 s logo sting (off by default so the hook lands in the first 2 s). */
+export const Ch00Video2: React.FC<{readonly cut?: V2Cut; readonly intro?: boolean}> = ({cut = 'master', intro = false}) => {
 	const {fps} = useVideoConfig();
 	const tl = getV2Timeline(fps, cut);
 	const palette = SEASONS[CHAPTER.season];
@@ -200,6 +202,7 @@ export const Ch00Video2: React.FC<{readonly cut?: V2Cut}> = ({cut = 'master'}) =
 
 	return (
 		<PaletteProvider palette={palette}>
+			<WithIntro intro={intro}>
 			<AbsoluteFill>
 				<Backdrop />
 				<Particles />
@@ -218,6 +221,7 @@ export const Ch00Video2: React.FC<{readonly cut?: V2Cut}> = ({cut = 'master'}) =
 				<SfxTrack hits={hits} volume={VIDEO2.sfxVolume} />
 				{voice ? <Audio name="Voiceover" src={staticFile(voice)} volume={VIDEO2.voiceoverVolume} /> : null}
 			</AbsoluteFill>
+			</WithIntro>
 		</PaletteProvider>
 	);
 };
