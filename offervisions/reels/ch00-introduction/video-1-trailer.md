@@ -60,7 +60,7 @@ Throughout: soft light particles float upward in three depth layers, there's a f
 **Cover text (4 words): THE BOOK OPENS MONDAY**, with a small line above it: *Introduction · Monday, January 11 · 11 AM*.
 Everything important sits inside the centre 3:4 area, so the profile-grid crop keeps it.
 
-## 6 · Caption (59 words)
+## 6 · Caption (52 words, excluding hashtags)
 
 > This year, Offervisions becomes a book. 📖 Four seasonal parts, a December epilogue, and a new chapter every two weeks, each with one struggle, one positive and one small challenge. Invitations, not homework. The first page is the Introduction, and I'm learning right alongside you.
 > New chapter Monday 11 AM on Big Bang Radio.
