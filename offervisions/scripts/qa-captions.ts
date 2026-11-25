@@ -1,12 +1,15 @@
 // Prints caption blocks + per-scene pace for a Reel's scene list.
 // Usage: npx tsx scripts/qa-captions.ts
 import {buildCaptions, wpm} from '../src/reels/kit/Captions';
-import {VIDEO1} from '../src/reels/ch00/chapter';
+import {VIDEO1, VIDEO2} from '../src/reels/ch00/chapter';
 
 const FPS = 30;
 const lists: Record<string, {id: string; sec: number; vo: string; small?: string; big?: string}[]> = {
 	'ch00 v1 master': VIDEO1.scenes,
 	'ch00 v1 15s': VIDEO1.cut15,
+	'ch00 v2 main': VIDEO2.scenes,
+	'ch00 v2 30s': VIDEO2.cut30,
+	'ch00 v2 15s': VIDEO2.cut15,
 };
 
 for (const [name, scenes] of Object.entries(lists)) {

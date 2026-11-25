@@ -32,6 +32,8 @@ const MAX_CHARS = 24;
 export const buildCaptions = (scenes: CaptionScene[], fps: number): CaptionBlock[] => {
 	const blocks: CaptionBlock[] = [];
 	for (const sc of scenes) {
+		// Placeholders like [My story here] get no captions until the real line is recorded.
+		if (sc.vo.trim().startsWith('[')) continue;
 		const raw = sc.vo.split(/\s+/).filter(Boolean);
 		if (raw.length === 0) continue;
 		const words = raw.map((w) => ({text: w.replace(/\*/g, ''), emph: /\*/.test(w)}));
