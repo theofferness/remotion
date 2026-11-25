@@ -39,6 +39,15 @@ export const RemotionRoot: React.FC = () => {
 					height={1920}
 					durationInFrames={getV1Duration(V1_FPS)}
 				/>
+				<Composition
+					id="Ch00-Video1-15s"
+					component={Ch00Video1}
+					defaultProps={{cut: 'cut15' as const}}
+					fps={V1_FPS}
+					width={1080}
+					height={1920}
+					durationInFrames={getV1Duration(V1_FPS, 'cut15')}
+				/>
 				<Still id="Ch00-Video1-Cover" component={Ch00Cover1} width={1080} height={1920} />
 			</Folder>
 		</>

@@ -3,7 +3,8 @@ import {Easing, interpolate} from 'remotion';
 /** Calm, cinematic easings. */
 export const SOFT = Easing.bezier(0.33, 0, 0.2, 1);
 export const SOFT_IN_OUT = Easing.bezier(0.6, 0, 0.4, 1);
-export const GENTLE_BACK = Easing.bezier(0.34, 1.35, 0.64, 1);
+/** Settles without overshoot: use for things that arrive (tags, labels). */
+export const ARRIVE = Easing.bezier(0.22, 1, 0.36, 1);
 
 export const prog = (frame: number, start: number, end: number, easing: (t: number) => number = SOFT) =>
 	interpolate(frame, [start, end], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing});

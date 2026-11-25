@@ -1,33 +1,34 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from 'remotion';
-import {GENTLE_BACK, SOFT, SOFT_IN_OUT, lerp, prog, seeded} from '../kit/anim';
+import {ARRIVE, SOFT, SOFT_IN_OUT, lerp, prog, seeded} from '../kit/anim';
 import {Book, PAGE_H, PAGE_W, RuledLines} from '../kit/Book';
 import {Bridge, Candle, Lamp, Leaf, Plant, Snowflake, Sprout, TeaCup} from '../kit/Cozy';
-import {BOLD, HAND} from '../kit/fonts';
+import {Cta} from '../kit/Cta';
+import {HAND} from '../kit/fonts';
 import {HandSvg} from '../kit/HandSvg';
 import {Learner} from '../kit/Learner';
 import {OnScreenText} from '../kit/OnScreenText';
 import {ChapterPage, CoverFront, InsideCover, TitlePage} from '../kit/Pages';
-import {alpha, softGlow, usePalette} from '../kit/palette';
+import {softGlow, usePalette} from '../kit/palette';
 import {SERIES, SEASONS} from '../kit/series';
 import {Tag} from '../kit/Tag';
 import {CHAPTER, VIDEO1, type ReelScene} from './chapter';
 
 /** Frames each scene overlaps its neighbours (cross-dissolve = 2 × PAD). */
-export const PAD = 12;
+export const PAD = 5;
 export const TABLE_Y = 1410;
 export const BOOK_EDGE_Y = 1290;
 export const SHELF_Y = 1350;
 export const HOST_WINDOW = {l: 230, r: 850, top: 740, sill: 1410};
 
-export type SceneProps = {readonly dur: number; readonly scene: ReelScene; readonly first?: boolean};
+export type SceneProps = {readonly dur: number; readonly scene: ReelScene; readonly first?: boolean; readonly last?: boolean};
 
 /** Local frame → "own time" (0 = the scene's official start) + cross-fade opacity. */
-const useScene = (dur: number, first?: boolean) => {
+const useScene = (dur: number, first?: boolean, last?: boolean) => {
 	const f = useCurrentFrame();
 	const t = f - PAD;
 	const fadeIn = first ? 1 : prog(f, 0, PAD * 2, SOFT_IN_OUT);
-	const fadeOut = 1 - prog(f, dur, dur + PAD * 2, SOFT_IN_OUT);
+	const fadeOut = last ? 1 : 1 - prog(f, dur, dur + PAD * 2, SOFT_IN_OUT);
 	return {t, fade: fadeIn * fadeOut};
 };
 
@@ -72,18 +73,19 @@ export const OpenScene: React.FC<SceneProps> = ({dur, scene}) => {
 	const season = SEASONS[CHAPTER.season];
 	const rise = prog(t, -PAD, 36, SOFT_IN_OUT);
 	const open = prog(t, 14, 52, SOFT_IN_OUT);
-	const turn = prog(t, 66, 106, SOFT_IN_OUT);
+	const turnEnd = Math.min(106, dur - 26);
+	const turn = prog(t, turnEnd - 38, turnEnd, SOFT_IN_OUT);
 	// Zoom through the chapter page into the next scene.
-	const zoom = prog(t, dur - 20, dur + PAD, Easing.in(Easing.cubic));
+	const zoom = prog(t, dur - 22, dur + PAD, Easing.in(Easing.cubic));
 	const x = lerp(BOOK_CLOSED.x, BOOK_OPEN.x, rise);
 	const y = lerp(BOOK_CLOSED.y, BOOK_OPEN.y, rise);
 	const s = lerp(BOOK_CLOSED.s, BOOK_OPEN.s, rise);
 	const zx = PAGE_W / 2; // focus: centre of the right page
 	const zs = 1 + zoom * 3.2;
-	const numberGlow = 0.6 + prog(t, 100, 120) * 0.9 + 0.2 * Math.sin(t / 10);
+	const numberGlow = 0.6 + prog(t, turnEnd - 6, turnEnd + 14) * 0.9 + 0.2 * Math.sin(t / 10);
 
 	return (
-		<AbsoluteFill style={{opacity: fade * (1 - prog(t, dur - 6, dur + PAD))}}>
+		<AbsoluteFill style={{opacity: fade * (1 - prog(t, dur - 4, dur + PAD))}}>
 			<HandSvg>
 				<g opacity={1 - rise}>
 					<Lamp x={170} y={TABLE_Y} scale={1.15} />
@@ -121,9 +123,9 @@ export const STOP_GAP = 560;
 const LEARNER_X = 300;
 
 export const MAP_TIMING = {
-	keys: [0, 30, 62, 78, 110, 126, 158, 174, 206],
+	keys: [0, 24, 50, 62, 88, 100, 126, 138, 164],
 	scroll: [0, 0, 1, 1, 2, 2, 3, 3, 4].map((k) => k * STOP_GAP),
-	arrivals: [0, 62, 110, 158, 206],
+	arrivals: [0, 50, 88, 126, 164],
 };
 
 export const scrollAt = (t: number) =>
@@ -223,7 +225,7 @@ export const ShelfScene: React.FC<SceneProps> = ({dur, scene}) => {
 					<path key={x} d={`M ${x} ${SHELF_Y} L ${x} ${SHELF_Y + 60} L ${x + 50} ${SHELF_Y}`} fill="none" stroke={ink} strokeWidth={4} strokeLinejoin="round" opacity={prog(t, -PAD, 10)} />
 				))}
 				{Array.from({length: SPINES}).map((_, i) => {
-					const p = prog(t, 2 + i * 5, 18 + i * 5, GENTLE_BACK);
+					const p = prog(t, 2 + i * 4, 16 + i * 4, ARRIVE);
 					const h = spineH(i);
 					const x = spineX(i);
 					const first = i === 0;
@@ -260,7 +262,7 @@ export const ShelfScene: React.FC<SceneProps> = ({dur, scene}) => {
 
 /* ───────────────────────── 5 · INSIDE A CHAPTER ───────────────────────── */
 
-const INSIDE = {x: 540, y: 1130, s: 0.82};
+export const INSIDE = {x: 540, y: 1075, s: 0.82};
 
 const InsideLeft: React.FC<{readonly t: number}> = ({t}) => {
 	const {ink, bg} = usePalette();
@@ -313,7 +315,7 @@ export const InsideScene: React.FC<SceneProps> = ({dur, scene}) => {
 				</g>
 				<Tag x={INSIDE.x - w + 30} y={INSIDE.y - h / 2} dx={-140} dy={-80} text={struggle} at={34} />
 				<Tag x={INSIDE.x + w - 40} y={INSIDE.y - h / 2} dx={-170} dy={-90} text={positive} at={52} />
-				<Tag x={INSIDE.x} y={INSIDE.y + h / 2} dx={-210} dy={110} text={challenge} at={70} glow={0.9} />
+				<Tag x={INSIDE.x} y={INSIDE.y + h / 2} dx={-210} dy={72} text={challenge} at={70} glow={0.9} />
 			</HandSvg>
 			<Text scene={scene} dur={dur} />
 		</AbsoluteFill>
@@ -363,11 +365,9 @@ export const HostScene: React.FC<SceneProps> = ({dur, scene}) => {
 /* ───────────────────────── 7 · THE BOOK CLOSES ───────────────────────── */
 
 export const CloseScene: React.FC<SceneProps> = ({dur, scene}) => {
-	const {t, fade} = useScene(dur);
-	const {ink} = usePalette();
-	const close = 1 - prog(t, 18, 52, SOFT_IN_OUT);
-	const glow = 0.3 + prog(t, 50, 70) * 0.8 + 0.15 * Math.sin(t / 12);
-	const info = prog(t, 62, 82);
+	const {t, fade} = useScene(dur, false, true);
+	const close = 1 - prog(t, 10, 40, SOFT_IN_OUT);
+	const glow = 0.3 + prog(t, 38, 58) * 0.8 + 0.15 * Math.sin(t / 12);
 	const s = 0.95;
 	return (
 		<AbsoluteFill style={{opacity: fade}}>
@@ -375,29 +375,10 @@ export const CloseScene: React.FC<SceneProps> = ({dur, scene}) => {
 				<g transform={`translate(540 ${TABLE_Y - (PAGE_H * s) / 2 - 14}) scale(${s})`}>
 					<Book open={close} cover={coverFront} left={<RuledLines />} right={<RuledLines />} glow={glow} />
 				</g>
-				<Learner x={130} y={TABLE_Y} scale={0.7} bookGlow={0.3} opacity={prog(t, 0, 20)} />
-				<TeaCup x={950} y={TABLE_Y} scale={0.85} opacity={prog(t, 0, 20)} />
+				<Learner x={130} y={TABLE_Y} scale={0.7} bookGlow={0.3} opacity={prog(t, -PAD, 12)} />
+				<TeaCup x={950} y={TABLE_Y} scale={0.85} opacity={prog(t, -PAD, 12)} />
 			</HandSvg>
-			<OnScreenText small={scene.small} big={scene.big} start={PAD + 2} bigDelay={56} bigSize={104} />
-			<div
-				style={{
-					position: 'absolute',
-					top: 600,
-					left: 0,
-					right: 0,
-					textAlign: 'center',
-					opacity: info,
-					translate: `0px ${(1 - info) * 14}px`,
-					color: ink,
-				}}
-			>
-				<div style={{fontFamily: BOLD, fontWeight: 800, fontSize: 30, letterSpacing: '0.28em', textShadow: `0 0 18px ${alpha(ink, 0.5)}`}}>
-					{SERIES.station.toUpperCase()}
-				</div>
-				<div style={{fontFamily: HAND, fontWeight: 600, fontSize: 46, marginTop: 6, opacity: 0.9}}>
-					{CHAPTER.title} · {CHAPTER.airs}
-				</div>
-			</div>
+			<Cta at={PAD + 4} line={scene.small} detail={`${CHAPTER.title} · ${CHAPTER.airs}`} />
 		</AbsoluteFill>
 	);
 };

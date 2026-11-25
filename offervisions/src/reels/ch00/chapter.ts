@@ -31,61 +31,95 @@ export type ReelScene = {
 };
 
 /* ─────────── VIDEO 1 · Episode-day trailer ("The table of contents") ─────────── */
+/*  VO pacing target: 140–175 wpm per scene (captions skill). Mark the one
+    emphasis word of a caption block with *asterisks*.                         */
 
 export const VIDEO1 = {
-	/** Optional: your recorded voiceover in /public, e.g. 'audio/reels/ch00-v1-voice.mp3'. */
+	/** Optional: your recorded voiceover in /public, e.g. 'audio/reels/ch00-v1-voice.wav'. */
 	voiceover: null as string | null,
+	/** Separate take for the 15-second cut (its lines differ slightly). */
+	voiceover15: null as string | null,
 	voiceoverVolume: 1,
 	sfxVolume: 0.7,
+	/** 30-second master. */
 	scenes: [
 		{
 			id: 'hook',
-			sec: 2.8,
-			vo: 'A new year doesn’t need a new you. It needs a first page.',
+			sec: 3.2,
+			vo: 'A new year doesn’t need a new *you*.',
 			small: 'A new year doesn’t need a new you.',
 			big: 'It needs a first page.',
 		},
 		{
 			id: 'open',
-			sec: 4.4,
-			vo: 'This year, Offervisions is a book.',
+			sec: 4.2,
+			vo: 'It needs a first *page*. This year, Offervisions is a book.',
 			small: 'This year, the show is a book.',
 			big: 'Page one.',
 		},
 		{
 			id: 'map',
-			sec: 7.8,
-			vo: 'Four seasonal parts. Visualisation, realisation, connection, integration. And a December epilogue.',
+			sec: 6.6,
+			vo: 'Four seasonal parts. Visualisation. Realisation. Connection. Integration. And a December *epilogue* to close the year.',
 			small: 'A year in four seasons.',
 			big: 'Four parts. One epilogue.',
 		},
 		{
 			id: 'shelf',
-			sec: 3.2,
-			vo: 'A new chapter every two weeks.',
+			sec: 3.0,
+			vo: 'A new chapter every two *weeks*.',
 			small: 'A new chapter every two weeks.',
 			big: 'Every other Monday.',
 		},
 		{
 			id: 'inside',
-			sec: 4.6,
-			vo: 'Each one brings a struggle, a positive, and one small challenge. Invitations, not homework.',
+			sec: 4.4,
+			vo: 'Each one: a struggle, a positive, one small *challenge*. Invitations, not homework.',
 			small: 'One struggle. One positive. One small challenge.',
 			big: 'Invitations, not homework.',
 		},
 		{
 			id: 'host',
-			sec: 4.2,
-			vo: 'I’m Lucie. I’m not an expert. I’m learning too.',
+			sec: 4.0,
+			vo: 'I’m Lucie. I’m not an expert, I’m *learning* too.',
 			small: 'Hosted by Lucie, a fellow learner.',
 			big: 'Mondays · 11 AM',
 		},
 		{
 			id: 'close',
 			sec: 4.6,
-			vo: 'The book opens Monday at eleven, on Big Bang Radio.',
+			vo: 'The book opens *Monday* at eleven, on Big Bang Radio.',
 			small: 'The book opens Monday, 11 AM.',
-			big: 'Offervisions',
+		},
+	] satisfies ReelScene[],
+	/** 15-second cut: hook → signature → one insight → CTA. */
+	cut15: [
+		{
+			id: 'hook',
+			sec: 3.2,
+			vo: 'A new year doesn’t need a new *you*.',
+			small: 'A new year doesn’t need a new you.',
+			big: 'It needs a first page.',
+		},
+		{
+			id: 'open',
+			sec: 4.0,
+			vo: 'It needs a first *page*. Offervisions is a book.',
+			small: 'This year, the show is a book.',
+			big: 'Page one.',
+		},
+		{
+			id: 'inside',
+			sec: 4.2,
+			vo: 'Every chapter: one small *challenge*. Invitations, not homework.',
+			small: 'One struggle. One positive. One small challenge.',
+			big: 'Invitations, not homework.',
+		},
+		{
+			id: 'close',
+			sec: 3.6,
+			vo: 'Listen *Monday* at eleven, on Big Bang Radio.',
+			small: 'The book opens Monday, 11 AM.',
 		},
 	] satisfies ReelScene[],
 	/** Words on the four seasonal stops + epilogue in the "map" scene. */

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useCurrentFrame} from 'remotion';
-import {GENTLE_BACK, prog} from './anim';
+import {ARRIVE, prog} from './anim';
 import {BOLD, HAND} from './fonts';
 import {softGlow, usePalette} from './palette';
 
@@ -24,7 +24,7 @@ export const Tag: React.FC<{
 }> = ({x, y, dx = 0, dy = -120, text, overline, at, out, size = 46, glow = 0.6}) => {
 	const frame = useCurrentFrame();
 	const {ink, bg} = usePalette();
-	const p = prog(frame, at, at + 16, GENTLE_BACK);
+	const p = prog(frame, at, at + 14, ARRIVE);
 	const string = prog(frame, at - 4, at + 8);
 	const fade = out === undefined ? 1 : 1 - prog(frame, out, out + 14);
 	if (p <= 0 && string <= 0) return null;
@@ -46,7 +46,7 @@ export const Tag: React.FC<{
 				strokeDashoffset={1 - string}
 				opacity={0.8}
 			/>
-			<g transform={`translate(${tx} ${ty}) rotate(${sway}) scale(${p})`} style={{filter: softGlow(ink, glow)}}>
+			<g transform={`translate(${tx} ${ty}) rotate(${sway}) scale(${0.85 + 0.15 * p})`} opacity={p} style={{filter: softGlow(ink, glow)}}>
 				<path
 					d={`M 0 0 L 22 ${-h / 2} L ${w} ${-h / 2} Q ${w + 8} ${-h / 2} ${w + 8} ${-h / 2 + 8} L ${w + 8} ${h / 2 - 8} Q ${w + 8} ${h / 2} ${w} ${h / 2} L 22 ${h / 2} Z`}
 					fill={bg}
