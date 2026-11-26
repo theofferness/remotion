@@ -13,6 +13,7 @@ import {Ch00Video2, getV2Duration, V2_FPS} from './reels/ch00/Video2';
 import {Ch00Cover3} from './reels/ch00/Cover3';
 import {Ch00Video3, getV3Duration, V3_FPS} from './reels/ch00/Video3';
 import {OPENING_FRAMES, OpeningCredits} from './reels2027/OpeningCredits';
+import {PART_ONE_FRAMES, PartOneWinter} from './reels2027/PartOneWinter';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
 
@@ -20,7 +21,7 @@ import {getTotalFrames} from './timing';
  * The video currently in production. `npx remotion render src/index.ts Master out/video.mp4`
  * renders whatever this points to – update it when a new Reel goes into production.
  */
-const MASTER = {component: OpeningCredits, fps: 30, durationInFrames: OPENING_FRAMES};
+const MASTER = {component: PartOneWinter, fps: 30, durationInFrames: PART_ONE_FRAMES};
 
 export const RemotionRoot: React.FC = () => {
 	return (
@@ -41,6 +42,7 @@ export const RemotionRoot: React.FC = () => {
 			/>
 			<Folder name="OV2027-Campaign">
 				<Composition id="OV27-V1-OpeningCredits" component={OpeningCredits} fps={30} width={1080} height={1920} durationInFrames={OPENING_FRAMES} />
+				<Composition id="OV27-V2-PartOneWinter" component={PartOneWinter} fps={30} width={1080} height={1920} durationInFrames={PART_ONE_FRAMES} />
 			</Folder>
 			<Folder name="Brand">
 				<Composition
