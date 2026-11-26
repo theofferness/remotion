@@ -75,7 +75,7 @@ export const SEASONS: Record<SeasonKey, Season> = {
 };
 
 export const BRAND = {
-	/** As written on the logo and covers. (Scripts say "The Offerness" – pending Lucie's decision.) */
+	/** The show is OFFERVISIONS (confirmed by Lucie). "The Offerness" in the script doc is a typo – always say/write Offervisions. */
 	wordmark: 'OFFERVISIONS',
 	station: 'BIG BANG RADIO',
 	slot: 'MONDAYS 11 AM',

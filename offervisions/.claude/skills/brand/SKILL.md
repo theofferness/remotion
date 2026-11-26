@@ -65,5 +65,5 @@ Source of truth: the six chapter covers in `brand-assets/` → `src/editorial/th
 
 - **Typography (as on the covers):** Literata for expressive titles, phrases and quotes (regular or italic, light weights at large sizes). Inter 500–600 for chapter titles and supporting text. Inter 500 caps tracked about 0.3em for overlines, credits and the footer (`MONDAYS 11 AM · BIG BANG RADIO`). The wordmark under the logo is Inter 400, tracked about 0.34em.
 - **Content:** `THE OFFERNESS: 2027 Scripts` (docx) is the master content source. Titles, order, dates and themes come from it. Broadcast dates (Mondays) are separate from social posting dates.
-- **Naming (open question):** the logo and covers say **OFFERVISIONS**, the scripts say **The Offerness**. Use only the supplied logo and wordmark until Lucie decides, and flag it before finalizing any spoken or written brand name.
+- **Naming (confirmed by Lucie):** the show is **Offervisions**, written OFFERVISIONS in the wordmark. "The Offerness" in the script document is a typo. Whenever you quote or adapt the scripts, say and write **Offervisions**.
 - **Never:** stick figures, characters, cartoons, clip art, childish drawings, excessive glow, template-looking motion, invented chapter content.
