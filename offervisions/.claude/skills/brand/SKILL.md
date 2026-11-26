@@ -50,3 +50,20 @@ All 1080×1920 compositions must preserve the platform safe zones.
 
 ## Fixed lines
 - Captions end with `New chapter Monday 11 AM on Big Bang Radio.` then hashtags beginning `#Offervisions`.
+
+## 2027 campaign identity (current – supersedes the 2026 Reel styling)
+Source of truth: the six chapter covers in `brand-assets/` → `src/editorial/theme.ts`.
+
+| Section | Background | Ink | Logo file |
+|---|---|---|---|
+| Opening Introduction | `#0d0d0d` black | `#ffffff` | white |
+| Part One · Winter · Visualisation | `#141a36` midnight navy | `#ffffff` | white |
+| Part Two · Spring · Realisation | `#142a20` forest green | `#ffffff` | white |
+| Part Three · Summer · Connection | `#c99a2e` golden ochre | `#2a1810` | black |
+| Part Four · Fall · Integration | `#4a1420` deep burgundy | `#ffffff` | white |
+| Epilogue · December · Clear the Way | `#f3ede2` warm ivory | `#1f1f1f` | black |
+
+- **Typography (as on the covers):** Literata for expressive titles, phrases and quotes (regular or italic, light weights at large sizes). Inter 500–600 for chapter titles and supporting text. Inter 500 caps tracked about 0.3em for overlines, credits and the footer (`MONDAYS 11 AM · BIG BANG RADIO`). The wordmark under the logo is Inter 400, tracked about 0.34em.
+- **Content:** `THE OFFERNESS: 2027 Scripts` (docx) is the master content source. Titles, order, dates and themes come from it. Broadcast dates (Mondays) are separate from social posting dates.
+- **Naming (open question):** the logo and covers say **OFFERVISIONS**, the scripts say **The Offerness**. Use only the supplied logo and wordmark until Lucie decides, and flag it before finalizing any spoken or written brand name.
+- **Never:** stick figures, characters, cartoons, clip art, childish drawings, excessive glow, template-looking motion, invented chapter content.

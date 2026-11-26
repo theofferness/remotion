@@ -5,6 +5,9 @@ description: Offervisions art direction — editorial, cinematic minimal line ar
 
 # Art Direction
 
+> **2027 campaign (current):** a sophisticated independent editorial magazine crossed with contemporary motion graphics and cinematic title sequences. Build with `src/editorial/`: Literata + Inter, the official cover palette (see `brand`), the supplied logo files, film grain, the line of light, page turns. Use symbolism (horizons, doorways, unfolding pages, light, shadow, geometry), never characters or cartoon illustration. Every Reel resolves on its chapter-cover layout as the brand signature.
+> The learner, cozy props and hand-drawn wobble described below belong to the retired 2026 Reels (`src/reels/`). Don't use them for 2027 work.
+
 Create an **editorial, cinematic identity.**
 Use limited palettes, intentional negative space, and symbolic objects.
 Prefer abstract growth, reflection, transition, and human connection metaphors.
