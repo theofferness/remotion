@@ -14,20 +14,20 @@ import type {Pt} from '../reels/kit/shapes';
 import {SFX} from '../reels/kit/Sfx';
 
 /* ─────────────── timeline (frames @ 30 fps) ─────────────── */
-// Timing revision (Lucie): only the logo/book shot and the five season pages hold longer.
-// Every other shot is exactly as in the first version.
+// Timing revision (Lucie): same design and animation speeds as the first version;
+// every screen holds until all of its sentences can be read (~0.3 s per word).
 const T = {
-	hook: [0, 105],
-	book: [105, 265],
-	host: [265, 370],
-	radio: [370, 475],
-	year: [475, 550],
-	pages: [550, 970],
-	chapters: [970, 1066],
-	end: [1066, 1186],
+	hook: [0, 130],
+	book: [130, 335],
+	host: [335, 463],
+	radio: [463, 581],
+	year: [581, 686],
+	pages: [686, 1206],
+	chapters: [1206, 1332],
+	end: [1332, 1532],
 } as const;
 export const OPENING_FRAMES = T.end[1];
-const PAGE_LEN = 84;
+const PAGE_LEN = 104;
 const PARTS: SeasonKey[] = ['winter', 'spring', 'summer', 'fall', 'epilogue'];
 
 const INTRO = SEASONS.intro;
@@ -66,11 +66,11 @@ const hline = (y: number, x1: number, x2: number): Pt[] => [
 const Hook: React.FC = () => (
 	<>
 		<Center top={720}>
-			<SerifWords text={OPENING_COPY.hook[0]} at={6} out={88} color={INK} size={124} />
-			<SerifWords text={OPENING_COPY.hook[1]} at={13} out={88} color={INK} size={96} italic weight={300} />
+			<SerifWords text={OPENING_COPY.hook[0]} at={6} out={118} color={INK} size={124} />
+			<SerifWords text={OPENING_COPY.hook[1]} at={13} out={118} color={INK} size={96} italic weight={300} />
 		</Center>
 		<Center top={1052}>
-			<Tracked text={OPENING_COPY.hookSub} at={34} out={88} color={INK} size={22} spacing={0.32} style={{opacity: 0.75}} />
+			<Tracked text={OPENING_COPY.hookSub} at={34} out={118} color={INK} size={22} spacing={0.32} style={{opacity: 0.75}} />
 		</Center>
 	</>
 );
@@ -79,7 +79,7 @@ const Hook: React.FC = () => (
 const Book: React.FC = () => {
 	const t = useCurrentFrame();
 	const open = p(t, 4, 40, IN_OUT);
-	const out = p(t, 144, 158, QUART_OUT);
+	const out = p(t, 190, 204, QUART_OUT);
 	const W = 330;
 	const top = 640;
 	const bottom = 1240;
@@ -128,12 +128,12 @@ const Book: React.FC = () => {
 const Host: React.FC = () => (
 	<>
 		<Center top={760}>
-			<Tracked text={OPENING_COPY.hostedBy} at={4} out={90} color={INK} size={22} spacing={0.34} style={{opacity: 0.8}} />
+			<Tracked text={OPENING_COPY.hostedBy} at={4} out={114} color={INK} size={22} spacing={0.34} style={{opacity: 0.8}} />
 			<div style={{height: 18}} />
-			<SerifWords text={BRAND.host} at={8} out={90} color={INK} size={200} italic weight={300} tracking="-0.02em" />
+			<SerifWords text={BRAND.host} at={8} out={114} color={INK} size={200} italic weight={300} tracking="-0.02em" />
 		</Center>
 		<Center top={1046}>
-			<SerifWords text={OPENING_COPY.hostLine} at={28} out={90} color={INK} size={42} italic weight={300} stagger={2} />
+			<SerifWords text={OPENING_COPY.hostLine} at={28} out={114} color={INK} size={42} italic weight={300} stagger={2} />
 		</Center>
 	</>
 );
@@ -141,7 +141,7 @@ const Host: React.FC = () => (
 const Radio: React.FC = () => {
 	const t = useCurrentFrame();
 	const lit = p(t, 10, 16, (x) => x);
-	const out = p(t, 92, 104, QUART_OUT);
+	const out = p(t, 104, 116, QUART_OUT);
 	return (
 		<>
 			<Center top={700} style={{opacity: 1 - out}}>
@@ -164,10 +164,10 @@ const Radio: React.FC = () => {
 				</div>
 			</Center>
 			<Center top={820}>
-				<SerifWords text={`${OPENING_COPY.slot[0]} ${OPENING_COPY.slot[1]}`} at={16} out={92} color={INK} size={118} weight={400} />
+				<SerifWords text={`${OPENING_COPY.slot[0]} ${OPENING_COPY.slot[1]}`} at={16} out={104} color={INK} size={118} weight={400} />
 			</Center>
 			<Center top={1000}>
-				<Tracked text={BRAND.station} at={30} out={92} color={INK} size={30} weight={500} spacing={0.3} />
+				<Tracked text={BRAND.station} at={30} out={104} color={INK} size={30} weight={500} spacing={0.3} />
 			</Center>
 		</>
 	);
@@ -246,17 +246,17 @@ const SeasonPage: React.FC<{readonly season: Season; readonly index: number}> = 
 
 const Chapters: React.FC = () => {
 	const t = useCurrentFrame();
-	const close = p(t, 78, 96, IN_OUT);
+	const close = p(t, 104, 122, IN_OUT);
 	// Chapter → part (from the script index): 1–4 winter, 5–10 spring, 11–16 summer, 17–22 fall, 23–24 epilogue.
 	const partOf = (c: number): SeasonKey => (c <= 4 ? 'winter' : c <= 10 ? 'spring' : c <= 16 ? 'summer' : c <= 22 ? 'fall' : 'epilogue');
 	return (
 		<AbsoluteFill>
 			<Atmos bg={INTRO.bg} ink={INK} />
 			<Center top={740}>
-				<SerifWords text={OPENING_COPY.chapters} at={8} out={80} color={INK} size={128} />
+				<SerifWords text={OPENING_COPY.chapters} at={8} out={106} color={INK} size={128} />
 			</Center>
 			<Center top={920}>
-				<Tracked text={OPENING_COPY.chaptersSub} at={20} out={80} color={INK} size={22} spacing={0.32} style={{opacity: 0.8}} />
+				<Tracked text={OPENING_COPY.chaptersSub} at={20} out={106} color={INK} size={22} spacing={0.32} style={{opacity: 0.8}} />
 			</Center>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				{Array.from({length: 24}).map((_, i) => {
@@ -273,7 +273,7 @@ const Chapters: React.FC = () => {
 				})}
 			</svg>
 			<Center top={1320}>
-				<SerifWords text={OPENING_COPY.invite} at={40} out={80} color={INK} size={52} italic weight={300} />
+				<SerifWords text={OPENING_COPY.invite} at={40} out={106} color={INK} size={52} italic weight={300} />
 			</Center>
 		</AbsoluteFill>
 	);
@@ -323,7 +323,7 @@ const LINE_KEYS: LineKey[] = [
 		morph: 18,
 		shape: (f) => {
 			const lt = f - T.radio[0];
-			const amp = 54 * p(lt, 6, 30) * (1 - p(lt, 86, 104));
+			const amp = 54 * p(lt, 6, 30) * (1 - p(lt, 100, 116));
 			return Array.from({length: 120}, (_, i): Pt => {
 				const u = i / 119;
 				const env = Math.sin(Math.PI * u) ** 1.5;
@@ -335,7 +335,7 @@ const LINE_KEYS: LineKey[] = [
 	{at: T.year[0], morph: 18, shape: () => hline(1040, 140, 940)},
 	{at: T.pages[0] - 6, morph: 8, opacity: 0, shape: () => hline(1040, 140, 940)},
 	{at: T.chapters[0] + 4, morph: 16, shape: () => hline(1250, 180, 900)},
-	{at: T.chapters[0] + 80, morph: 16, shape: () => hline(1250, 538, 542)},
+	{at: T.chapters[0] + 106, morph: 16, shape: () => hline(1250, 538, 542)},
 	{at: T.end[0], morph: 22, opacity: 0.7, shape: () => hline(1118, 505, 575)},
 ];
 
@@ -364,7 +364,7 @@ const Sound: React.FC = () => {
 				<Cue key={k} name={`page · ${k}`} at={T.pages[0] + i * PAGE_LEN} src={SFX.pageTurn} volume={0.45} />
 			))}
 			<Cue name="page · back" at={T.chapters[0]} src={SFX.pageTurn} volume={0.4} />
-			<Cue name="book closes" at={T.chapters[0] + 82} src={SFX.bookClose} volume={0.6} />
+			<Cue name="book closes" at={T.chapters[0] + 108} src={SFX.bookClose} volume={0.6} />
 		</>
 	);
 };
