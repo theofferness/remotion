@@ -14,6 +14,7 @@ import {Ch00Cover3} from './reels/ch00/Cover3';
 import {Ch00Video3, getV3Duration, V3_FPS} from './reels/ch00/Video3';
 import {OPENING_FRAMES, OpeningCredits} from './reels2027/OpeningCredits';
 import {PART_ONE_FRAMES, PartOneWinter} from './reels2027/PartOneWinter';
+import {StyleFrameA, StyleFrameB, StyleFrameC} from './reels2027/darkroom/StyleFrames';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
 
@@ -43,6 +44,9 @@ export const RemotionRoot: React.FC = () => {
 			<Folder name="OV2027-Campaign">
 				<Composition id="OV27-V1-OpeningCredits" component={OpeningCredits} fps={30} width={1080} height={1920} durationInFrames={OPENING_FRAMES} />
 				<Composition id="OV27-V2-PartOneWinter" component={PartOneWinter} fps={30} width={1080} height={1920} durationInFrames={PART_ONE_FRAMES} />
+				<Still id="OV27-V2-Darkroom-StyleA" component={StyleFrameA} width={1080} height={1920} />
+				<Still id="OV27-V2-Darkroom-StyleB" component={StyleFrameB} width={1080} height={1920} />
+				<Still id="OV27-V2-Darkroom-StyleC" component={StyleFrameC} width={1080} height={1920} />
 			</Folder>
 			<Folder name="Brand">
 				<Composition
