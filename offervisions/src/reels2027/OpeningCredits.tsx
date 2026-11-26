@@ -34,7 +34,7 @@ const INK = INTRO.ink;
 /** Copy for Video 1 – all from the 2027 scripts and the Introduction cover. */
 export const OPENING_COPY = {
 	hook: ['This year', 'is built like a book.'],
-	hookSub: 'Chapter one opens January 11',
+	hookSub: 'The first page opens January 11',
 	podcast: 'A self-development podcast',
 	tagline: ['Opening up to yourself, to others,', 'and to everything life has to offer.'],
 	hostedBy: 'Hosted by',
