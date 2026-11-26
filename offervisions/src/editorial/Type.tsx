@@ -46,10 +46,10 @@ export const SerifWords: React.FC<Common & {readonly italic?: boolean; readonly 
 				lineHeight,
 				letterSpacing: tracking,
 				color,
-				opacity: 1 - e,
 				translate: `0px ${-e * 14}px`,
 				fontVariationSettings: `"opsz" ${Math.min(72, Math.max(7, size / 2))}`,
 				...style,
+				opacity: (1 - e) * (typeof style?.opacity === 'number' ? style.opacity : 1),
 			}}
 		>
 			{words.map((w, i) => {
@@ -83,9 +83,10 @@ export const Tracked: React.FC<Common & {readonly weight?: number; readonly spac
 				paddingLeft: `${ls}em`,
 				textTransform: 'uppercase',
 				color,
-				opacity: k * (1 - e),
 				whiteSpace: 'nowrap',
 				...style,
+				// animated opacity always wins; a style opacity only scales it
+				opacity: k * (1 - e) * (typeof style?.opacity === 'number' ? style.opacity : 1),
 			}}
 		>
 			{text}
