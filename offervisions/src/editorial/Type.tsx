@@ -46,16 +46,14 @@ export const SerifWords: React.FC<Common & {readonly italic?: boolean; readonly 
 				lineHeight,
 				letterSpacing: tracking,
 				color,
+				opacity: 1 - e,
 				translate: `0px ${-e * 14}px`,
-				// even line lengths – no orphaned last word
-				textWrap: 'balance',
 				fontVariationSettings: `"opsz" ${Math.min(72, Math.max(7, size / 2))}`,
 				...style,
-				opacity: (1 - e) * (typeof style?.opacity === 'number' ? style.opacity : 1),
 			}}
 		>
 			{words.map((w, i) => {
-				const k = p(frame, at + i * stagger, at + i * stagger + 18, EXPO_OUT);
+				const k = p(frame, at + i * stagger, at + i * stagger + 22, EXPO_OUT);
 				return (
 					<span key={i} style={{display: 'inline-block', overflow: 'hidden', verticalAlign: 'top', paddingBottom: '0.12em', marginBottom: '-0.12em'}}>
 						<span style={{display: 'inline-block', translate: `0px ${(1 - k) * 105}%`}}>
@@ -72,7 +70,7 @@ export const SerifWords: React.FC<Common & {readonly italic?: boolean; readonly 
 /** Small tracked sans caps that settle from wide letter-spacing (like film credits). */
 export const Tracked: React.FC<Common & {readonly weight?: number; readonly spacing?: number}> = ({text, at, out, color, size, weight = 500, spacing = 0.3, style}) => {
 	const frame = useCurrentFrame();
-	const k = p(frame, at, at + 18, EXPO_OUT);
+	const k = p(frame, at, at + 26, EXPO_OUT);
 	const e = exit(frame, out);
 	const ls = spacing + (1 - k) * 0.25;
 	return (
@@ -87,7 +85,6 @@ export const Tracked: React.FC<Common & {readonly weight?: number; readonly spac
 				color,
 				whiteSpace: 'nowrap',
 				...style,
-				// animated opacity always wins; a style opacity only scales it
 				opacity: k * (1 - e) * (typeof style?.opacity === 'number' ? style.opacity : 1),
 			}}
 		>
