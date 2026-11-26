@@ -393,8 +393,8 @@ const MightBe: React.FC = () => {
 	const m = PART_ONE_COPY.mightBe;
 	const out = p(t, 133, 145, QUART_OUT);
 	const lenses = [
-		{x: 330, y: 830, r: 150, at: 18, content: <div style={{fontFamily: SERIF, fontSize: 80, color: INK}}>{m.items[0]}</div>},
-		{x: 760, y: 1030, r: 165, at: 38, content: <div style={{fontFamily: SERIF, fontSize: 80, color: INK}}>{m.items[1]}</div>},
+		{x: 320, y: 820, r: 160, at: 18, content: <div style={{fontFamily: SERIF, fontSize: 80, color: INK}}>{m.items[0]}</div>},
+		{x: 760, y: 1030, r: 195, at: 38, content: <div style={{fontFamily: SERIF, fontSize: 80, color: INK}}>{m.items[1]}</div>},
 		{
 			x: 450,
 			y: 1270,
@@ -461,8 +461,8 @@ const Write: React.FC = () => {
 	const pen = p(t, 30, 90, (x) => x);
 	const out = p(t, 98, 110, QUART_OUT);
 	const from = [
-		{x: 330, y: 830, r: 150},
-		{x: 760, y: 1030, r: 165},
+		{x: 320, y: 820, r: 160},
+		{x: 760, y: 1030, r: 195},
 		{x: 450, y: 1270, r: 205},
 	];
 	const pts: string[] = [];
