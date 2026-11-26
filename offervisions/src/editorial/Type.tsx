@@ -47,6 +47,8 @@ export const SerifWords: React.FC<Common & {readonly italic?: boolean; readonly 
 				letterSpacing: tracking,
 				color,
 				translate: `0px ${-e * 14}px`,
+				// even line lengths – no orphaned last word
+				textWrap: 'balance',
 				fontVariationSettings: `"opsz" ${Math.min(72, Math.max(7, size / 2))}`,
 				...style,
 				opacity: (1 - e) * (typeof style?.opacity === 'number' ? style.opacity : 1),
