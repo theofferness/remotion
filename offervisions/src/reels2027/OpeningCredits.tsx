@@ -43,7 +43,7 @@ const T = {
   radio: [325, 430],
   year: [430, 500],
   chapters: [PAGES_START + PAGE_LEN * 5, PAGES_START + PAGE_LEN * 5 + 80],
-  end: [PAGES_START + PAGE_LEN * 5 + 80, PAGES_START + PAGE_LEN * 5 + 80 + 190],
+  end: [PAGES_START + PAGE_LEN * 5 + 80, PAGES_START + PAGE_LEN * 5 + 80 + 205],
 } as const;
 export const OPENING_FRAMES = T.end[1];
 
@@ -806,7 +806,7 @@ const EndCard: React.FC = () => {
       <Center top={720}>
         <Tracked
           text={INTRO.overline}
-          at={84}
+          at={100}
           color={INK}
           size={30}
           weight={500}
@@ -816,7 +816,7 @@ const EndCard: React.FC = () => {
         <div style={{ height: 10 }} />
         <SerifWords
           text={INTRO.theme}
-          at={88}
+          at={104}
           color={INK}
           size={42}
           italic
@@ -826,7 +826,7 @@ const EndCard: React.FC = () => {
       <Center top={850}>
         <SerifWords
           text={c.title}
-          at={94}
+          at={108}
           color={INK}
           size={150}
           weight={400}
@@ -835,7 +835,7 @@ const EndCard: React.FC = () => {
         <div style={{ height: 6 }} />
         <SansTitle
           text={c.subtitle}
-          at={104}
+          at={118}
           color={INK}
           size={68}
           weight={600}
@@ -844,7 +844,7 @@ const EndCard: React.FC = () => {
       <Center top={1162}>
         <SerifWords
           text={c.quote[0]}
-          at={116}
+          at={128}
           color={INK}
           size={46}
           italic
@@ -853,7 +853,7 @@ const EndCard: React.FC = () => {
         />
         <SerifWords
           text={c.quote[1]}
-          at={120}
+          at={132}
           color={INK}
           size={46}
           italic
@@ -864,7 +864,7 @@ const EndCard: React.FC = () => {
       <Center top={1366}>
         <Tracked
           text={`${BRAND.slot} · ${BRAND.station}`}
-          at={128}
+          at={140}
           color={INK}
           size={32}
           weight={500}
@@ -935,7 +935,7 @@ const LINE_KEYS: LineKey[] = [
   { at: T.chapters[0] + 60, morph: 18, shape: () => hline(1250, 538, 542) },
   { at: T.end[0], morph: 12, opacity: 0, shape: () => hline(900, 539, 541) },
   {
-    at: T.end[0] + 108,
+    at: T.end[0] + 120,
     morph: 20,
     opacity: 0.75,
     shape: () => hline(1130, 500, 580),
