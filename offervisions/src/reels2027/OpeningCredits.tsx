@@ -84,6 +84,7 @@ const Book: React.FC = () => {
 	const page = (side: -1 | 1) => {
 		const ox = 540 + side * W * open;
 		const pinch = Math.sin(Math.PI * open) * 26;
+		// open polyline: the shared spine is drawn separately so it can part around the logo
 		return `540,${top} ${ox},${top + pinch} ${ox},${bottom - pinch} 540,${bottom}`;
 	};
 	return (
@@ -91,8 +92,11 @@ const Book: React.FC = () => {
 			<AbsoluteFill style={{background: `radial-gradient(ellipse ${120 + open * 260}px 420px at 540px 940px, ${hexA(INK, 0.16 * open)}, transparent 75%)`}} />
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				<g fill="none" stroke={INK} strokeWidth={2} strokeLinejoin="round" opacity={0.85}>
-					<polygon points={page(-1)} />
-					<polygon points={page(1)} />
+					<polyline points={page(-1)} />
+					<polyline points={page(1)} />
+					{/* the gutter, parted around the logo and wordmark */}
+					<line x1={540} x2={540} y1={top} y2={top + (1 - p(t, 26, 44, IN_OUT)) * (bottom - top) * 0.5 + p(t, 26, 44, IN_OUT) * 120} />
+					<line x1={540} x2={540} y1={bottom} y2={bottom - (1 - p(t, 26, 44, IN_OUT)) * (bottom - top) * 0.5 - p(t, 26, 44, IN_OUT) * 140} />
 				</g>
 				{/* a few faint lines of text on the pages, appearing as they open */}
 				<g stroke={INK} strokeWidth={1.5} opacity={0.18 * open}>
