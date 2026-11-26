@@ -22,22 +22,22 @@ import {SFX} from '../reels/kit/Sfx';
 const TYPE = {headline: 136, support: 60, label: 44};
 
 /* ─────────────── timeline (frames @ 30 fps) ─────────────── */
-const PAGE_LEN = 80;
+const PAGE_LEN = 110;
 const PARTS: SeasonKey[] = ['winter', 'spring', 'summer', 'fall', 'epilogue'];
 const T = {
-	hook: [0, 110],
-	brand: [110, 235],
-	tagline: [235, 340],
-	host: [340, 450],
-	radio: [450, 560],
-	year: [560, 630],
+	hook: [0, 150],
+	brand: [150, 315],
+	tagline: [315, 480],
+	host: [480, 600],
+	radio: [600, 715],
+	year: [715, 795],
 } as const;
-const PAGES_START = 624;
+const PAGES_START = 789;
 const CH = PAGES_START + PAGE_LEN * 5;
 const T2 = {
-	chapters: [CH, CH + 90],
-	invite: [CH + 90, CH + 185],
-	end: [CH + 185, CH + 185 + 215],
+	chapters: [CH, CH + 105],
+	invite: [CH + 105, CH + 245],
+	end: [CH + 245, CH + 245 + 240],
 } as const;
 export const OPENING_FRAMES = T2.end[1];
 
@@ -82,17 +82,17 @@ const Hook: React.FC = () => {
 	const t = useCurrentFrame();
 	const spark = 1 - p(t, 6, 22);
 	return (
-		<AbsoluteFill style={{scale: String(interpolate(t, [0, 110], [1, 1.03]))}}>
+		<AbsoluteFill style={{scale: String(interpolate(t, [0, 150], [1, 1.03]))}}>
 			<AbsoluteFill style={{background: `radial-gradient(circle 260px at 540px 1030px, ${hexA(INK, 0.18 * spark)}, transparent 70%)`}} />
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				<circle cx={540} cy={1030} r={5} fill={INK} opacity={spark} style={{filter: `drop-shadow(0 0 10px ${INK})`}} />
 			</svg>
 			<Center top={680}>
-				<SerifWords text={OPENING_COPY.hook[0]} at={3} out={96} color={INK} size={150} />
-				<SerifWords text={OPENING_COPY.hook[1]} at={9} out={96} color={INK} size={100} italic weight={400} />
+				<SerifWords text={OPENING_COPY.hook[0]} at={3} out={136} color={INK} size={150} />
+				<SerifWords text={OPENING_COPY.hook[1]} at={8} out={136} color={INK} size={100} italic weight={400} />
 			</Center>
 			<Center top={1070}>
-				<SerifWords text={OPENING_COPY.hookSub} at={30} out={96} color={INK} size={TYPE.support} italic weight={400} stagger={2} />
+				<SerifWords text={OPENING_COPY.hookSub} at={22} out={136} color={INK} size={TYPE.support} italic weight={400} stagger={1} />
 			</Center>
 		</AbsoluteFill>
 	);
@@ -103,7 +103,7 @@ const Hook: React.FC = () => {
 const Brand: React.FC = () => {
 	const t = useCurrentFrame();
 	const open = p(t, 4, 40, IN_OUT);
-	const out = p(t, 110, 124, QUART_OUT);
+	const out = p(t, 150, 164, QUART_OUT);
 	const W = 380;
 	const top = 580;
 	const bottom = 1300;
@@ -130,7 +130,7 @@ const Brand: React.FC = () => {
 				<div style={{height: 40}} />
 				<Tracked text={BRAND.wordmark} at={46} color={INK} size={60} weight={500} spacing={0.24} />
 				<div style={{height: 26}} />
-				<SerifWords text={OPENING_COPY.podcast} at={60} color={INK} size={TYPE.support} italic weight={400} stagger={2} />
+				<SerifWords text={OPENING_COPY.podcast} at={52} color={INK} size={TYPE.support} italic weight={400} stagger={1} />
 			</Center>
 		</AbsoluteFill>
 	);
@@ -141,7 +141,7 @@ const Brand: React.FC = () => {
 const Tagline: React.FC = () => (
 	<Center top={700}>
 		<div style={{maxWidth: 900}}>
-			<SerifWords text={OPENING_COPY.tagline} at={6} out={92} color={INK} size={84} weight={400} stagger={2} lineHeight={1.18} />
+			<SerifWords text={OPENING_COPY.tagline} at={4} out={150} color={INK} size={84} weight={400} stagger={1} lineHeight={1.18} />
 		</div>
 	</Center>
 );
@@ -151,7 +151,7 @@ const Tagline: React.FC = () => (
 const Host: React.FC = () => {
 	const t = useCurrentFrame();
 	const ring = p(t, 4, 52, IN_OUT);
-	const out = p(t, 96, 110, QUART_OUT);
+	const out = p(t, 106, 120, QUART_OUT);
 	return (
 		<>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0, opacity: 1 - out}}>
@@ -160,12 +160,12 @@ const Host: React.FC = () => {
 				</g>
 			</svg>
 			<Center top={700}>
-				<Tracked text={OPENING_COPY.hostedBy} at={6} out={96} color={INK} size={TYPE.label} weight={500} spacing={0.2} />
+				<Tracked text={OPENING_COPY.hostedBy} at={4} out={106} color={INK} size={TYPE.label} weight={500} spacing={0.2} />
 				<div style={{height: 10}} />
-				<SerifWords text={BRAND.host} at={10} out={96} color={INK} size={230} italic weight={300} tracking="-0.02em" />
+				<SerifWords text={BRAND.host} at={8} out={106} color={INK} size={230} italic weight={300} tracking="-0.02em" />
 			</Center>
 			<Center top={1080}>
-				<SerifWords text={OPENING_COPY.hostLine} at={28} out={96} color={INK} size={TYPE.support} italic weight={400} stagger={2} />
+				<SerifWords text={OPENING_COPY.hostLine} at={18} out={106} color={INK} size={TYPE.support} italic weight={400} stagger={1} />
 			</Center>
 		</>
 	);
@@ -175,8 +175,8 @@ const Host: React.FC = () => {
 
 const Radio: React.FC = () => {
 	const t = useCurrentFrame();
-	const lit = p(t, 10, 16, (x) => x);
-	const out = p(t, 96, 110, QUART_OUT);
+	const lit = p(t, 8, 14, (x) => x);
+	const out = p(t, 100, 114, QUART_OUT);
 	return (
 		<>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0, opacity: (1 - out) * lit}}>
@@ -204,11 +204,11 @@ const Radio: React.FC = () => {
 				</div>
 			</Center>
 			<Center top={740}>
-				<SerifWords text={OPENING_COPY.slot[0]} at={16} out={96} color={INK} size={160} weight={400} />
-				<SerifWords text={OPENING_COPY.slot[1]} at={22} out={96} color={INK} size={160} italic weight={300} />
+				<SerifWords text={OPENING_COPY.slot[0]} at={12} out={100} color={INK} size={160} weight={400} />
+				<SerifWords text={OPENING_COPY.slot[1]} at={17} out={100} color={INK} size={160} italic weight={300} />
 			</Center>
 			<Center top={1140}>
-				<Tracked text={BRAND.station} at={34} out={96} color={INK} size={52} weight={500} spacing={0.2} />
+				<Tracked text={BRAND.station} at={26} out={100} color={INK} size={52} weight={500} spacing={0.2} />
 			</Center>
 		</>
 	);
@@ -221,15 +221,15 @@ const Year: React.FC = () => {
 	return (
 		<>
 			<Center top={720}>
-				<SerifWords text={OPENING_COPY.year[0]} at={4} out={50} color={INK} size={140} />
-				<SerifWords text={OPENING_COPY.year[1]} at={10} out={50} color={INK} size={140} italic weight={300} />
+				<SerifWords text={OPENING_COPY.year[0]} at={4} out={60} color={INK} size={140} />
+				<SerifWords text={OPENING_COPY.year[1]} at={9} out={60} color={INK} size={140} italic weight={300} />
 			</Center>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				{PARTS.map((k, i) => {
 					const s = p(t, 18 + i * 4, 32 + i * 4, EXPO_OUT);
 					const isWinter = i === 0;
-					const fade = isWinter ? 1 : 1 - p(t, 50, 60);
-					const grow = isWinter ? 1 + p(t, 52, 64, IN_OUT) * 0.8 : 1;
+					const fade = isWinter ? 1 : 1 - p(t, 60, 70);
+					const grow = isWinter ? 1 + p(t, 62, 74, IN_OUT) * 0.8 : 1;
 					return <circle key={k} cx={220 + i * 160} cy={1060} r={16 * s * grow} fill={SEASONS[k].bg} stroke={INK} strokeWidth={2.5} opacity={fade} />;
 				})}
 			</svg>
@@ -256,11 +256,11 @@ const SeasonPage: React.FC<{readonly season: Season; readonly delay: number}> = 
 					<Rule at={12} width={90} color={ink} opacity={1} thickness={3} />
 					<div style={{height: 40}} />
 					<div style={{maxWidth: 900}}>
-						<SerifWords text={season.line} at={12} color={ink} size={64} weight={400} stagger={2} lineHeight={1.18} />
+						<SerifWords text={season.line} at={10} color={ink} size={64} weight={400} stagger={1} lineHeight={1.18} />
 					</div>
 				</Center>
 				<Center top={1250}>
-					<Tracked text={season.months} at={18} color={ink} size={40} weight={500} spacing={0.16} />
+					<Tracked text={season.months} at={14} color={ink} size={40} weight={500} spacing={0.16} />
 				</Center>
 			</Sequence>
 		</AbsoluteFill>
@@ -306,12 +306,12 @@ const Chapters: React.FC = () => {
 			<AbsoluteFill>
 				<Atmos bg={INTRO.bg} ink={INK} />
 				<Center top={660}>
-					<SerifWords text={OPENING_COPY.chapters} at={14} out={80} color={INK} size={160} />
+					<SerifWords text={OPENING_COPY.chapters} at={12} out={94} color={INK} size={160} />
 				</Center>
 				<Center top={880}>
-					<SerifWords text={OPENING_COPY.chaptersSub} at={24} out={80} color={INK} size={TYPE.support} italic weight={400} stagger={2} />
+					<SerifWords text={OPENING_COPY.chaptersSub} at={20} out={94} color={INK} size={TYPE.support} italic weight={400} stagger={1} />
 				</Center>
-				<svg width={1080} height={1920} style={{position: 'absolute', inset: 0, opacity: 1 - p(t, 80, 90)}}>
+				<svg width={1080} height={1920} style={{position: 'absolute', inset: 0, opacity: 1 - p(t, 94, 104)}}>
 					{Array.from({length: 24}).map((_, i) => {
 						const s = p(t, 18 + i * 1.2, 32 + i * 1.2, EXPO_OUT);
 						const x = 180 + i * (720 / 23);
@@ -335,12 +335,12 @@ const Invite: React.FC = () => {
 		<>
 			<Center top={700}>
 				<div style={{maxWidth: 900}}>
-					<SerifWords text={OPENING_COPY.invite} at={4} out={84} color={INK} size={130} italic weight={300} lineHeight={1.08} />
+					<SerifWords text={OPENING_COPY.invite} at={4} out={126} color={INK} size={130} italic weight={300} lineHeight={1.08} />
 				</div>
 			</Center>
 			<Center top={1060}>
-				<div style={{maxWidth: 880, opacity: 1 - p(t, 84, 95)}}>
-					<SerifWords text={OPENING_COPY.inviteSub} at={22} color={INK} size={TYPE.support} weight={400} stagger={2} lineHeight={1.2} />
+				<div style={{maxWidth: 880, opacity: 1 - p(t, 126, 137)}}>
+					<SerifWords text={OPENING_COPY.inviteSub} at={18} color={INK} size={TYPE.support} weight={400} stagger={1} lineHeight={1.2} />
 				</div>
 			</Center>
 		</>
@@ -357,7 +357,7 @@ const EndCard: React.FC = () => {
 	const c = OPENING_COPY.end;
 	const bloom = p(t, 0, 16) * (1 - p(t, 40, 80));
 	const reveal = p(t, 8, 44, IN_OUT);
-	const settle = p(t, 70, 104, IN_OUT);
+	const settle = p(t, 56, 86, IN_OUT);
 	const scale = mix(1, LOGO_SMALL / LOGO_BIG, settle);
 	const blockTop = mix(660, 300, settle);
 	const beamX = 540 - LOGO_BIG / 2 + LOGO_BIG * reveal;
@@ -389,20 +389,20 @@ const EndCard: React.FC = () => {
 			</div>
 			{/* the Introduction card, built once the logo has settled */}
 			<Center top={590}>
-				<SerifWords text={INTRO.theme} at={104} color={INK} size={52} italic weight={400} />
+				<SerifWords text={INTRO.theme} at={84} color={INK} size={52} italic weight={400} />
 			</Center>
 			<Center top={690}>
-				<SerifWords text={c.title} at={110} color={INK} size={150} weight={400} tracking="-0.015em" />
+				<SerifWords text={c.title} at={88} color={INK} size={150} weight={400} tracking="-0.015em" />
 				<div style={{height: 6}} />
-				<SansTitle text={c.subtitle} at={120} color={INK} size={66} weight={600} />
+				<SansTitle text={c.subtitle} at={96} color={INK} size={66} weight={600} />
 			</Center>
 			<Center top={1050}>
 				<div style={{maxWidth: 860}}>
-					<SerifWords text={c.quote} at={130} color={INK} size={58} italic weight={400} stagger={2} lineHeight={1.2} />
+					<SerifWords text={c.quote} at={104} color={INK} size={58} italic weight={400} stagger={1} lineHeight={1.2} />
 				</div>
 			</Center>
 			<Center top={1300}>
-				<Tracked text={`${BRAND.slot} · ${BRAND.station}`} at={142} color={INK} size={42} weight={600} spacing={0.08} />
+				<Tracked text={`${BRAND.slot} · ${BRAND.station}`} at={112} color={INK} size={42} weight={600} spacing={0.08} />
 			</Center>
 		</AbsoluteFill>
 	);
@@ -421,7 +421,7 @@ const LINE_KEYS: LineKey[] = [
 		morph: 18,
 		shape: (f) => {
 			const lt = f - T.radio[0];
-			const amp = 54 * p(lt, 6, 30) * (1 - p(lt, 92, 108));
+			const amp = 54 * p(lt, 6, 30) * (1 - p(lt, 98, 114));
 			return Array.from({length: 120}, (_, i): Pt => {
 				const u = i / 119;
 				const env = Math.sin(Math.PI * u) ** 1.5;
@@ -431,11 +431,11 @@ const LINE_KEYS: LineKey[] = [
 		},
 	},
 	{at: T.year[0], morph: 18, shape: () => hline(1060, 140, 940)},
-	{at: T.year[0] + 52, morph: 10, opacity: 0, shape: () => hline(1060, 140, 940)},
+	{at: T.year[0] + 62, morph: 10, opacity: 0, shape: () => hline(1060, 140, 940)},
 	{at: T2.chapters[0] + 10, morph: 16, shape: () => hline(1250, 160, 920)},
 	{at: T2.invite[0], morph: 18, shape: () => hline(1000, 450, 630)},
 	{at: T2.end[0], morph: 12, opacity: 0, shape: () => hline(800, 539, 541)},
-	{at: T2.end[0] + 118, morph: 20, opacity: 0.85, shape: () => hline(1010, 490, 590)},
+	{at: T2.end[0] + 96, morph: 20, opacity: 0.85, shape: () => hline(1010, 490, 590)},
 ];
 
 /* ─────────────── sound (impacts: book-close + final logo chime) ─────────────── */
