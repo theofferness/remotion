@@ -9,7 +9,7 @@ export const SERIES = {
 	show: 'OFFERVISIONS',
 	station: 'Big Bang Radio',
 	airtime: 'Mondays · 11 AM',
-	host: 'Lucie',
+	host: 'Lucia',
 	hostRole: 'a fellow learner',
 	year: '2027',
 	/** The learner's design in every Reel – see the Avatar-Options composition. */

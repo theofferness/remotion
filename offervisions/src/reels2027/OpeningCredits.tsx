@@ -14,7 +14,7 @@ import type {Pt} from '../reels/kit/shapes';
 import {SFX} from '../reels/kit/Sfx';
 
 /* ─────────────── timeline (frames @ 30 fps) ─────────────── */
-// Timing revision (Lucie): same design and animation speeds as the first version;
+// Timing revision (Lucia): same design and animation speeds as the first version;
 // every screen holds until all of its sentences can be read (~0.3 s per word).
 const T = {
 	hook: [0, 130],
@@ -388,7 +388,7 @@ export const OpeningCredits: React.FC = () => (
 		<Shot span={T.book} name="2 · The book opens">
 			<Book />
 		</Shot>
-		<Shot span={T.host} name="3 · Hosted by Lucie">
+		<Shot span={T.host} name="3 · Hosted by Lucia">
 			<Host />
 		</Shot>
 		<Shot span={T.radio} name="4 · On air">

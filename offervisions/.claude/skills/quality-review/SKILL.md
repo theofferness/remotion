@@ -1,6 +1,6 @@
 ---
 name: quality-review
-description: Pre-delivery quality checklist for Offervisions videos — immediate hook, no clipping or UI collision, subtitle margins, caption accuracy, audio, continuity, dimensions, CTA visibility, focus on the message, playback — plus brand, brief and ethics checks with commands. Run before sending anything to Lucie.
+description: Pre-delivery quality checklist for Offervisions videos — immediate hook, no clipping or UI collision, subtitle margins, caption accuracy, audio, continuity, dimensions, CTA visibility, focus on the message, playback — plus brand, brief and ethics checks with commands. Run before sending anything to Lucia.
 ---
 
 # Quality Review
@@ -30,7 +30,7 @@ Look at the sheet. Include frames from the first second, every scene midpoint, m
 
 ## Offervisions additions
 - **Brief:** every numbered item delivered. Undefined items stated as assumptions. Brief/skill conflicts named (see `brand` › Precedence).
-- **Facts:** Big Bang Radio · Mondays 11 AM · Lucie a fellow learner. Chapter, part, date and challenge match the brief.
+- **Facts:** Big Bang Radio · Mondays 11 AM · Lucia a fellow learner. Chapter, part, date and challenge match the brief.
 - **Script:** five beats on time (`scriptwriter`). Pace 140–175 wpm. Exactly one `[My story here]` in Main Reels. Key phrases ≤ 6 words. Cover ≤ 5 words.
 - **Visual:** season background + single ink colour. Horizon line present in every frame. Book signature at open and close. Learner present. One focal object per scene. Fresh metaphor not used in earlier Reels.
 - **Safe zones:** nothing important at y < 250 or y > 1520. Captions in their fixed band.

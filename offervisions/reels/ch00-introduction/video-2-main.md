@@ -119,6 +119,6 @@ Scenes cross-dissolve in 10 frames and the line morphs across cuts. Text sits be
 ## Optional logo intro
 A 1.5 s logo sting (`out/brand/offervisions-logo-intro.mp4`) can go in front of any video. Composition `Ch00-Video2-Main-WithIntro` is ready to render. It's off by default because it would push the hook past the first 2 seconds.
 
-## Notes for Lucie
+## Notes for Lucia
 - The brief asks for the caption to end with *"New chapter Monday 11 AM on Big Bang Radio."* I kept that exactly. But if chapters arrive every two weeks, the Monday after this Thursday post (Jan 18) may not be a new chapter. That's why the **voiceover and end card say "Listen Mondays at eleven"** instead. If Jan 18 *is* a new chapter, both can say it.
 - The season-to-part order (Winter = Visualisation and so on) follows the order in your brief.

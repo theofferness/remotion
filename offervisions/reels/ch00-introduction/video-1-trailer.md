@@ -23,7 +23,7 @@ Source: `src/reels/ch00/chapter.ts` (all copy and timing) · compositions `Ch00-
 
 **Tension:** New Year pressure to reinvent yourself. **Truthful benefit:** a calm, year-long structure you can follow, one chapter at a time.
 
-## 2 · Voiceover (optional, Lucie's own voice)
+## 2 · Voiceover (optional, Lucia's own voice)
 
 **30 s version** (69 words, ~140 wpm). Bold marks the one stressed word:
 > A new year doesn't need a new **you**.
@@ -31,7 +31,7 @@ Source: `src/reels/ch00/chapter.ts` (all copy and timing) · compositions `Ch00-
 > Four seasonal parts. Visualisation. Realisation. Connection. Integration. And a December **epilogue** to close the year.
 > A new chapter every two **weeks**.
 > Each one: a struggle, a positive, one small **challenge**. Invitations, not homework.
-> I'm Lucie. I'm not an expert, I'm **learning** too.
+> I'm Lucia. I'm not an expert, I'm **learning** too.
 > The book opens **Monday** at eleven, on Big Bang Radio.
 
 **15 s version** (33 words):
@@ -58,7 +58,7 @@ Scenes cross-dissolve in 10 frames, and the line morphs across each cut. Caption
 | 3 | 7.4–14.0 | Insight | "Four seasonal parts… And a December epilogue to close the year." | The line becomes a winding path. The learner walks as the camera pans past five stops that glow at the centre, each getting a tag: snowflake *Visualisation*, sprout *Realisation*, bridge *Connection*, leaf *Integration*, candle *Epilogue* (3 quiet pops). | *A year in four seasons.* / **FOUR PARTS. ONE EPILOGUE.** |
 | 4 | 14.0–17.0 | Insight | "A new chapter every two weeks." | The line flattens into a shelf. Twelve spines settle in one by one (Intro, Ch 1–11). The Intro spine glows, with the tag *it starts here*. | *A new chapter every two weeks.* / **EVERY OTHER MONDAY.** |
 | 5 | 17.0–21.4 | Practical shift | "Each one: a struggle, a positive, one small challenge. Invitations, not homework." | The book opens to a rain cloud and a sun. A pencil scratch, a checkbox ticks, and three tags arrive: *one struggle*, *one positive*, *one small challenge*. | *One struggle. One positive. One small challenge.* / **INVITATIONS, NOT HOMEWORK.** |
-| 6 | 21.4–25.4 | Practical shift | "I'm Lucie. I'm not an expert, I'm learning too." | The line rises into a window with a moon and falling snow. The learner reads on the sill, and their little book glows. Lamp, tea, plant. Tag: *YOUR HOST · Lucie · a fellow learner*. | *Hosted by Lucie, a fellow learner.* / **MONDAYS · 11 AM** |
+| 6 | 21.4–25.4 | Practical shift | "I'm Lucia. I'm not an expert, I'm learning too." | The line rises into a window with a moon and falling snow. The learner reads on the sill, and their little book glows. Lamp, tea, plant. Tag: *YOUR HOST · Lucia · a fellow learner*. | *Hosted by Lucia, a fellow learner.* / **MONDAYS · 11 AM** |
 | 7 | 25.4–30.0 | CTA | "The book opens Monday at eleven, on Big Bang Radio." | The book shuts softly (impact 1: book-close), its glow rises (impact 2: chime). The end card builds: logo → **OFFERVISIONS** → *The book opens Monday, 11 AM.* → MONDAYS · 11 AM · BIG BANG RADIO → *Introduction · Monday, January 11*. It holds to the last frame. | (end card) |
 
 **15 s cut:** 1 Hook (3.2 s) → 2 Book opens (4.0 s) → 5 Inside a chapter (4.2 s) → 7 End card (3.6 s).

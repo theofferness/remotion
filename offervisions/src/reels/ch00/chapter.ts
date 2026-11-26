@@ -81,8 +81,8 @@ export const VIDEO1 = {
 		{
 			id: 'host',
 			sec: 4.0,
-			vo: 'I’m Lucie. I’m not an expert, I’m *learning* too.',
-			small: 'Hosted by Lucie, a fellow learner.',
+			vo: 'I’m Lucia. I’m not an expert, I’m *learning* too.',
+			small: 'Hosted by Lucia, a fellow learner.',
 			big: 'Mondays · 11 AM',
 		},
 		{
@@ -142,7 +142,7 @@ export const VIDEO1 = {
 /*  Five beats scaled to ~74 s (scriptwriter): tension 0–7 · pattern break 7–22 ·
     insight 22–51 · practical shift 51–66 · CTA 66–74.
     Acts: struggle = hook…story · turn = should…invitation · small step = challenge…cta.
-    `vo` lines are what Lucie records; *word* = caption emphasis.                     */
+    `vo` lines are what Lucia records; *word* = caption emphasis.                     */
 
 export const MY_STORY = '[My story here]';
 

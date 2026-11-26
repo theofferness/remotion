@@ -12,14 +12,14 @@ Typography: **clean, modern, highly readable.**
 All 1080×1920 compositions must preserve the platform safe zones.
 
 ## Precedence (applies to every skill)
-1. **Lucie's brief for a specific video** wins (length, scene count, wording, colours, required lines).
+1. **Lucia's brief for a specific video** wins (length, scene count, wording, colours, required lines).
 2. Then these skills.
 3. If a brief and a skill conflict, follow the brief, apply the skill wherever it still fits
    (e.g. use the skill's rules for the cut-downs), and **name the conflict in the reply**.
 
 ## The show (facts – never invent others)
 - **OFFERVISIONS** – a 15-minute self-development podcast on **Big Bang Radio**, a non-commercial college radio station. Airs **Mondays at 11 AM**.
-- Host **Lucie** is **not** a psychologist or teacher – a **fellow learner** sharing what she's learning about growth. Never present her as an expert or authority.
+- Host **Lucia** is **not** a psychologist or teacher – a **fellow learner** sharing what she's learning about growth. Never present her as an expert or authority.
 - Audience: open-minded people of any age who want to grow.
 - **2027 is structured like a book**: four seasonal parts (Visualisation · Realisation · Connection · Integration) + a December epilogue; one new chapter every two weeks. Each chapter: one struggle, one positive, one small challenge – **invitations, not homework**.
 
@@ -65,5 +65,5 @@ Source of truth: the six chapter covers in `brand-assets/` → `src/editorial/th
 
 - **Typography (as on the covers):** Literata for expressive titles, phrases and quotes (regular or italic, light weights at large sizes). Inter 500–600 for chapter titles and supporting text. Inter 500 caps tracked about 0.3em for overlines, credits and the footer (`MONDAYS 11 AM · BIG BANG RADIO`). The wordmark under the logo is Inter 400, tracked about 0.34em.
 - **Content:** `THE OFFERNESS: 2027 Scripts` (docx) is the master content source. Titles, order, dates and themes come from it. Broadcast dates (Mondays) are separate from social posting dates.
-- **Naming (confirmed by Lucie):** the show is **Offervisions**, written OFFERVISIONS in the wordmark. "The Offerness" in the script document is a typo. Whenever you quote or adapt the scripts, say and write **Offervisions**.
+- **Naming (confirmed by Lucia):** the show is **Offervisions**, written OFFERVISIONS in the wordmark. "The Offerness" in the script document is a typo. Whenever you quote or adapt the scripts, say and write **Offervisions**.
 - **Never:** stick figures, characters, cartoons, clip art, childish drawings, excessive glow, template-looking motion, invented chapter content.

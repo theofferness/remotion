@@ -10,7 +10,7 @@ import {alpha, usePalette} from './palette';
  *  - fixed band y ≈ 1430–1510 (inside Instagram's safe area, ≥180 px margin)
  *  - a block is held back when the same words are already on screen as the scene's text
  *
- * Until Lucie's voice is recorded, words are timed from the script across each scene.
+ * Until Lucia's voice is recorded, words are timed from the script across each scene.
  * Once recorded, pass `override` blocks built from a transcript of her take.
  */
 

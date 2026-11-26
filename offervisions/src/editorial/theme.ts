@@ -75,11 +75,11 @@ export const SEASONS: Record<SeasonKey, Season> = {
 };
 
 export const BRAND = {
-	/** The show is OFFERVISIONS (confirmed by Lucie). "The Offerness" in the script doc is a typo – always say/write Offervisions. */
+	/** The show is OFFERVISIONS (confirmed by Lucia). "The Offerness" in the script doc is a typo – always say/write Offervisions. */
 	wordmark: 'OFFERVISIONS',
 	station: 'BIG BANG RADIO',
 	slot: 'MONDAYS 11 AM',
-	host: 'Lucie',
+	host: 'Lucia',
 };
 
 export const SAFE = {top: 250, bottom: 400};

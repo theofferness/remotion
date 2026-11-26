@@ -26,7 +26,7 @@ Keep the same five beats in the same proportions and scale them:
 | Practical shift | 20–26 | 40–52 | 50–65 |
 | CTA | 26–30 | 52–60 | 65–75 |
 
-When Lucie asks for three acts (struggle → turn → small step), map them: **struggle = tension + pattern break**, **turn = insight (with the visual twist)**, **small step = practical shift + CTA**.
+When Lucia asks for three acts (struggle → turn → small step), map them: **struggle = tension + pattern break**, **turn = insight (with the visual twist)**, **small step = practical shift + CTA**.
 Always also write the 30-second version so `social-delivery` can cut it (and a 15 s cut: tension → insight's one line → CTA).
 
 ## Hook (0–2 s, inside the tension beat)
@@ -41,7 +41,7 @@ e.g. *Your resolution is already slipping?* / **THAT'S NOT FAILURE.**
 - Pace: **140–175 words per minute** (30 s ≈ 70–85 words; 60–75 s ≈ 150–180 words).
 - Cut any line that only restates, motivates in general ("you've got this"), or could appear in any self-help video.
 - Concrete nouns over abstractions: "a sticky note on your mirror" beats "a reminder of your goals".
-- Main Reels contain exactly one **[My story here]** slot for one real sentence from Lucie – never invent it.
+- Main Reels contain exactly one **[My story here]** slot for one real sentence from Lucia – never invent it.
 - The CTA must match what the episode delivers (see `marketing-psychology`).
 
 ## Storyboard format

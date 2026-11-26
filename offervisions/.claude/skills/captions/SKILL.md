@@ -17,7 +17,7 @@ Keep at least **180 px of vertical safe margin.**
 - **Style:** Nunito 700 in ink colour, ~56–62 px, centred, soft dark shadow for legibility. The emphasis word is Nunito 900 with a soft glow. Only one per block, and not every block needs one.
 - **Data:** use Remotion's `Caption` type (`@remotion/captions`).
   - Before the voice is recorded: auto-time from the script at ~155 wpm (placeholder only).
-  - Once recorded: **transcribe Lucie's actual audio** (word timestamps) and replace the placeholder so captions match her words exactly, including any ad-libs.
+  - Once recorded: **transcribe Lucia's actual audio** (word timestamps) and replace the placeholder so captions match her words exactly, including any ad-libs.
 - Mark the emphasis word in `chapter.ts` with `*asterisks*` in the VO line. The caption renderer bolds it.
 - Captions shouldn't repeat the on-screen key phrase in the same frame. If the line is identical, show the caption and hold back the key phrase, or the reverse.
-- Accuracy check: read the caption track against the audio before delivery, including spelling of names (Lucie, Offervisions, Big Bang Radio).
+- Accuracy check: read the caption track against the audio before delivery, including spelling of names (Lucia, Offervisions, Big Bang Radio).
