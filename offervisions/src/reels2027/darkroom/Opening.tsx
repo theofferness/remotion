@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, continueRender, delayRender, Img, staticFile, useCurrentFrame} from 'remotion';
 import {SANS, SERIF} from '../../editorial/fonts';
 import {EXPO_OUT, IN, IN_OUT, mix, p, QUART_OUT} from '../../editorial/motion';
@@ -49,29 +49,35 @@ const ORIGIN = '540px 930px';
 type Line = {readonly text: string; readonly center?: boolean; readonly x: number; readonly y: number; readonly size: number; readonly italic?: boolean; readonly weight?: number; readonly ls?: number};
 
 /** Glyph advance positions, measured in the real font once it has loaded. */
+/** True once the real Literata face for this style has been added and loaded (never measure the fallback font). */
+const literataReady = (italic: boolean) =>
+	typeof document !== 'undefined' && Array.from(document.fonts).some((ff) => ff.family.replace(/["']/g, '') === 'Literata' && ff.style === (italic ? 'italic' : 'normal') && ff.status === 'loaded');
+
 const useGlyphX = (lines: readonly Line[]) => {
-	const [ready, setReady] = useState(false);
-	const [handle] = useState(() => delayRender('Measuring handwriting glyphs'));
+	const [, rerender] = useState(0);
+	const ok = lines.every((l) => literataReady(Boolean(l.italic)));
 	useEffect(() => {
-		Promise.all(lines.map((l) => document.fonts.load(`${l.italic ? 'italic ' : ''}${l.weight ?? 400} ${l.size}px Literata`)))
-			.then(() => {
-				setReady(true);
+		if (ok) return;
+		const handle = delayRender('Waiting for Literata before measuring handwriting');
+		const id = setInterval(() => {
+			if (lines.every((l) => literataReady(Boolean(l.italic)))) {
+				clearInterval(id);
+				rerender((n) => n + 1);
 				continueRender(handle);
-			})
-			.catch(() => continueRender(handle));
-	}, [handle, lines]);
-	return useMemo(() => {
-		if (typeof document === 'undefined') return lines.map(() => [0]);
-		const ctx = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D & {letterSpacing?: string};
-		return lines.map((l) => {
-			ctx.font = `${l.italic ? 'italic ' : ''}${l.weight ?? 400} ${l.size}px Literata`;
-			ctx.letterSpacing = `${l.ls ?? 0}px`;
-			const xs = [0];
-			for (let i = 1; i <= l.text.length; i++) xs.push(ctx.measureText(l.text.slice(0, i)).width);
-			return xs;
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ready, lines]);
+			}
+		}, 30);
+		return () => clearInterval(id);
+	}, [ok, lines]);
+	if (!ok) return null;
+	// measured fresh on every render, always in the real font
+	const ctx = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D & {letterSpacing?: string};
+	return lines.map((l) => {
+		ctx.font = `${l.italic ? 'italic ' : ''}${l.weight ?? 400} ${l.size}px Literata`;
+		ctx.letterSpacing = `${l.ls ?? 0}px`;
+		const xs = [0];
+		for (let i = 1; i <= l.text.length; i++) xs.push(ctx.measureText(l.text.slice(0, i)).width);
+		return xs;
+	});
 };
 
 /** Pen timing: every letter takes time in proportion to its width; the pen lifts between words and lines. */
@@ -113,7 +119,8 @@ const Written: React.FC<WrittenProps> = (props) =>
 const LiveWritten: React.FC<WrittenProps> = ({id, lines, start, color, speed = 0.24, outline = true, feather: featherK = 0.16}) => {
 	const f = useCurrentFrame();
 	const xs = useGlyphX(lines);
-	const times = useMemo(() => schedule(lines, xs, start, speed), [lines, xs, start, speed]);
+	if (!xs) return null;
+	const times = schedule(lines, xs, start, speed);
 	return (
 		<g>
 			{lines.map((l0, li) => {
