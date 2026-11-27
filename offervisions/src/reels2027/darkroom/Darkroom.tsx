@@ -115,7 +115,7 @@ export const DevelopMask: React.FC<{readonly id: string; readonly w: number; rea
 }) => {
 	// soft photographic development: density rises with progress, gently modulated by noise
 	const k = 1.4;
-	const pr = Math.max(0, Math.min(1, progress));
+	const pr = Math.max(0, Math.min(1.5, progress)); // >1 = fully developed, even in the noise's low spots
 	const slope = k;
 	const intercept = 1.6 * pr - 0.5 - k * 0.5;
 	return (

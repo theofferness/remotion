@@ -15,6 +15,7 @@ import {Ch00Video3, getV3Duration, V3_FPS} from './reels/ch00/Video3';
 import {OPENING_FRAMES, OpeningCredits} from './reels2027/OpeningCredits';
 import {PART_ONE_FRAMES, PartOneWinter} from './reels2027/PartOneWinter';
 import {StyleFrameA, StyleFrameB, StyleFrameC} from './reels2027/darkroom/StyleFrames';
+import {DARKROOM_FRAMES, WinterDarkroom} from './reels2027/WinterDarkroom';
 import {defaultProps, offervisionsSchema} from './schema';
 import {getTotalFrames} from './timing';
 
@@ -22,7 +23,7 @@ import {getTotalFrames} from './timing';
  * The video currently in production. `npx remotion render src/index.ts Master out/video.mp4`
  * renders whatever this points to – update it when a new Reel goes into production.
  */
-const MASTER = {component: PartOneWinter, fps: 30, durationInFrames: PART_ONE_FRAMES};
+const MASTER = {component: WinterDarkroom, fps: 30, durationInFrames: DARKROOM_FRAMES};
 
 export const RemotionRoot: React.FC = () => {
 	return (
@@ -43,6 +44,7 @@ export const RemotionRoot: React.FC = () => {
 			/>
 			<Folder name="OV2027-Campaign">
 				<Composition id="OV27-V1-OpeningCredits" component={OpeningCredits} fps={30} width={1080} height={1920} durationInFrames={OPENING_FRAMES} />
+				<Composition id="OV27-V2-WinterDarkroom" component={WinterDarkroom} fps={30} width={1080} height={1920} durationInFrames={DARKROOM_FRAMES} />
 				<Composition id="OV27-V2-PartOneWinter" component={PartOneWinter} fps={30} width={1080} height={1920} durationInFrames={PART_ONE_FRAMES} />
 				<Still id="OV27-V2-Darkroom-StyleA" component={StyleFrameA} width={1080} height={1920} />
 				<Still id="OV27-V2-Darkroom-StyleB" component={StyleFrameB} width={1080} height={1920} />
