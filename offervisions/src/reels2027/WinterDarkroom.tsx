@@ -6,7 +6,7 @@ import {SANS, SERIF} from '../editorial/fonts';
 import {EXPO_OUT, IN, IN_OUT, mix, p, QUART_OUT} from '../editorial/motion';
 import {SEASONS, type SeasonKey} from '../editorial/theme';
 import {SFX} from '../reels/kit/Sfx';
-import {OB, Opening, OPENING_LEN} from './darkroom/Opening';
+import {LoopFrame, OB, Opening, OPENING_LEN} from './darkroom/Opening';
 import {CropMarks, DevelopMask, EdgeCode, Grain, INK_ON_PAPER, LogoImage, NAVY, NIGHT, PAPER, Room, Sheen, Sheet, Sprockets} from './darkroom/Darkroom';
 
 /*
@@ -40,7 +40,7 @@ export const COPY = {
 };
 
 /** Scene lengths in frames (30 fps). Each sentence holds ≈0.3 s per word after it has developed. */
-const LEN = {opening: OPENING_LEN, film: 140, contact: 265, question: 130, double: 185, sweep: 130, wire: 140, rewind: 135, final: 175} as const;
+const LEN = {opening: OPENING_LEN, film: 140, contact: 255, question: 130, double: 185, sweep: 130, wire: 140, rewind: 135, final: 185} as const;
 type SceneKey = keyof typeof LEN;
 const ORDER: SceneKey[] = ['opening', 'film', 'contact', 'question', 'double', 'sweep', 'wire', 'rewind', 'final'];
 export const AT = ORDER.reduce(
@@ -452,8 +452,10 @@ const FinalPrint: React.FC = () => {
 	const Wd = 860;
 	const H = 1080;
 	const enter = p(f, 0, 30, QUART_OUT);
+	const loop = p(f, LEN.final - 26, LEN.final - 1, IN_OUT); // push into the print until it becomes the opening cover
 	return (
-		<AbsoluteFill style={{opacity: enter}}>
+		<AbsoluteFill>
+		<AbsoluteFill style={{opacity: enter, transform: `scale(${1 + loop * 0.35})`, transformOrigin: '50% 45%'}}>
 			<Sheet x={110} y={mix(460, 430, enter)} w={Wd} h={H} rx={mix(24, 14, p(f, 0, LEN.final, IN_OUT))} rz={mix(3.5, 1.5, p(f, 0, LEN.final, IN_OUT))} shadow={0.7}>
 				<svg width={Wd} height={H} viewBox={`0 0 ${Wd} ${H}`}>
 					<DevelopMask id="c-dark" w={Wd} h={H} progress={1.5 * p(f, 8, 64, IN_OUT)} seed={6} scale={0.004} />
@@ -500,6 +502,10 @@ const FinalPrint: React.FC = () => {
 				<Sheen angle={112} at={mix(20, 70, p(f, 0, LEN.final, IN_OUT))} />
 			</Sheet>
 		</AbsoluteFill>
+			<AbsoluteFill style={{opacity: loop}}>
+				<LoopFrame />
+			</AbsoluteFill>
+		</AbsoluteFill>
 	);
 };
 
@@ -512,13 +518,13 @@ const Cue: React.FC<{readonly at: number; readonly src: string; readonly volume:
 );
 
 const Sound: React.FC = () => {
-	const {fps, durationInFrames} = useVideoConfig();
+	const {durationInFrames} = useVideoConfig();
 	return (
 		<>
 			<Audio
 				name="Ambient bed"
 				src={staticFile('audio/2027/ambient.mp3')}
-				volume={(fr) => 0.5 * interpolate(fr, [0, fps * 1.2, durationInFrames - fps * 2, durationInFrames], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}
+				volume={(fr) => 0.5 * interpolate(fr, [0, 6, durationInFrames - 6, durationInFrames], [0.6, 1, 1, 0.6], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}
 			/>
 			<Cue name="air" at={0} src={SFX.air} volume={0.26} />
 			<Cue name="the O arrives (impact 1)" at={OB.o[1] - 10} src={SFX.chime} volume={0.3} />
@@ -562,7 +568,7 @@ export const WinterDarkroom: React.FC = () => {
 	return (
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
 			{/* the darkroom itself, beneath every scene after the intro */}
-			<AbsoluteFill style={{opacity: p(f, 0, 16)}}>
+			<AbsoluteFill>
 				<Room light={{x: 50, y: 50}} />
 			</AbsoluteFill>
 			{ORDER.map((k) => {

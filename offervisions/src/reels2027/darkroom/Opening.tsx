@@ -267,8 +267,9 @@ const LH = LW * RATIO;
 const LX = CW / 2 - LW / 2;
 const LY = 380 - LH / 2;
 
-const CoverFront: React.FC = () => {
-	const f = useCurrentFrame();
+const CoverFront: React.FC<{readonly still?: boolean}> = ({still = false}) => {
+	const cf = useCurrentFrame();
+	const f = still ? 0 : cf; // `still` = the cover exactly as the video's first frame shows it
 	const hand = p(f, OB.hand[0], OB.hand[1], EXPO_OUT);
 	const handIn = p(f, OB.hand[0], OB.hand[0] + 22, QUART_OUT);
 	const o = p(f, OB.o[0], OB.o[1], IN_OUT);
@@ -305,7 +306,7 @@ const CoverFront: React.FC = () => {
 			</div>
 			<svg width={CW} height={CH} style={{position: 'absolute', inset: 0}}>
 				<g opacity={0.82}>
-					<Written id="motto" lines={MOTTO_LINE} start={OB.motto} color="#ffffff" speed={0.11} outline={false} feather={0.5} />
+					{still ? null : <Written id="motto" lines={MOTTO_LINE} start={OB.motto} color="#ffffff" speed={0.11} outline={false} feather={0.5} />}
 				</g>
 				<text x={CW / 2} y={CH - 92} textAnchor="middle" fill="#fff" opacity={0.75 * wordmark} fontFamily={SANS} fontSize={17} letterSpacing={7}>
 					OFFERVISIONS
@@ -423,7 +424,7 @@ export const Opening: React.FC = () => {
 	);
 
 	return (
-		<AbsoluteFill style={{opacity: p(f, 0, 14, QUART_OUT) * (1 - fadeOut)}}>
+		<AbsoluteFill style={{opacity: 1 - fadeOut}}>
 			<div style={{position: 'absolute', inset: 0, transformOrigin: ORIGIN, transform: `translateY(${hand * 30}px) scale(${S})`}}>
 				{/* the book's shadow on the table */}
 				<div style={{position: 'absolute', left: CX + (cover > 0.5 ? -CW * cover : 0), top: CY + 30, width: CW * (1 + cover), height: CH, background: 'rgba(0,0,0,0.55)', filter: 'blur(44px)', opacity: pull}} />
@@ -442,3 +443,17 @@ export const Opening: React.FC = () => {
 		</AbsoluteFill>
 	);
 };
+
+/**
+ * The first frame of the video, re-usable: the camera close on the navy cover, before the hand rises.
+ * The last scene dissolves into this, so the Reel loops seamlessly.
+ */
+export const LoopFrame: React.FC = () => (
+	<AbsoluteFill>
+		<div style={{position: 'absolute', inset: 0, transformOrigin: ORIGIN, transform: 'scale(2)'}}>
+			<div style={{position: 'absolute', left: CX, top: CY, width: CW, height: CH}}>
+				<CoverFront still />
+			</div>
+		</div>
+	</AbsoluteFill>
+);

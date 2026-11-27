@@ -18,4 +18,5 @@
 | 11 | Final print (still frame C) | The paper darkens to navy, and the logo and Chapter 1 cover develop. | Chapter 1 · Letting Go of Resolutions · Monday, January 18 · Mondays 11 AM · Big Bang Radio |
 
 **Sound:** a quiet ambient bed, plus air, a pencil and paper. Pen on paper while the page is written, and paper sounds for the cover and the page turn. There are two impacts in total: a soft chime when the O arrives, and another when the final logo develops.
+**Loop:** the video opens on the navy cover (no fade from black), and the last scene pushes into the final print until it dissolves into that same cover. The last frame matches the first, and the ambient bed does not fade out, so the Reel repeats seamlessly.
 **Safe zones:** all copy sits between y 250 and 1520.
