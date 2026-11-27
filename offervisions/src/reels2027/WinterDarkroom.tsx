@@ -32,8 +32,6 @@ export const COPY = {
 	not: ['Not what you should want.', 'Not what looks good online.'],
 	should: ['What should', 'I want?'],
 	really: ['What do I', 'really want?'],
-	mightBe: 'It might be',
-	answers: ['Peace.', 'Courage.', 'One honest conversation.'],
 	write: ['Write the', 'first answer', 'that comes.'],
 	keep: ['Keep it somewhere', 'you’ll see it.'],
 	places: ['NOTES APP', 'STICKY NOTE', 'MIRROR'],
@@ -42,9 +40,9 @@ export const COPY = {
 };
 
 /** Scene lengths in frames (30 fps). Each sentence holds ≈0.3 s per word after it has developed. */
-const LEN = {opening: OPENING_LEN, film: 150, contact: 265, question: 140, double: 200, test: 150, sweep: 130, wire: 150, rewind: 145, final: 190} as const;
+const LEN = {opening: OPENING_LEN, film: 150, contact: 265, question: 140, double: 200, sweep: 130, wire: 150, rewind: 145, final: 190} as const;
 type SceneKey = keyof typeof LEN;
-const ORDER: SceneKey[] = ['opening', 'film', 'contact', 'question', 'double', 'test', 'sweep', 'wire', 'rewind', 'final'];
+const ORDER: SceneKey[] = ['opening', 'film', 'contact', 'question', 'double', 'sweep', 'wire', 'rewind', 'final'];
 export const AT = ORDER.reduce(
 	(acc, k, i) => ({...acc, [k]: i === 0 ? 0 : acc[ORDER[i - 1]] + LEN[ORDER[i - 1]]}),
 	{} as Record<SceneKey, number>,
@@ -304,48 +302,6 @@ const DoubleExposure: React.FC = () => {
 	);
 };
 
-/* ───────────────────────── 7 · TEST STRIPS – "It might be" ───────────────────────── */
-
-const TestStrips: React.FC = () => {
-	const f = useCurrentFrame();
-	const out = exitK(f, LEN.test, 16);
-	const starts = [14, 42, 70];
-	const rot = [-1.6, 1.1, -0.7];
-	const sizes = [104, 104, 66];
-	return (
-		<AbsoluteFill style={{opacity: 1 - out}}>
-			<Dev at={2} style={{top: 340, fontFamily: SERIF, fontStyle: 'italic', fontWeight: 300, fontSize: 76}}>
-				{COPY.mightBe}
-			</Dev>
-			{COPY.answers.map((word, i) => {
-				const a = starts[i];
-				const slide = p(f, a, a + 22, EXPO_OUT);
-				const sw = 900;
-				const sh = 200;
-				return (
-					<div key={word} style={{position: 'absolute', left: mix(-1000, 90, slide), top: 520 + i * 250, width: sw, height: sh, transform: `rotate(${rot[i]}deg)`, boxShadow: '0 24px 60px rgba(0,0,0,0.5)', background: PAPER}}>
-						<svg width={sw} height={sh} viewBox={`0 0 ${sw} ${sh}`}>
-							<DevelopMask id={`t${i}`} w={sw} h={sh} progress={1.4 * p(f, a + 10, a + 42, IN_OUT)} seed={40 + i} scale={0.015} />
-							{/* stepped exposure bands, as on a real test strip */}
-							{Array.from({length: 6}).map((_, b) => (
-								<g key={b}>
-									<rect x={(b * sw) / 6} y={0} width={sw / 6} height={sh} fill={NAVY} opacity={0.025 + b * 0.022} />
-									<EdgeCode x={(b * sw) / 6 + 14} y={sh - 16} text={`${2 ** (b + 1)}s`} color={INK_ON_PAPER} size={13} opacity={0.4} />
-								</g>
-							))}
-							<g mask={`url(#t${i})`}>
-								<text x={56} y={sh / 2 + sizes[i] * 0.34} fill={INK_ON_PAPER} fontFamily={SERIF} fontStyle={i === 2 ? 'italic' : 'normal'} fontWeight={i === 2 ? 300 : 400} fontSize={sizes[i]} letterSpacing={-1}>
-									{word}
-								</text>
-							</g>
-						</svg>
-					</div>
-				);
-			})}
-		</AbsoluteFill>
-	);
-};
-
 /* ───────────────────────── 8 · LIGHT SWEEP – the invitation is exposed line by line ───────────────────────── */
 
 const LightSweep: React.FC = () => {
@@ -576,9 +532,6 @@ const Sound: React.FC = () => {
 				<Cue key={ch.n} name={`grease pencil · ch${ch.n}`} at={AT.contact + CH_START + i * CH_LEN - 8} src={SFX.pencil} volume={0.22} />
 			))}
 			<Cue name="dodge" at={AT.double + 86} src={SFX.air} volume={0.22} />
-			{[14, 42, 70].map((a, i) => (
-				<Cue key={a} name={`test strip ${i + 1}`} at={AT.test + a} src={SFX.pageTurn} volume={0.22} />
-			))}
 			<Cue name="light sweep" at={AT.sweep + 10} src={SFX.air} volume={0.26} />
 			{[14, 30, 46].map((a, i) => (
 				<Cue key={a} name={`print ${i + 1}`} at={AT.wire + a} src={SFX.pageTurn} volume={0.2} />
@@ -597,7 +550,6 @@ const SCENE: Record<SceneKey, React.FC> = {
 	contact: ContactSheet,
 	question: Question,
 	double: DoubleExposure,
-	test: TestStrips,
 	sweep: LightSweep,
 	wire: DryingLine,
 	rewind: Rewind,
