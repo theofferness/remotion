@@ -34,10 +34,10 @@ export const OB = {
 export const OPENING_LEN = 484; // the next scene starts here; the opening keeps 12 frames of tail to dissolve into it
 
 /* geometry (screen px). The book is centred on (540, 930). */
-const PW = 720;
-const PH = 1000;
-const PX = 180;
-const PY = 430;
+export const PW = 720;
+export const PH = 1000;
+export const PX = 180;
+export const PY = 430;
 const CW = 732;
 const CH = 1012;
 const CX = 174;
@@ -46,14 +46,14 @@ const ORIGIN = '540px 930px';
 
 /* ───────────────────────── handwriting ───────────────────────── */
 
-type Line = {readonly text: string; readonly center?: boolean; readonly x: number; readonly y: number; readonly size: number; readonly italic?: boolean; readonly weight?: number; readonly ls?: number};
+export type Line = {readonly text: string; readonly center?: boolean; readonly x: number; readonly y: number; readonly size: number; readonly italic?: boolean; readonly weight?: number; readonly ls?: number};
 
 /** Glyph advance positions, measured in the real font once it has loaded. */
 /** True once the real Literata face for this style has been added and loaded (never measure the fallback font). */
 const literataReady = (italic: boolean) =>
 	typeof document !== 'undefined' && Array.from(document.fonts).some((ff) => ff.family.replace(/["']/g, '') === 'Literata' && ff.style === (italic ? 'italic' : 'normal') && ff.status === 'loaded');
 
-const useGlyphX = (lines: readonly Line[]) => {
+export const useGlyphX = (lines: readonly Line[]) => {
 	const [, rerender] = useState(0);
 	const ok = lines.every((l) => literataReady(Boolean(l.italic)));
 	useEffect(() => {
@@ -66,7 +66,10 @@ const useGlyphX = (lines: readonly Line[]) => {
 				continueRender(handle);
 			}
 		}, 30);
-		return () => clearInterval(id);
+		return () => {
+			clearInterval(id);
+			continueRender(handle); // a re-run of this effect opens its own handle
+		};
 	}, [ok, lines]);
 	if (!ok) return null;
 	// measured fresh on every render, always in the real font
@@ -103,7 +106,7 @@ const textProps = (l: Line, x0: number) => ({x: x0, y: l.y, fontFamily: SERIF, f
 
 type WrittenProps = {readonly id: string; readonly lines: readonly Line[]; readonly start: number; readonly color: string; readonly speed?: number; readonly done?: boolean; readonly outline?: boolean; readonly feather?: number};
 
-const Written: React.FC<WrittenProps> = (props) =>
+export const Written: React.FC<WrittenProps> = (props) =>
 	props.done ? (
 		<g fill={props.color}>
 			{props.lines.map((l) => (
@@ -181,7 +184,7 @@ const PAGE_LINES: readonly Line[] = [
 ];
 
 /** Gutter shading: pages darken softly toward the spine. */
-const Gutter: React.FC<{readonly side: 'left' | 'right'; readonly strength?: number}> = ({side, strength = 0.16}) => (
+export const Gutter: React.FC<{readonly side: 'left' | 'right'; readonly strength?: number}> = ({side, strength = 0.16}) => (
 	<div style={{position: 'absolute', inset: 0, pointerEvents: 'none', background: `linear-gradient(${side === 'right' ? 90 : 270}deg, rgba(10,14,34,${strength}) 0px, rgba(10,14,34,${strength * 0.3}) 26px, transparent 70px)`}} />
 );
 
@@ -220,7 +223,7 @@ const FirstPageBack: React.FC = () => (
 );
 
 /** Chapter 1 – a navy part-opener, set like the covers. */
-const ChapterPage: React.FC = () => {
+export const ChapterPage: React.FC<{readonly footer?: 'season' | 'broadcast'}> = ({footer = 'season'}) => {
 	const c = OPENING_COPY.chapter;
 	return (
 		<div style={{position: 'absolute', inset: 0, background: NAVY, overflow: 'hidden'}}>
@@ -244,15 +247,28 @@ const ChapterPage: React.FC = () => {
 						{c.title}
 					</text>
 					<line x1={PW / 2 - 34} y1={684} x2={PW / 2 + 34} y2={684} stroke="#fff" strokeWidth={1.4} opacity={0.5} />
-					<text x={PW / 2} y={758} fontFamily={SERIF} fontStyle="italic" fontSize={38} fontWeight={300}>
-						{c.line[0]}
-					</text>
-					<text x={PW / 2} y={806} fontFamily={SERIF} fontStyle="italic" fontSize={38} fontWeight={300}>
-						{c.line[1]}
-					</text>
-					<text x={PW / 2} y={930} fontFamily={SANS} fontSize={16} fontWeight={500} letterSpacing={4.5} opacity={0.7}>
-						{c.months}
-					</text>
+					{footer === 'season' ? (
+						<>
+							<text x={PW / 2} y={758} fontFamily={SERIF} fontStyle="italic" fontSize={38} fontWeight={300}>
+								{c.line[0]}
+							</text>
+							<text x={PW / 2} y={806} fontFamily={SERIF} fontStyle="italic" fontSize={38} fontWeight={300}>
+								{c.line[1]}
+							</text>
+							<text x={PW / 2} y={930} fontFamily={SANS} fontSize={16} fontWeight={500} letterSpacing={4.5} opacity={0.7}>
+								{c.months}
+							</text>
+						</>
+					) : (
+						<>
+							<text x={PW / 2} y={770} fontFamily={SERIF} fontStyle="italic" fontSize={44} fontWeight={300}>
+								Monday, January 18
+							</text>
+							<text x={PW / 2} y={850} fontFamily={SANS} fontSize={21} fontWeight={500} letterSpacing={5}>
+								11 AM  ·  BIG BANG RADIO
+							</text>
+						</>
+					)}
 				</g>
 			</svg>
 			<Gutter side="right" strength={0.35} />
@@ -335,7 +351,7 @@ const CoverInside: React.FC = () => (
  * A leaf hinged on its left edge, built from vertical strips: each strip is rotated a little more than the one
  * before, so the free edge leads and the paper bends. Front and back faces are lit by their angle.
  */
-const Leaf: React.FC<{
+export const Leaf: React.FC<{
 	readonly theta: number;
 	readonly bend: number;
 	readonly strips: number;
@@ -371,7 +387,7 @@ const Leaf: React.FC<{
 };
 
 /** Each leaf gets its own 3D context, so leaves stack in DOM order instead of z-fighting when they lie flat. */
-const Stage: React.FC<{readonly x: number; readonly y: number; readonly w: number; readonly h: number; readonly children: React.ReactNode}> = ({x, y, w, h, children}) => (
+export const Stage: React.FC<{readonly x: number; readonly y: number; readonly w: number; readonly h: number; readonly children: React.ReactNode}> = ({x, y, w, h, children}) => (
 	<div style={{position: 'absolute', inset: 0, perspective: 2600, perspectiveOrigin: ORIGIN}}>
 		<div style={{position: 'absolute', left: x, top: y, width: w, height: h, transformStyle: 'preserve-3d'}}>{children}</div>
 	</div>
