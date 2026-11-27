@@ -1,12 +1,12 @@
 import {Audio} from '@remotion/media';
 import React from 'react';
-import {AbsoluteFill, Img, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '../editorial/fonts';
 import {SANS, SERIF} from '../editorial/fonts';
 import {EXPO_OUT, IN, IN_OUT, mix, p, QUART_OUT} from '../editorial/motion';
-import {RATIO} from '../editorial/Logo';
 import {SEASONS, type SeasonKey} from '../editorial/theme';
 import {SFX} from '../reels/kit/Sfx';
+import {OB, Opening, OPENING_LEN} from './darkroom/Opening';
 import {CropMarks, DevelopMask, EdgeCode, Grain, INK_ON_PAPER, LogoImage, NAVY, NIGHT, PAPER, Room, Sheen, Sheet, Sprockets} from './darkroom/Darkroom';
 
 /*
@@ -42,9 +42,9 @@ export const COPY = {
 };
 
 /** Scene lengths in frames (30 fps). Each sentence holds ≈0.3 s per word after it has developed. */
-const LEN = {intro: 84, latent: 150, exposure: 150, film: 150, contact: 265, question: 140, double: 200, test: 150, sweep: 130, wire: 150, rewind: 145, final: 190} as const;
+const LEN = {opening: OPENING_LEN, film: 150, contact: 265, question: 140, double: 200, test: 150, sweep: 130, wire: 150, rewind: 145, final: 190} as const;
 type SceneKey = keyof typeof LEN;
-const ORDER: SceneKey[] = ['intro', 'latent', 'exposure', 'film', 'contact', 'question', 'double', 'test', 'sweep', 'wire', 'rewind', 'final'];
+const ORDER: SceneKey[] = ['opening', 'film', 'contact', 'question', 'double', 'test', 'sweep', 'wire', 'rewind', 'final'];
 export const AT = ORDER.reduce(
 	(acc, k, i) => ({...acc, [k]: i === 0 ? 0 : acc[ORDER[i - 1]] + LEN[ORDER[i - 1]]}),
 	{} as Record<SceneKey, number>,
@@ -72,195 +72,6 @@ const Dev: React.FC<{readonly at: number; readonly dur?: number; readonly out?: 
 /** Fade + optional exit transform for a whole scene. */
 const exitK = (f: number, len: number, d = 16) => p(f, len - d, len, IN);
 
-/* ───────────────────────── 0 · INTRO – "Be visionary." ───────────────────────── */
-/* The logo is exposed like a print: the wave develops first, then the ring is traced by a point of light. */
-
-const LOGO_W = 380;
-const LOGO_H = LOGO_W * RATIO;
-const LOGO_X = (W - LOGO_W) / 2;
-const LOGO_Y = 700;
-const SPLIT = 0.598; // the wave starts at 59.8 % of the logo's height
-
-const Intro: React.FC = () => {
-	const f = useCurrentFrame();
-	const room = p(f, 0, 16, QUART_OUT);
-	const wave = p(f, 4, 30, IN_OUT);
-	const ring = p(f, 16, 46, IN_OUT);
-	const sheen = p(f, 46, 64, IN_OUT);
-	const out = exitK(f, LEN.intro, 16);
-	const logoSrc = staticFile('brand/offervisions-logo-white.png');
-	// the point of light that traces the ring
-	const cx = 0.589 * LOGO_W;
-	const cy = 0.534 * LOGO_H;
-	const r = 0.289 * LOGO_W;
-	const theta = ((215 + 360 * ring) * Math.PI) / 180;
-	const tipX = cx + r * Math.sin(theta);
-	const tipY = cy - r * Math.cos(theta);
-	const letters = COPY.intro.split('');
-	return (
-		<AbsoluteFill style={{opacity: 1 - out}}>
-			<AbsoluteFill style={{opacity: room}}>
-				<Room light={{x: 50, y: 44}} />
-				{/* a soft pool of enlarger light under the logo */}
-				<AbsoluteFill style={{background: `radial-gradient(circle 520px at 50% 44%, rgba(255,255,255,${0.07 * wave}), transparent 70%)`}} />
-			</AbsoluteFill>
-			<div style={{position: 'absolute', left: LOGO_X, top: LOGO_Y, width: LOGO_W, height: LOGO_H, transform: `scale(${mix(0.97, 1, ring) + out * 0.03})`, filter: `blur(${out * 4}px)`}}>
-				{/* wave: exposed left → right */}
-				<Img
-					src={logoSrc}
-					style={{
-						position: 'absolute',
-						inset: 0,
-						width: '100%',
-						clipPath: `inset(${SPLIT * 100}% 0 0 0)`,
-						WebkitMaskImage: `linear-gradient(90deg, #000 ${-30 + 150 * wave}%, transparent ${-5 + 150 * wave}%)`,
-						transform: `translateY(${(1 - wave) * 16}px)`,
-						opacity: Math.min(1, wave * 1.6),
-					}}
-				/>
-				{/* ring: traced clockwise from the wave */}
-				<Img
-					src={logoSrc}
-					style={{
-						position: 'absolute',
-						inset: 0,
-						width: '100%',
-						clipPath: `inset(0 0 ${(1 - SPLIT) * 100}% 0)`,
-						WebkitMaskImage: `conic-gradient(from 215deg at ${58.9}% ${53.4}%, #000 0deg, #000 ${360 * ring}deg, transparent ${360 * ring + 0.5}deg)`,
-						opacity: ring > 0 ? 1 : 0,
-					}}
-				/>
-				{/* light sweeping across the finished mark */}
-				<div
-					style={{
-						position: 'absolute',
-						inset: 0,
-						WebkitMaskImage: `url(${logoSrc})`,
-						WebkitMaskSize: '100% 100%',
-						background: `linear-gradient(110deg, transparent ${-40 + 170 * sheen}%, rgba(140,160,255,0.9) ${-25 + 170 * sheen}%, transparent ${-10 + 170 * sheen}%)`,
-						opacity: sheen > 0 && sheen < 1 ? 1 : 0,
-					}}
-				/>
-				<div
-					style={{
-						position: 'absolute',
-						left: tipX - 40,
-						top: tipY - 40,
-						width: 80,
-						height: 80,
-						borderRadius: 40,
-						background: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(190,205,255,0.35) 28%, transparent 70%)',
-						opacity: Math.sin(Math.PI * ring),
-					}}
-				/>
-			</div>
-			<div style={{position: 'absolute', top: LOGO_Y + LOGO_H + 92, left: 0, right: 0, textAlign: 'center', fontFamily: SERIF, fontStyle: 'italic', fontWeight: 300, fontSize: 64, color: '#fff', letterSpacing: '0.01em'}}>
-				{letters.map((ch, i) => {
-					const k = p(f, 40 + i * 1.6, 62 + i * 1.6, QUART_OUT);
-					return (
-						<span key={i} style={{display: 'inline-block', whiteSpace: 'pre', opacity: k, filter: `blur(${(1 - k) * 8}px)`, transform: `translateY(${(1 - k) * 10}px)`}}>
-							{ch}
-						</span>
-					);
-				})}
-			</div>
-			<svg width={W} height={1920} style={{position: 'absolute', inset: 0, opacity: 0.45 * p(f, 50, 70)}}>
-				<EdgeCode x={W / 2 - 236} y={1470} text="OFFERVISIONS 2027  ▸  PART ONE" color="#fff" size={17} />
-			</svg>
-		</AbsoluteFill>
-	);
-};
-
-/* ───────────────────────── 1 · LATENT – the first page develops (style frame A) ───────────────────────── */
-
-const Latent: React.FC = () => {
-	const f = useCurrentFrame();
-	const Wd = 840;
-	const H = 1080;
-	const enter = p(f, 0, 70, QUART_OUT);
-	const lift = p(f, LEN.latent - 22, LEN.latent, IN);
-	const flash = p(f, LEN.latent - 10, LEN.latent, IN);
-	return (
-		<AbsoluteFill>
-			<div style={{position: 'absolute', inset: 0, opacity: p(f, 0, 18), transform: `scale(${1 + lift * 0.1})`, transformOrigin: '50% 52%'}}>
-				<Sheet x={120} y={mix(520, 470, enter)} w={Wd} h={H} rx={mix(40, 34, enter) - lift * 18} rz={mix(-10, -7, enter) + lift * 3} shadow={0.7}>
-					<svg width={Wd} height={H} viewBox={`0 0 ${Wd} ${H}`}>
-						<DevelopMask id="l1" w={Wd} h={H} progress={1.4 * p(f, 10, 58, IN_OUT)} seed={4} />
-						<DevelopMask id="l2" w={Wd} h={H} progress={1.4 * p(f, 34, 82, IN_OUT)} seed={9} />
-						<DevelopMask id="l3" w={Wd} h={H} progress={1.2 * p(f, 4, 50, IN_OUT)} seed={2} scale={0.02} />
-						<g mask="url(#l3)">
-							<EdgeCode x={60} y={78} text="OFFERVISIONS 2027  ▸  PART ONE  ▸  WINTER" color={INK_ON_PAPER} size={17} opacity={0.75} />
-							<EdgeCode x={Wd - 160} y={78} text="FRAME 00" color={INK_ON_PAPER} size={17} opacity={0.75} />
-							<line x1={60} y1={100} x2={Wd - 60} y2={100} stroke={INK_ON_PAPER} strokeWidth={1.5} opacity={0.3} />
-							<EdgeCode x={60} y={H - 54} text="▸ 00   ▸ 00A   ▸ 01   ▸ 01A   ▸ 02" color={INK_ON_PAPER} size={15} opacity={0.35} />
-						</g>
-						<g mask="url(#l1)" fill={INK_ON_PAPER} fontFamily={SERIF} fontSize={124} letterSpacing={-2}>
-							<text x={60} y={380}>{COPY.hook[0]}</text>
-							<text x={60} y={510}>{COPY.hook[1]}</text>
-						</g>
-						<g mask="url(#l2)" fill={INK_ON_PAPER} fontFamily={SERIF} fontStyle="italic" fontSize={80} fontWeight={300}>
-							<text x={60} y={650}>{COPY.hookSub[0]}</text>
-							<text x={60} y={742}>{COPY.hookSub[1]}</text>
-						</g>
-					</svg>
-					<Sheen angle={118} at={mix(10, 46, p(f, 0, LEN.latent, IN_OUT))} />
-				</Sheet>
-			</div>
-			{/* the enlarger switches on */}
-			<AbsoluteFill style={{background: PAPER, opacity: flash * 0.92}} />
-		</AbsoluteFill>
-	);
-};
-
-/* ───────────────────────── 2 · EXPOSURE – the Winter cover, negative → positive ───────────────────────── */
-
-const Exposure: React.FC = () => {
-	const f = useCurrentFrame();
-	const flash = 1 - p(f, 0, 20, QUART_OUT);
-	const expose = p(f, 4, 34, QUART_OUT);
-	const positive = p(f, 38, 74, IN_OUT);
-	const off = p(f, LEN.exposure - 26, LEN.exposure, IN_OUT);
-	const size = 760;
-	return (
-		<AbsoluteFill>
-			{/* enlarger beam */}
-			<AbsoluteFill
-				style={{
-					background: 'linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.05) 60%, transparent 100%)',
-					clipPath: 'polygon(42% 0%, 58% 0%, 92% 66%, 8% 66%)',
-					opacity: (1 - positive * 0.6) * (1 - off),
-				}}
-			/>
-			<div
-				style={{
-					position: 'absolute',
-					left: (W - size) / 2,
-					top: 380,
-					width: size,
-					height: size,
-					transform: `translateY(${off * 200}px) scale(${mix(1, 320 / size, off)}) rotate(${mix(-1.2, 0, off)}deg)`,
-					boxShadow: `0 40px 90px rgba(0,0,0,${0.5 * positive})`,
-					opacity: expose,
-				}}
-			>
-				<Img src={staticFile(COVERS[0])} style={{width: '100%', height: '100%', filter: `invert(${1 - positive}) contrast(${mix(0.8, 1, positive)})`}} />
-				<div style={{position: 'absolute', inset: 0, background: '#fff', opacity: (1 - expose) * 0.6 + flash * 0.3}} />
-			</div>
-			<div style={{opacity: 1 - p(f, LEN.exposure - 30, LEN.exposure - 14)}}>
-				<Dev at={62} style={{top: 1196, fontFamily: SANS, fontWeight: 600, fontSize: 24, letterSpacing: '0.24em', opacity: 0.85}}>
-					{COPY.season.label}
-				</Dev>
-				<Dev at={74} style={{top: 1248, fontFamily: SERIF, fontStyle: 'italic', fontWeight: 300, fontSize: 70, lineHeight: 1.15}}>
-					{COPY.season.line[0]}
-					<br />
-					{COPY.season.line[1]}
-				</Dev>
-			</div>
-			<AbsoluteFill style={{background: PAPER, opacity: flash * 0.92}} />
-		</AbsoluteFill>
-	);
-};
-
 /* ───────────────────────── 3 · FILM – five parts on one roll; Winter is selected ───────────────────────── */
 
 const FilmStrip: React.FC = () => {
@@ -285,7 +96,7 @@ const FilmStrip: React.FC = () => {
 							<Sprockets x={-pitch * 3} y={198} length={pitch * 10} color="#232a4a" pitch={30} />
 						</g>
 						{COVERS.map((src, i) => (
-							<g key={src} opacity={i === 0 ? 1 : p(f, 6 + i * 4, 24 + i * 4) * mix(1, 0.45, zoomIn)}>
+							<g key={src} opacity={i === 0 ? p(f, 0, 14, QUART_OUT) : p(f, 6 + i * 4, 24 + i * 4) * mix(1, 0.45, zoomIn)}>
 								<image href={staticFile(src)} x={i * pitch - fs / 2} y={-fs / 2} width={fs} height={fs} />
 								<EdgeCode x={i * pitch - fs / 2} y={-fs / 2 - 14} text={`${String(i * 6).padStart(2, '0')}  ▸`} color="#8e97c4" size={14} opacity={0.8} />
 								<text x={i * pitch} y={fs / 2 + 70} textAnchor="middle" fill="#fff" opacity={0.85 * z} fontFamily={SANS} fontWeight={600} fontSize={30} letterSpacing={7}>
@@ -753,9 +564,13 @@ const Sound: React.FC = () => {
 				src={staticFile('audio/2027/ambient.mp3')}
 				volume={(fr) => 0.5 * interpolate(fr, [0, fps * 1.2, durationInFrames - fps * 2, durationInFrames], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}
 			/>
-			<Cue name="intro · air" at={0} src={SFX.air} volume={0.28} />
-			<Cue name="intro · ring complete (impact 1)" at={44} src={SFX.chime} volume={0.32} />
-			<Cue name="enlarger on" at={AT.latent + LEN.latent - 12} src={SFX.air} volume={0.32} />
+			<Cue name="air" at={0} src={SFX.air} volume={0.26} />
+			<Cue name="the O arrives (impact 1)" at={OB.o[1] - 10} src={SFX.chime} volume={0.3} />
+			<Cue name="cover opens" at={OB.cover[0] + 4} src={SFX.pageTurn} volume={0.42} />
+			{[0, 40, 80].map((d) => (
+				<Cue key={d} name="pen on paper" at={OB.write + d} src={SFX.pencil} volume={0.16} />
+			))}
+			<Cue name="page turns" at={OB.turn[0] + 2} src={SFX.pageTurn} volume={0.5} />
 			<Cue name="crop marks" at={AT.film + 106} src={SFX.pencil} volume={0.35} />
 			{COPY.chapters.map((ch, i) => (
 				<Cue key={ch.n} name={`grease pencil · ch${ch.n}`} at={AT.contact + CH_START + i * CH_LEN - 8} src={SFX.pencil} volume={0.22} />
@@ -777,9 +592,7 @@ const Sound: React.FC = () => {
 /* ───────────────────────── composition ───────────────────────── */
 
 const SCENE: Record<SceneKey, React.FC> = {
-	intro: Intro,
-	latent: Latent,
-	exposure: Exposure,
+	opening: Opening,
 	film: FilmStrip,
 	contact: ContactSheet,
 	question: Question,
@@ -797,13 +610,13 @@ export const WinterDarkroom: React.FC = () => {
 	return (
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
 			{/* the darkroom itself, beneath every scene after the intro */}
-			<AbsoluteFill style={{opacity: p(f, AT.latent - 6, AT.latent + 14)}}>
+			<AbsoluteFill style={{opacity: p(f, 0, 16)}}>
 				<Room light={{x: 50, y: 50}} />
 			</AbsoluteFill>
 			{ORDER.map((k) => {
 				const C = SCENE[k];
 				return (
-					<Sequence key={k} name={`${ORDER.indexOf(k)} · ${k}`} from={AT[k]} durationInFrames={LEN[k]}>
+					<Sequence key={k} name={`${ORDER.indexOf(k)} · ${k}`} from={AT[k]} durationInFrames={LEN[k] + (k === 'opening' ? 12 : 0)}>
 						<C />
 					</Sequence>
 				);
