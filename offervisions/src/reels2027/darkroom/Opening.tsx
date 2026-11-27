@@ -24,7 +24,7 @@ export const OPENING_COPY = {
 export const OB = {
 	hand: [4, 48],
 	o: [24, 74],
-	motto: 70,
+	motto: 64,
 	pullBack: [100, 136],
 	cover: [130, 176],
 	write: 182,
@@ -95,7 +95,7 @@ const sineInOut = (x: number) => 0.5 - 0.5 * Math.cos(Math.PI * x);
 /** Text written onto the page: a feathered nib edge follows the pen, the outline runs a hair ahead of the ink. */
 const textProps = (l: Line, x0: number) => ({x: x0, y: l.y, fontFamily: SERIF, fontSize: l.size, fontStyle: l.italic ? 'italic' : 'normal', fontWeight: l.weight ?? 400, letterSpacing: l.ls ?? 0});
 
-type WrittenProps = {readonly id: string; readonly lines: readonly Line[]; readonly start: number; readonly color: string; readonly speed?: number; readonly done?: boolean};
+type WrittenProps = {readonly id: string; readonly lines: readonly Line[]; readonly start: number; readonly color: string; readonly speed?: number; readonly done?: boolean; readonly outline?: boolean; readonly feather?: number};
 
 const Written: React.FC<WrittenProps> = (props) =>
 	props.done ? (
@@ -110,7 +110,7 @@ const Written: React.FC<WrittenProps> = (props) =>
 		<LiveWritten {...props} />
 	);
 
-const LiveWritten: React.FC<WrittenProps> = ({id, lines, start, color, speed = 0.24}) => {
+const LiveWritten: React.FC<WrittenProps> = ({id, lines, start, color, speed = 0.24, outline = true, feather: featherK = 0.16}) => {
 	const f = useCurrentFrame();
 	const xs = useGlyphX(lines);
 	const times = useMemo(() => schedule(lines, xs, start, speed), [lines, xs, start, speed]);
@@ -130,7 +130,7 @@ const LiveWritten: React.FC<WrittenProps> = ({id, lines, start, color, speed = 0
 					const k = sineInOut(Math.min(1, (f - ts[i]) / (ts[i + 1] - ts[i])));
 					rx = x[i] + (x[i + 1] - x[i]) * k;
 				}
-				const feather = l.size * 0.16;
+				const feather = l.size * featherK;
 				const lead = l.size * 0.1;
 				const box = {x: l.x - l.size * 0.4, y: l.y - l.size * 1.1, width: x[n] + l.size * 1.4, height: l.size * 1.6};
 				const mask = (suffix: string, edge: number) => (
@@ -150,9 +150,9 @@ const LiveWritten: React.FC<WrittenProps> = ({id, lines, start, color, speed = 0
 							{mask('f', rx)}
 							{mask('s', rx + lead)}
 						</defs>
-						<text {...textProps(l, l.x)} fill="none" stroke={color} strokeWidth={Math.max(0.6, l.size / 110)} opacity={0.55} mask={`url(#${id}${li}s)`}>
+						{outline ? <text {...textProps(l, l.x)} fill="none" stroke={color} strokeWidth={Math.max(0.6, l.size / 110)} opacity={0.55} mask={`url(#${id}${li}s)`}>
 							{l.text}
-						</text>
+						</text> : null}
 						<text {...textProps(l, l.x)} fill={color} mask={`url(#${id}${li}f)`}>
 							{l.text}
 						</text>
@@ -165,7 +165,7 @@ const LiveWritten: React.FC<WrittenProps> = ({id, lines, start, color, speed = 0
 
 /* ───────────────────────── the pages ───────────────────────── */
 
-const MOTTO_LINE: readonly Line[] = [{text: OPENING_COPY.motto, center: true, x: CW / 2, y: 540, size: 36, italic: true, weight: 300}];
+const MOTTO_LINE: readonly Line[] = [{text: OPENING_COPY.motto, center: true, x: CW / 2, y: 532, size: 28, italic: true, weight: 300}];
 const PAGE_LINES: readonly Line[] = [
 	{text: OPENING_COPY.page[0], x: 72, y: 362, size: 120, ls: -2},
 	{text: OPENING_COPY.page[1], x: 72, y: 488, size: 120, ls: -2},
@@ -297,7 +297,9 @@ const CoverFront: React.FC = () => {
 				/>
 			</div>
 			<svg width={CW} height={CH} style={{position: 'absolute', inset: 0}}>
-				<Written id="motto" lines={MOTTO_LINE} start={OB.motto} color="#ffffff" speed={0.3} />
+				<g opacity={0.82}>
+					<Written id="motto" lines={MOTTO_LINE} start={OB.motto} color="#ffffff" speed={0.11} outline={false} feather={0.5} />
+				</g>
 				<text x={CW / 2} y={CH - 92} textAnchor="middle" fill="#fff" opacity={0.75 * wordmark} fontFamily={SANS} fontSize={17} letterSpacing={7}>
 					OFFERVISIONS
 				</text>
