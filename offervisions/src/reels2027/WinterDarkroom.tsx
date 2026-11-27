@@ -40,7 +40,7 @@ export const COPY = {
 };
 
 /** Scene lengths in frames (30 fps). Each sentence holds ≈0.3 s per word after it has developed. */
-const LEN = {opening: OPENING_LEN, film: 150, contact: 265, question: 140, double: 200, sweep: 130, wire: 150, rewind: 145, final: 190} as const;
+const LEN = {opening: OPENING_LEN, film: 140, contact: 265, question: 130, double: 185, sweep: 130, wire: 140, rewind: 135, final: 175} as const;
 type SceneKey = keyof typeof LEN;
 const ORDER: SceneKey[] = ['opening', 'film', 'contact', 'question', 'double', 'sweep', 'wire', 'rewind', 'final'];
 export const AT = ORDER.reduce(
@@ -75,14 +75,14 @@ const exitK = (f: number, len: number, d = 16) => p(f, len - d, len, IN);
 const FilmStrip: React.FC = () => {
 	const f = useCurrentFrame();
 	const zoomOut = p(f, 12, 54, IN_OUT);
-	const zoomIn = p(f, 96, 124, IN_OUT);
+	const zoomIn = p(f, 88, 116, IN_OUT);
 	const z = zoomOut * (1 - zoomIn);
 	const s = mix(1, 0.55, z);
 	const c = mix(0, 2, z);
 	const push = p(f, LEN.film - 16, LEN.film, IN);
 	const fs = 320;
 	const pitch = 380;
-	const crop = p(f, 108, 132, QUART_OUT);
+	const crop = p(f, 100, 122, QUART_OUT);
 	return (
 		<AbsoluteFill style={{opacity: 1 - push}}>
 			<div style={{position: 'absolute', inset: 0, transform: `scale(${1 + push * 1.6})`, transformOrigin: '50% 50%'}}>
@@ -247,8 +247,8 @@ const DoubleExposure: React.FC = () => {
 	const f = useCurrentFrame();
 	const Wd = 860;
 	const H = 760;
-	const ghost = p(f, 8, 40, QUART_OUT) * (1 - p(f, 92, 132, IN_OUT));
-	const dodge = p(f, 88, 140, IN_OUT);
+	const ghost = p(f, 8, 40, QUART_OUT) * (1 - p(f, 82, 120, IN_OUT));
+	const dodge = p(f, 78, 126, IN_OUT);
 	const out = exitK(f, LEN.double, 16);
 	const lx = mix(-200, Wd * 0.45, dodge);
 	return (
@@ -527,11 +527,11 @@ const Sound: React.FC = () => {
 				<Cue key={d} name="pen on paper" at={OB.write + d} src={SFX.pencil} volume={0.16} />
 			))}
 			<Cue name="page turns" at={OB.turn[0] + 2} src={SFX.pageTurn} volume={0.5} />
-			<Cue name="crop marks" at={AT.film + 106} src={SFX.pencil} volume={0.35} />
+			<Cue name="crop marks" at={AT.film + 98} src={SFX.pencil} volume={0.35} />
 			{COPY.chapters.map((ch, i) => (
 				<Cue key={ch.n} name={`grease pencil · ch${ch.n}`} at={AT.contact + CH_START + i * CH_LEN - 8} src={SFX.pencil} volume={0.22} />
 			))}
-			<Cue name="dodge" at={AT.double + 86} src={SFX.air} volume={0.22} />
+			<Cue name="dodge" at={AT.double + 76} src={SFX.air} volume={0.22} />
 			<Cue name="light sweep" at={AT.sweep + 10} src={SFX.air} volume={0.26} />
 			{[14, 30, 46].map((a, i) => (
 				<Cue key={a} name={`print ${i + 1}`} at={AT.wire + a} src={SFX.pageTurn} volume={0.2} />

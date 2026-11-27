@@ -1,6 +1,6 @@
 # Offervisions 2027 · Video 2: Part One · Winter · Visualisation ("The Darkroom")
 
-**Post:** Thursday, January 14, 2027 · **Master:** `out/2027/ov27-v2-winter-darkroom.mp4` · 1080×1920 · 30 fps · about 62 s
+**Post:** Thursday, January 14, 2027 · **Master:** `out/2027/ov27-v2-winter-darkroom.mp4` · 1080×1920 · 30 fps · about 59.5 s
 **Source:** `src/reels2027/WinterDarkroom.tsx`. All copy is in `COPY` and all timing is in `LEN`. The composition is `OV27-V2-WinterDarkroom` (also set as `Master`).
 
 **Idea:** Visualisation means seeing clearly. In a darkroom the image is already on the paper before you can see it, and light and patience bring it up. Every line *develops* instead of sliding in.

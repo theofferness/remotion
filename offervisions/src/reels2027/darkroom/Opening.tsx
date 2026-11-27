@@ -29,9 +29,9 @@ export const OB = {
 	cover: [130, 176],
 	write: 182,
 	turn: [334, 384],
-	handoff: [492, 516],
+	handoff: [472, 496],
 } as const;
-export const OPENING_LEN = 504; // the next scene starts here; the opening keeps 12 frames of tail to dissolve into it
+export const OPENING_LEN = 484; // the next scene starts here; the opening keeps 12 frames of tail to dissolve into it
 
 /* geometry (screen px). The book is centred on (540, 930). */
 const PW = 720;
