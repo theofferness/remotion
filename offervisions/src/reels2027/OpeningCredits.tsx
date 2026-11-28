@@ -76,7 +76,7 @@ export const Hook: React.FC = () => {
 			<SerifWords text={OPENING_COPY.hook[1]} at={13} out={118} color={pal.ink} size={96} italic weight={300} />
 		</Center>
 		<Center top={1052}>
-			<Tracked text={OPENING_COPY.hookSub} at={34} out={118} color={pal.ink} size={22} spacing={0.32} style={{opacity: 0.75}} />
+			<Tracked text={OPENING_COPY.hookSub} at={34} out={118} color={pal.ink} size={32} spacing={0.26} style={{opacity: 0.75}} />
 		</Center>
 	</>
 	);
@@ -93,9 +93,9 @@ export const Book: React.FC = () => {
 			<Center top={800}>
 				<BrandLogo variant={pal.logo} width={250} reveal={p(t, 30, 58, IN_OUT)} />
 				<div style={{height: 34}} />
-				<Tracked text={BRAND.wordmark} at={48} color={pal.ink} size={34} weight={400} spacing={0.34} />
+				<Tracked text={BRAND.wordmark} at={48} color={pal.ink} size={44} weight={400} spacing={0.32} />
 				<div style={{height: 14}} />
-				<Tracked text={OPENING_COPY.podcast} at={60} color={pal.ink} size={19} spacing={0.32} style={{opacity: 0.7}} />
+				<Tracked text={OPENING_COPY.podcast} at={60} color={pal.ink} size={28} spacing={0.26} style={{opacity: 0.7}} />
 			</Center>
 			<Center top={1290}>
 				<SerifWords text={OPENING_COPY.tagline[0]} at={72} color={pal.ink} size={38} italic weight={300} stagger={2} />
@@ -166,13 +166,13 @@ export const Year: React.FC = () => {
 				<SerifWords text={OPENING_COPY.year[0]} at={4} color={pal.ink} size={112} />
 				<SerifWords text={OPENING_COPY.year[1]} at={10} color={pal.ink} size={112} italic weight={300} />
 			</Center>
-			<Center top={1080}>
-				<Tracked text={OPENING_COPY.yearSub} at={24} color={pal.ink} size={21} spacing={0.3} style={{opacity: 0.75}} />
+			<Center top={1086}>
+				<Tracked text={OPENING_COPY.yearSub} at={24} color={pal.ink} size={28} spacing={0.2} style={{opacity: 0.75}} />
 			</Center>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				{PARTS.map((k, i) => {
 					const s = p(t, 26 + i * 4, 40 + i * 4, EXPO_OUT);
-					return <circle key={k} cx={220 + i * 160} cy={1040} r={11 * s} fill={SEASONS[k].bg} stroke={pal.ink} strokeWidth={2} />;
+					return <circle key={k} cx={220 + i * 160} cy={1040} r={18 * s} fill={SEASONS[k].bg} stroke={pal.ink} strokeWidth={3} />;
 				})}
 			</svg>
 		</>
@@ -242,18 +242,18 @@ export const Chapters: React.FC = () => {
 				<SerifWords text={OPENING_COPY.chapters} at={8} out={106} color={pal.ink} size={128} />
 			</Center>
 			<Center top={920}>
-				<Tracked text={OPENING_COPY.chaptersSub} at={20} out={106} color={pal.ink} size={22} spacing={0.32} style={{opacity: 0.8}} />
+				<Tracked text={OPENING_COPY.chaptersSub} at={20} out={106} color={pal.ink} size={30} spacing={0.26} style={{opacity: 0.8}} />
 			</Center>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				{Array.from({length: 24}).map((_, i) => {
 					const s = p(t, 12 + i * 1.4, 28 + i * 1.4, EXPO_OUT);
-					const x0 = 200 + i * (680 / 23);
+					const x0 = 130 + i * (820 / 23);
 					const x = x0 + (540 - x0) * close;
-					const h = 96 * s * (1 - close * 0.9);
+					const h = 150 * s * (1 - close * 0.9);
 					return (
 						<g key={i}>
-							<line x1={x} x2={x} y1={1250} y2={1250 - h} stroke={pal.ink} strokeWidth={2} opacity={0.75} />
-							<circle cx={x} cy={1250 - h - 10} r={5 * s * (1 - close)} fill={SEASONS[partOf(i + 1)].bg} stroke={pal.ink} strokeWidth={1.5} />
+							<line x1={x} x2={x} y1={1250} y2={1250 - h} stroke={pal.ink} strokeWidth={3} opacity={0.75} />
+							<circle cx={x} cy={1250 - h - 13} r={9 * s * (1 - close)} fill={SEASONS[partOf(i + 1)].bg} stroke={pal.ink} strokeWidth={2.2} />
 						</g>
 					);
 				})}
@@ -320,7 +320,7 @@ export const LINE_KEYS: LineKey[] = [
 	},
 	{at: T.year[0], morph: 18, shape: () => hline(1040, 140, 940)},
 	{at: T.pages[0] - 6, morph: 8, opacity: 0, shape: () => hline(1040, 140, 940)},
-	{at: T.chapters[0] + 4, morph: 16, shape: () => hline(1250, 180, 900)},
+	{at: T.chapters[0] + 4, morph: 16, shape: () => hline(1250, 110, 970)},
 	{at: T.chapters[0] + 106, morph: 16, shape: () => hline(1250, 538, 542)},
 	{at: T.end[0], morph: 22, opacity: 0.7, shape: () => hline(1118, 505, 575)},
 ];
