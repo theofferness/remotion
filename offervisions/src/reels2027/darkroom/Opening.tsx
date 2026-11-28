@@ -464,11 +464,11 @@ export const Opening: React.FC = () => {
  * The first frame of the video, re-usable: the camera close on the navy cover, before the hand rises.
  * The last scene dissolves into this, so the Reel loops seamlessly.
  */
-export const LoopFrame: React.FC = () => (
+export const LoopFrame: React.FC<{readonly color?: string}> = ({color = NAVY}) => (
 	<AbsoluteFill>
 		<div style={{position: 'absolute', inset: 0, transformOrigin: ORIGIN, transform: 'scale(2)'}}>
 			<div style={{position: 'absolute', left: CX, top: CY, width: CW, height: CH}}>
-				<CoverFront still />
+				<CoverFront still color={color} />
 			</div>
 		</div>
 	</AbsoluteFill>

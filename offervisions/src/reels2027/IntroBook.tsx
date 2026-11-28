@@ -8,7 +8,8 @@ import {IN_OUT, mix, p} from '../editorial/motion';
 import {SEASONS} from '../editorial/theme';
 import {SFX} from '../reels/kit/Sfx';
 import {PAPER} from './darkroom/Darkroom';
-import {CH, CoverFront, CoverInside, CW, CX, CY, Gutter, Leaf, OB, ORIGIN, PH, PW, PX, PY, Stage} from './darkroom/Opening';
+import {CH, CoverFront, CoverInside, CW, CX, CY, Gutter, Leaf, type Line, LoopFrame, OB, ORIGIN, PH, PW, PX, PY, Stage, Written} from './darkroom/Opening';
+import {SANS} from '../editorial/fonts';
 import {Book, Chapters, EndCard, Hook, Host, type InkPalette, InkCtx, LINE_KEYS, PAGE_LEN, PARTS, Radio, SeasonPage, T, Year} from './OpeningCredits';
 
 /*
@@ -22,11 +23,15 @@ const BLACK = '#0d0d0d';
 const CREAM: InkPalette = {ink: '#1f1f1f', bg: PAPER, logo: 'black'};
 const NIGHT_PAGE: InkPalette = {ink: '#ffffff', bg: BLACK, logo: 'white'};
 
-const OFFSET = 150; // the first page starts as the cover swings open
+const OFFSET = 150;
+const END_EXTRA = 40; // time for the invitation before the loop
+const LOOP = 26; // the last frames dissolve back into the first frame // the first page starts as the cover swings open
 const TURN = 28;
 const CAM_S = 1.32;
 const CONTENT_SCALE = PW / 1080;
 const CONTENT_Y = PH / 2 - 1000 * CONTENT_SCALE; // the screens' optical centre (y ≈ 1000) sits mid-page
+
+const CTA_LINE: readonly Line[] = [{text: 'Listen to the podcast', center: true, x: PW / 2, y: 852, size: 44, italic: true, weight: 300}];
 
 type Scene = {readonly key: string; readonly name: string; readonly span: readonly [number, number]; readonly freeze: number; readonly pal: InkPalette; readonly el: React.ReactNode};
 const sh = (span: readonly [number, number]) => [span[0] + OFFSET, span[1] + OFFSET] as const;
@@ -48,7 +53,7 @@ const SCENES: Scene[] = [
 		}),
 	),
 	{key: 'chapters', name: '7 · 24 chapters', span: sh(T.chapters), freeze: 103, pal: CREAM, el: <Chapters />},
-	{key: 'end', name: '8 · Introduction', span: sh(T.end), freeze: T.end[1] - T.end[0], pal: NIGHT_PAGE, el: <EndCard />},
+	{key: 'end', name: '8 · Introduction', span: [T.end[0] + OFFSET, T.end[1] + OFFSET + END_EXTRA] as const, freeze: T.end[1] - T.end[0] + END_EXTRA, pal: NIGHT_PAGE, el: <EndCard />},
 ];
 export const INTRO_BOOK_FRAMES = SCENES[SCENES.length - 1].span[1];
 const FIRST_TURN_END = SCENES[1].span[0] + TURN;
@@ -121,10 +126,10 @@ const Cue: React.FC<{readonly at: number; readonly src: string; readonly volume:
 );
 
 const Sound: React.FC = () => {
-	const {fps, durationInFrames} = useVideoConfig();
+	const {durationInFrames} = useVideoConfig();
 	return (
 		<>
-			<Audio name="Ambient bed" src={staticFile('audio/2027/ambient.mp3')} volume={(fr) => 0.5 * interpolate(fr, [0, 6, durationInFrames - fps * 2, durationInFrames], [0.6, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})} />
+			<Audio name="Ambient bed" src={staticFile('audio/2027/ambient.mp3')} volume={(fr) => 0.5 * interpolate(fr, [0, 6, durationInFrames - 6, durationInFrames], [0.6, 1, 1, 0.6], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})} />
 			<Cue name="air" at={0} src={SFX.air} volume={0.26} />
 			<Cue name="the O arrives (impact 1)" at={OB.o[1] - 10} src={SFX.chime} volume={0.3} />
 			<Cue name="cover opens" at={OB.cover[0] + 4} src={SFX.pageTurn} volume={0.42} />
@@ -143,7 +148,9 @@ export const IntroBook: React.FC = () => {
 	const f = useCurrentFrame();
 	const pull = p(f, OB.pullBack[0], OB.pullBack[1], IN_OUT);
 	const lean = p(f, OB.cover[1] - 10, OB.cover[1] + 40, IN_OUT);
-	const S = mix(mix(2, 1, pull), CAM_S, lean);
+	const loop = p(f, INTRO_BOOK_FRAMES - LOOP, INTRO_BOOK_FRAMES - 1, IN_OUT);
+	const S = mix(mix(2, 1, pull), CAM_S, lean) * (1 + 0.3 * loop);
+	const ctaAt = SCENES[SCENES.length - 1].span[0] + 96;
 	const cover = 180 * p(f, OB.cover[0], OB.cover[1], IN_OUT);
 	const coverDone = f >= OB.cover[1];
 
@@ -185,8 +192,20 @@ export const IntroBook: React.FC = () => {
 				))}
 				{coverDone ? [coverStage, pages, leftPaper] : [pages, coverStage]}
 				{turns}
+				{/* the invitation, written by hand on the last page before the loop */}
+				{f >= ctaAt - 2 ? (
+					<svg width={PW} height={PH} style={{position: 'absolute', left: PX, top: PY}}>
+						<Written id="cta" lines={CTA_LINE} start={ctaAt} color="#ffffff" speed={0.34} outline={false} feather={0.3} />
+						<text x={PW / 2} y={898} textAnchor="middle" fill="#fff" opacity={0.85 * p(f, ctaAt + 40, ctaAt + 58)} fontFamily={SANS} fontWeight={600} fontSize={18} letterSpacing={5}>
+							LINK IN BIO
+						</text>
+					</svg>
+				) : null}
 			</div>
-			<Motes ink="#ffffff" opacity={0.35} />
+			<Motes ink="#ffffff" opacity={0.35 * (1 - loop)} />
+			<AbsoluteFill style={{opacity: loop}}>
+				<LoopFrame color={BLACK} />
+			</AbsoluteFill>
 			<Sound />
 		</AbsoluteFill>
 	);
