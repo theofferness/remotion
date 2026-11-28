@@ -82,21 +82,11 @@ export const Hook: React.FC = () => {
 	);
 };
 
-/** The book opens: two hairline pages swing out from the spine, light spills, the logo appears. */
+/** The show's title page: the logo, the wordmark and the tagline. */
 export const Book: React.FC = () => {
 	const t = useCurrentFrame();
 	const pal = useContext(InkCtx);
-	const open = p(t, 4, 40, IN_OUT);
 	const out = p(t, 190, 204, QUART_OUT);
-	const W = 330;
-	const top = 640;
-	const bottom = 1240;
-	const page = (side: -1 | 1) => {
-		const ox = 540 + side * W * open;
-		const pinch = Math.sin(Math.PI * open) * 26;
-		// open polyline: the shared spine is drawn separately so it can part around the logo
-		return `540,${top} ${ox},${top + pinch} ${ox},${bottom - pinch} 540,${bottom}`;
-	};
 	return (
 		<AbsoluteFill style={{opacity: 1 - out}}>
 			{/* (the sketched book was removed: the real book is the frame now) */}
