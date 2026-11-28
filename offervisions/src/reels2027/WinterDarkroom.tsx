@@ -6,7 +6,7 @@ import {SANS, SERIF} from '../editorial/fonts';
 import {EXPO_OUT, IN, IN_OUT, mix, p, QUART_OUT} from '../editorial/motion';
 import {SEASONS, type SeasonKey} from '../editorial/theme';
 import {SFX} from '../reels/kit/Sfx';
-import {LoopFrame, OB, Opening, OPENING_LEN} from './darkroom/Opening';
+import {type Line, LoopFrame, OB, Opening, OPENING_LEN, Written} from './darkroom/Opening';
 import {CropMarks, DevelopMask, EdgeCode, Grain, INK_ON_PAPER, LogoImage, NAVY, NIGHT, PAPER, Room, Sheen, Sheet, Sprockets} from './darkroom/Darkroom';
 
 /*
@@ -36,11 +36,12 @@ export const COPY = {
 	keep: ['Keep it somewhere', 'you’ll see it.'],
 	places: ['NOTES APP', 'STICKY NOTE', 'MIRROR'],
 	back: ['We’ll come back to it', 'at the end of the year.'],
+	cta: ['Listen to the podcast', 'LINK IN BIO'],
 	end: {part: 'PART ONE · WINTER', theme: 'Visualisation', chapter: 'Chapter 1', title: 'Letting Go of Resolutions', date: 'Monday, January 18', slot: 'MONDAYS 11 AM  ·  BIG BANG RADIO'},
 };
 
 /** Scene lengths in frames (30 fps). Each sentence holds ≈0.3 s per word after it has developed. */
-const LEN = {opening: OPENING_LEN, film: 140, contact: 255, question: 130, double: 185, sweep: 130, wire: 140, rewind: 135, final: 185} as const;
+const LEN = {opening: OPENING_LEN, film: 140, contact: 255, question: 130, double: 185, sweep: 130, wire: 130, rewind: 125, final: 215} as const;
 type SceneKey = keyof typeof LEN;
 const ORDER: SceneKey[] = ['opening', 'film', 'contact', 'question', 'double', 'sweep', 'wire', 'rewind', 'final'];
 export const AT = ORDER.reduce(
@@ -447,6 +448,9 @@ const Rewind: React.FC = () => {
 
 /* ───────────────────────── 11 · FINAL PRINT – the sheet darkens into the Chapter 1 cover (style frame C) ───────────────────────── */
 
+const CTA_AT = 90;
+const CTA_LINE: readonly Line[] = [{text: COPY.cta[0], center: true, x: 540, y: 336, size: 58, italic: true, weight: 300}];
+
 const FinalPrint: React.FC = () => {
 	const f = useCurrentFrame();
 	const Wd = 860;
@@ -501,6 +505,13 @@ const FinalPrint: React.FC = () => {
 				</svg>
 				<Sheen angle={112} at={mix(20, 70, p(f, 0, LEN.final, IN_OUT))} />
 			</Sheet>
+			{/* the invitation, written by hand above the print before the loop */}
+			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
+				<Written id="cta" lines={CTA_LINE} start={CTA_AT} color="#ffffff" speed={0.34} outline={false} feather={0.3} />
+				<text x={540} y={392} textAnchor="middle" fill="#fff" opacity={0.85 * p(f, CTA_AT + 40, CTA_AT + 58, QUART_OUT)} fontFamily={SANS} fontWeight={600} fontSize={24} letterSpacing={6}>
+					{COPY.cta[1]}
+				</text>
+			</svg>
 		</AbsoluteFill>
 			<AbsoluteFill style={{opacity: loop}}>
 				<LoopFrame />

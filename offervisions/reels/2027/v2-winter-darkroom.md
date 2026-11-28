@@ -15,7 +15,7 @@
 | 8 | Light sweep | A light slit exposes the paper line by line. | Write the first answer that comes. |
 | 9 | Drying line | Three prints are pegged on a line. | Keep it somewhere you'll see it. / Notes app · Sticky note · Mirror |
 | 10 | Rewind | The roll runs to frame 24 (December) and back to frame 00. | We'll come back to it at the end of the year. |
-| 11 | Final print (still frame C) | The paper darkens to navy, and the logo and Chapter 1 cover develop. | Chapter 1 · Letting Go of Resolutions · Monday, January 18 · Mondays 11 AM · Big Bang Radio |
+| 11 | Final print (still frame C) | The paper darkens to navy, and the logo and Chapter 1 cover develop. "Listen to the podcast" is written by hand above it, with LINK IN BIO, before the loop. | Chapter 1 · Letting Go of Resolutions · Monday, January 18 · Mondays 11 AM · Big Bang Radio |
 
 **Sound:** a quiet ambient bed, plus air, a pencil and paper. Pen on paper while the page is written, and paper sounds for the cover and the page turn. There are two impacts in total: a soft chime when the O arrives, and another when the final logo develops.
 **Loop:** the video opens on the navy cover (no fade from black), and the last scene pushes into the final print until it dissolves into that same cover. The last frame matches the first, and the ambient bed does not fade out, so the Reel repeats seamlessly.
