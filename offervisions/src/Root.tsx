@@ -13,6 +13,7 @@ import {Ch00Video2, getV2Duration, V2_FPS} from './reels/ch00/Video2';
 import {Ch00Cover3} from './reels/ch00/Cover3';
 import {Ch00Video3, getV3Duration, V3_FPS} from './reels/ch00/Video3';
 import {OPENING_FRAMES, OpeningCredits} from './reels2027/OpeningCredits';
+import {INTRO_BOOK_FRAMES, IntroBook} from './reels2027/IntroBook';
 import {PART_ONE_FRAMES, PartOneWinter} from './reels2027/PartOneWinter';
 import {StyleFrameA, StyleFrameB, StyleFrameC} from './reels2027/darkroom/StyleFrames';
 import {DARKROOM_FRAMES, WinterDarkroom} from './reels2027/WinterDarkroom';
@@ -44,6 +45,7 @@ export const RemotionRoot: React.FC = () => {
 				})}
 			/>
 			<Folder name="OV2027-Campaign">
+				<Composition id="OV27-V1-IntroBook" component={IntroBook} fps={30} width={1080} height={1920} durationInFrames={INTRO_BOOK_FRAMES} />
 				<Composition id="OV27-V1-OpeningCredits" component={OpeningCredits} fps={30} width={1080} height={1920} durationInFrames={OPENING_FRAMES} />
 				<Composition id="OV27-V3-Chapter1" component={Chapter1} fps={30} width={1080} height={1920} durationInFrames={CH1_FRAMES} />
 				<Composition id="OV27-V2-WinterDarkroom" component={WinterDarkroom} fps={30} width={1080} height={1920} durationInFrames={DARKROOM_FRAMES} />

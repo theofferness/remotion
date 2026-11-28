@@ -1,5 +1,5 @@
 import {Audio} from '@remotion/media';
-import React from 'react';
+import React, {createContext, useContext} from 'react';
 import {AbsoluteFill, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '../editorial/fonts';
 import {Atmos, hexA, Motes} from '../editorial/Atmos';
@@ -16,7 +16,7 @@ import {SFX} from '../reels/kit/Sfx';
 /* ─────────────── timeline (frames @ 30 fps) ─────────────── */
 // Timing revision (Lucia): same design and animation speeds as the first version;
 // every screen holds until all of its sentences can be read (~0.3 s per word).
-const T = {
+export const T = {
 	hook: [0, 130],
 	book: [130, 335],
 	host: [335, 463],
@@ -27,11 +27,15 @@ const T = {
 	end: [1332, 1532],
 } as const;
 export const OPENING_FRAMES = T.end[1];
-const PAGE_LEN = 104;
-const PARTS: SeasonKey[] = ['winter', 'spring', 'summer', 'fall', 'epilogue'];
+export const PAGE_LEN = 104;
+export const PARTS: SeasonKey[] = ['winter', 'spring', 'summer', 'fall', 'epilogue'];
 
 const INTRO = SEASONS.intro;
 const INK = INTRO.ink;
+
+/** Ink / paper for the shots: white on black by default; the book version sets dark ink on cream paper. */
+export type InkPalette = {readonly ink: string; readonly bg: string; readonly logo: 'white' | 'black'};
+export const InkCtx = createContext<InkPalette>({ink: INTRO.ink, bg: INTRO.bg, logo: 'white'});
 
 /** Copy for Video 1 – all from the 2027 scripts and the Introduction cover. */
 export const OPENING_COPY = {
@@ -63,21 +67,25 @@ const hline = (y: number, x1: number, x2: number): Pt[] => [
 
 /* ─────────────── shots ─────────────── */
 
-const Hook: React.FC = () => (
+export const Hook: React.FC = () => {
+	const pal = useContext(InkCtx);
+	return (
 	<>
 		<Center top={720}>
-			<SerifWords text={OPENING_COPY.hook[0]} at={6} out={118} color={INK} size={124} />
-			<SerifWords text={OPENING_COPY.hook[1]} at={13} out={118} color={INK} size={96} italic weight={300} />
+			<SerifWords text={OPENING_COPY.hook[0]} at={6} out={118} color={pal.ink} size={124} />
+			<SerifWords text={OPENING_COPY.hook[1]} at={13} out={118} color={pal.ink} size={96} italic weight={300} />
 		</Center>
 		<Center top={1052}>
-			<Tracked text={OPENING_COPY.hookSub} at={34} out={118} color={INK} size={22} spacing={0.32} style={{opacity: 0.75}} />
+			<Tracked text={OPENING_COPY.hookSub} at={34} out={118} color={pal.ink} size={22} spacing={0.32} style={{opacity: 0.75}} />
 		</Center>
 	</>
-);
+	);
+};
 
 /** The book opens: two hairline pages swing out from the spine, light spills, the logo appears. */
-const Book: React.FC = () => {
+export const Book: React.FC = () => {
 	const t = useCurrentFrame();
+	const pal = useContext(InkCtx);
 	const open = p(t, 4, 40, IN_OUT);
 	const out = p(t, 190, 204, QUART_OUT);
 	const W = 330;
@@ -91,55 +99,41 @@ const Book: React.FC = () => {
 	};
 	return (
 		<AbsoluteFill style={{opacity: 1 - out}}>
-			<AbsoluteFill style={{background: `radial-gradient(ellipse ${120 + open * 260}px 420px at 540px 940px, ${hexA(INK, 0.16 * open)}, transparent 75%)`}} />
-			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
-				<g fill="none" stroke={INK} strokeWidth={2} strokeLinejoin="round" opacity={0.85}>
-					<polyline points={page(-1)} />
-					<polyline points={page(1)} />
-					{/* the gutter, parted around the logo and wordmark */}
-					<line x1={540} x2={540} y1={top} y2={top + (1 - p(t, 26, 44, IN_OUT)) * (bottom - top) * 0.5 + p(t, 26, 44, IN_OUT) * 120} />
-					<line x1={540} x2={540} y1={bottom} y2={bottom - (1 - p(t, 26, 44, IN_OUT)) * (bottom - top) * 0.5 - p(t, 26, 44, IN_OUT) * 140} />
-				</g>
-				{/* a few faint lines of text on the pages, appearing as they open */}
-				<g stroke={INK} strokeWidth={1.5} opacity={0.18 * open}>
-					{[top + 70, top + 112, top + 154, bottom - 112, bottom - 70].map((y, i) => (
-						<g key={i}>
-							<line x1={540 - W * open + 40} x2={540 - 40} y1={y} y2={y} />
-							<line x1={540 + 40} x2={540 + W * open - 40 - (i % 3) * 30} y1={y} y2={y} />
-						</g>
-					))}
-				</g>
-			</svg>
+			{/* (the sketched book was removed: the real book is the frame now) */}
 			<Center top={800}>
-				<BrandLogo variant="white" width={250} reveal={p(t, 30, 58, IN_OUT)} />
+				<BrandLogo variant={pal.logo} width={250} reveal={p(t, 30, 58, IN_OUT)} />
 				<div style={{height: 34}} />
-				<Tracked text={BRAND.wordmark} at={48} color={INK} size={34} weight={400} spacing={0.34} />
+				<Tracked text={BRAND.wordmark} at={48} color={pal.ink} size={34} weight={400} spacing={0.34} />
 				<div style={{height: 14}} />
-				<Tracked text={OPENING_COPY.podcast} at={60} color={INK} size={19} spacing={0.32} style={{opacity: 0.7}} />
+				<Tracked text={OPENING_COPY.podcast} at={60} color={pal.ink} size={19} spacing={0.32} style={{opacity: 0.7}} />
 			</Center>
 			<Center top={1290}>
-				<SerifWords text={OPENING_COPY.tagline[0]} at={72} color={INK} size={38} italic weight={300} stagger={2} />
-				<SerifWords text={OPENING_COPY.tagline[1]} at={78} color={INK} size={38} italic weight={300} stagger={2} />
+				<SerifWords text={OPENING_COPY.tagline[0]} at={72} color={pal.ink} size={38} italic weight={300} stagger={2} />
+				<SerifWords text={OPENING_COPY.tagline[1]} at={78} color={pal.ink} size={38} italic weight={300} stagger={2} />
 			</Center>
 		</AbsoluteFill>
 	);
 };
 
-const Host: React.FC = () => (
+export const Host: React.FC = () => {
+	const pal = useContext(InkCtx);
+	return (
 	<>
 		<Center top={760}>
-			<Tracked text={OPENING_COPY.hostedBy} at={4} out={114} color={INK} size={22} spacing={0.34} style={{opacity: 0.8}} />
+			<Tracked text={OPENING_COPY.hostedBy} at={4} out={114} color={pal.ink} size={22} spacing={0.34} style={{opacity: 0.8}} />
 			<div style={{height: 18}} />
-			<SerifWords text={BRAND.host} at={8} out={114} color={INK} size={200} italic weight={300} tracking="-0.02em" />
+			<SerifWords text={BRAND.host} at={8} out={114} color={pal.ink} size={200} italic weight={300} tracking="-0.02em" />
 		</Center>
 		<Center top={1046}>
-			<SerifWords text={OPENING_COPY.hostLine} at={28} out={114} color={INK} size={42} italic weight={300} stagger={2} />
+			<SerifWords text={OPENING_COPY.hostLine} at={28} out={114} color={pal.ink} size={42} italic weight={300} stagger={2} />
 		</Center>
 	</>
-);
+	);
+};
 
-const Radio: React.FC = () => {
+export const Radio: React.FC = () => {
 	const t = useCurrentFrame();
+	const pal = useContext(InkCtx);
 	const lit = p(t, 10, 16, (x) => x);
 	const out = p(t, 104, 116, QUART_OUT);
 	return (
@@ -148,15 +142,15 @@ const Radio: React.FC = () => {
 				<div
 					style={{
 						padding: '12px 26px 12px 34px',
-						border: `2px solid ${INK}`,
+						border: `2px solid ${pal.ink}`,
 						borderRadius: 10,
 						fontFamily: SANS,
 						fontWeight: 600,
 						fontSize: 22,
 						letterSpacing: '0.34em',
-						color: lit > 0.5 ? INTRO.bg : INK,
-						background: lit > 0.5 ? INK : 'transparent',
-						boxShadow: lit > 0.5 ? `0 0 34px ${hexA(INK, 0.22)}` : 'none',
+						color: lit > 0.5 ? pal.bg : pal.ink,
+						background: lit > 0.5 ? pal.ink : 'transparent',
+						boxShadow: lit > 0.5 ? `0 0 34px ${hexA(pal.ink, 0.22)}` : 'none',
 						opacity: p(t, 0, 10),
 					}}
 				>
@@ -164,30 +158,31 @@ const Radio: React.FC = () => {
 				</div>
 			</Center>
 			<Center top={820}>
-				<SerifWords text={`${OPENING_COPY.slot[0]} ${OPENING_COPY.slot[1]}`} at={16} out={104} color={INK} size={118} weight={400} />
+				<SerifWords text={`${OPENING_COPY.slot[0]} ${OPENING_COPY.slot[1]}`} at={16} out={104} color={pal.ink} size={118} weight={400} />
 			</Center>
 			<Center top={1000}>
-				<Tracked text={BRAND.station} at={30} out={104} color={INK} size={30} weight={500} spacing={0.3} />
+				<Tracked text={BRAND.station} at={30} out={104} color={pal.ink} size={30} weight={500} spacing={0.3} />
 			</Center>
 		</>
 	);
 };
 
-const Year: React.FC = () => {
+export const Year: React.FC = () => {
 	const t = useCurrentFrame();
+	const pal = useContext(InkCtx);
 	return (
 		<>
 			<Center top={760}>
-				<SerifWords text={OPENING_COPY.year[0]} at={4} color={INK} size={112} />
-				<SerifWords text={OPENING_COPY.year[1]} at={10} color={INK} size={112} italic weight={300} />
+				<SerifWords text={OPENING_COPY.year[0]} at={4} color={pal.ink} size={112} />
+				<SerifWords text={OPENING_COPY.year[1]} at={10} color={pal.ink} size={112} italic weight={300} />
 			</Center>
 			<Center top={1080}>
-				<Tracked text={OPENING_COPY.yearSub} at={24} color={INK} size={21} spacing={0.3} style={{opacity: 0.75}} />
+				<Tracked text={OPENING_COPY.yearSub} at={24} color={pal.ink} size={21} spacing={0.3} style={{opacity: 0.75}} />
 			</Center>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				{PARTS.map((k, i) => {
 					const s = p(t, 26 + i * 4, 40 + i * 4, EXPO_OUT);
-					return <circle key={k} cx={220 + i * 160} cy={1040} r={11 * s} fill={SEASONS[k].bg} stroke={INK} strokeWidth={2} />;
+					return <circle key={k} cx={220 + i * 160} cy={1040} r={11 * s} fill={SEASONS[k].bg} stroke={pal.ink} strokeWidth={2} />;
 				})}
 			</svg>
 		</>
@@ -195,7 +190,7 @@ const Year: React.FC = () => {
 };
 
 /** One full-bleed seasonal page, laid out like the official chapter covers. */
-const SeasonPage: React.FC<{readonly season: Season; readonly index: number}> = ({season, index}) => {
+export const SeasonPage: React.FC<{readonly season: Season; readonly index: number}> = ({season, index}) => {
 	const t = useCurrentFrame();
 	const ink = season.ink;
 	const themeSize = season.theme.length > 11 ? 112 : 132;
@@ -244,19 +239,20 @@ const SeasonPage: React.FC<{readonly season: Season; readonly index: number}> = 
 	);
 };
 
-const Chapters: React.FC = () => {
+export const Chapters: React.FC = () => {
 	const t = useCurrentFrame();
+	const pal = useContext(InkCtx);
 	const close = p(t, 104, 122, IN_OUT);
 	// Chapter → part (from the script index): 1–4 winter, 5–10 spring, 11–16 summer, 17–22 fall, 23–24 epilogue.
 	const partOf = (c: number): SeasonKey => (c <= 4 ? 'winter' : c <= 10 ? 'spring' : c <= 16 ? 'summer' : c <= 22 ? 'fall' : 'epilogue');
 	return (
 		<AbsoluteFill>
-			<Atmos bg={INTRO.bg} ink={INK} />
+			<Atmos bg={pal.bg} ink={pal.ink} />
 			<Center top={740}>
-				<SerifWords text={OPENING_COPY.chapters} at={8} out={106} color={INK} size={128} />
+				<SerifWords text={OPENING_COPY.chapters} at={8} out={106} color={pal.ink} size={128} />
 			</Center>
 			<Center top={920}>
-				<Tracked text={OPENING_COPY.chaptersSub} at={20} out={106} color={INK} size={22} spacing={0.32} style={{opacity: 0.8}} />
+				<Tracked text={OPENING_COPY.chaptersSub} at={20} out={106} color={pal.ink} size={22} spacing={0.32} style={{opacity: 0.8}} />
 			</Center>
 			<svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
 				{Array.from({length: 24}).map((_, i) => {
@@ -266,46 +262,47 @@ const Chapters: React.FC = () => {
 					const h = 96 * s * (1 - close * 0.9);
 					return (
 						<g key={i}>
-							<line x1={x} x2={x} y1={1250} y2={1250 - h} stroke={INK} strokeWidth={2} opacity={0.75} />
-							<circle cx={x} cy={1250 - h - 10} r={5 * s * (1 - close)} fill={SEASONS[partOf(i + 1)].bg} stroke={INK} strokeWidth={1.5} />
+							<line x1={x} x2={x} y1={1250} y2={1250 - h} stroke={pal.ink} strokeWidth={2} opacity={0.75} />
+							<circle cx={x} cy={1250 - h - 10} r={5 * s * (1 - close)} fill={SEASONS[partOf(i + 1)].bg} stroke={pal.ink} strokeWidth={1.5} />
 						</g>
 					);
 				})}
 			</svg>
 			<Center top={1320}>
-				<SerifWords text={OPENING_COPY.invite} at={40} out={106} color={INK} size={52} italic weight={300} />
+				<SerifWords text={OPENING_COPY.invite} at={40} out={106} color={pal.ink} size={52} italic weight={300} />
 			</Center>
 		</AbsoluteFill>
 	);
 };
 
 /** End card: the official Introduction cover, re-composed for 9:16, building in sequence. */
-const EndCard: React.FC = () => {
+export const EndCard: React.FC = () => {
 	const t = useCurrentFrame();
+	const pal = useContext(InkCtx);
 	const c = OPENING_COPY.end;
 	return (
 		<AbsoluteFill>
 			<Center top={440}>
-				<BrandLogo variant="white" width={140} reveal={p(t, 6, 30, IN_OUT)} />
+				<BrandLogo variant={pal.logo} width={140} reveal={p(t, 6, 30, IN_OUT)} />
 				<div style={{height: 34}} />
-				<Tracked text={BRAND.wordmark} at={16} color={INK} size={30} weight={400} spacing={0.34} />
+				<Tracked text={BRAND.wordmark} at={16} color={pal.ink} size={30} weight={400} spacing={0.34} />
 			</Center>
 			<Center top={720}>
-				<Tracked text={INTRO.overline} at={26} color={INK} size={26} weight={500} spacing={0.3} style={{opacity: 0.88}} />
+				<Tracked text={INTRO.overline} at={26} color={pal.ink} size={26} weight={500} spacing={0.3} style={{opacity: 0.88}} />
 				<div style={{height: 10}} />
-				<SerifWords text={INTRO.theme} at={30} color={INK} size={36} italic weight={300} />
+				<SerifWords text={INTRO.theme} at={30} color={pal.ink} size={36} italic weight={300} />
 			</Center>
 			<Center top={830}>
-				<SerifWords text={c.title} at={36} color={INK} size={150} weight={400} tracking="-0.015em" />
+				<SerifWords text={c.title} at={36} color={pal.ink} size={150} weight={400} tracking="-0.015em" />
 				<div style={{height: 8}} />
-				<SansTitle text={c.subtitle} at={46} color={INK} size={64} weight={600} />
+				<SansTitle text={c.subtitle} at={46} color={pal.ink} size={64} weight={600} />
 			</Center>
 			<Center top={1150}>
-				<SerifWords text={c.quote[0]} at={60} color={INK} size={40} italic weight={300} stagger={2} />
-				<SerifWords text={c.quote[1]} at={64} color={INK} size={40} italic weight={300} stagger={2} />
+				<SerifWords text={c.quote[0]} at={60} color={pal.ink} size={40} italic weight={300} stagger={2} />
+				<SerifWords text={c.quote[1]} at={64} color={pal.ink} size={40} italic weight={300} stagger={2} />
 			</Center>
 			<Center top={1350}>
-				<Tracked text={`${BRAND.slot} · ${BRAND.station}`} at={72} color={INK} size={28} weight={500} spacing={0.1} />
+				<Tracked text={`${BRAND.slot} · ${BRAND.station}`} at={72} color={pal.ink} size={28} weight={500} spacing={0.1} />
 			</Center>
 		</AbsoluteFill>
 	);
@@ -313,10 +310,9 @@ const EndCard: React.FC = () => {
 
 /* ─────────────── the line of light ─────────────── */
 
-const LINE_KEYS: LineKey[] = [
+export const LINE_KEYS: LineKey[] = [
 	{at: 0, shape: (f) => hline(1010, 540 - 400 * p(f, 0, 26, IN_OUT), 540 + 400 * p(f, 0, 26, IN_OUT))},
-	{at: T.book[0], morph: 18, shape: () => [[540, 640], [540, 1240]]},
-	{at: T.book[0] + 22, morph: 10, opacity: 0, shape: () => [[540, 640], [540, 1240]]},
+	{at: T.book[0], morph: 18, opacity: 0, shape: () => hline(1010, 140, 940)},
 	{at: T.host[0], morph: 18, shape: () => hline(1012, 470, 610)},
 	{
 		at: T.radio[0],

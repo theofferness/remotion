@@ -38,11 +38,11 @@ export const PW = 720;
 export const PH = 1000;
 export const PX = 180;
 export const PY = 430;
-const CW = 732;
-const CH = 1012;
-const CX = 174;
-const CY = 424;
-const ORIGIN = '540px 930px';
+export const CW = 732;
+export const CH = 1012;
+export const CX = 174;
+export const CY = 424;
+export const ORIGIN = '540px 930px';
 
 /* ───────────────────────── handwriting ───────────────────────── */
 
@@ -283,7 +283,7 @@ const LH = LW * RATIO;
 const LX = CW / 2 - LW / 2;
 const LY = 380 - LH / 2;
 
-const CoverFront: React.FC<{readonly still?: boolean}> = ({still = false}) => {
+export const CoverFront: React.FC<{readonly still?: boolean; readonly color?: string}> = ({still = false, color = NAVY}) => {
 	const cf = useCurrentFrame();
 	const f = still ? 0 : cf; // `still` = the cover exactly as the video's first frame shows it
 	const hand = p(f, OB.hand[0], OB.hand[1], EXPO_OUT);
@@ -294,7 +294,7 @@ const CoverFront: React.FC<{readonly still?: boolean}> = ({still = false}) => {
 	const glow = oIn * (1 - p(f, OB.o[1], OB.o[1] + 50, IN_OUT) * 0.6);
 	const wordmark = p(f, OB.pullBack[0] + 6, OB.pullBack[1], QUART_OUT);
 	return (
-		<div style={{position: 'absolute', inset: 0, background: NAVY, overflow: 'hidden'}}>
+		<div style={{position: 'absolute', inset: 0, background: color, overflow: 'hidden'}}>
 			{/* light falling on the cloth */}
 			<div style={{position: 'absolute', inset: 0, background: `radial-gradient(circle 420px at 50% ${(380 / CH) * 100}%, rgba(255,255,255,${0.035 + 0.05 * handIn}), transparent 72%)`}} />
 			<Grain seed={21} opacity={0.07} />
@@ -337,8 +337,8 @@ const CoverFront: React.FC<{readonly still?: boolean}> = ({still = false}) => {
 	);
 };
 
-const CoverInside: React.FC = () => (
-	<div style={{position: 'absolute', inset: 0, background: '#10152d'}}>
+export const CoverInside: React.FC<{readonly color?: string}> = ({color = '#10152d'}) => (
+	<div style={{position: 'absolute', inset: 0, background: color}}>
 		<div style={{position: 'absolute', inset: 14, border: '1px solid rgba(255,255,255,0.07)'}} />
 		<Grain seed={33} opacity={0.05} />
 		<Gutter side="left" strength={0.4} />
