@@ -24,7 +24,7 @@ const NIGHT_PAGE: InkPalette = {ink: '#ffffff', bg: BLACK, logo: 'white'};
 
 const OFFSET = 150; // the first page starts as the cover swings open
 const TURN = 28;
-const CAM_S = 1.18;
+const CAM_S = 1.32;
 const CONTENT_SCALE = PW / 1080;
 const CONTENT_Y = PH / 2 - 1000 * CONTENT_SCALE; // the screens' optical centre (y ≈ 1000) sits mid-page
 
